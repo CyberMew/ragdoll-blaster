@@ -9,12 +9,12 @@ public class InputLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(this.gameObject);
+		direction = Vector2.zero;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		direction = Vector2.zero;
-#if UNITY_ANDROID
+		#if UNITY_ANDROID || UNITY_IPHONE
 		// Track a single touch as a direction control.
 		if (Input.touchCount > 0)
 		{
@@ -26,17 +26,20 @@ public class InputLogic : MonoBehaviour {
 			case TouchPhase.Began:
 				startPos = touch.position;
 				directionChosen = false;
+				Debug.Log("InputLogic - Touched begin");
 				break;
 				
 				// Determine direction by comparing the current touch
 				// position with the initial one.
 			case TouchPhase.Moved:
 				direction = touch.position - startPos;
+				Debug.Log("InputLogic - Touched Moved");
 				break;
 				
 				// Report that a direction has been chosen when the finger is lifted.
 			case TouchPhase.Ended:
 				directionChosen = true;
+				Debug.Log("InputLogic - Touched Ended");
 				break;
 			}
 		}
@@ -63,7 +66,7 @@ public class InputLogic : MonoBehaviour {
 		#else
 		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
 #endif
-		InputManager.offset = direction;
+		InputManager.SetOffset(direction);
 
 		if (directionChosen) {
 			// Something that uses the chosen direction...
