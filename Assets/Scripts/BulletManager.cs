@@ -18,10 +18,12 @@ public class BulletManager : MonoBehaviour {
 
 		int x = Random.Range(-1000,1000);
 		int y = Random.Range(0,1000);
-		Debug.Log(new Vector2(x,y));
-		if(Input.GetMouseButtonDown(0))
+//		Debug.Log(new Vector2(x,y));
+		if(InputManager.GetIsInputReleased())
 		{
-			m_Bullet.rigidbody2D.AddForce( new Vector2(x,y) );
+			m_Bullet.rigidbody2D.AddForce(InputManager.GetCurrentOffset());
+			// Reset the direction after we are done
+			//InputManager.SetOffset(direction);
 
 		}
 	

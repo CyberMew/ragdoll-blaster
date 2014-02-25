@@ -6,7 +6,7 @@ public static class InputManager {
 
 	static InputManager()
 	{
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IPHONE
 		Input.multiTouchEnabled = false;
 		Debug.Log("Android Input detected. Setting to Single-based Touch.");
 #endif
@@ -19,7 +19,7 @@ public static class InputManager {
 	// Check if finger touched the device
 	static public bool GetIsInputDown()
 	{
-#if UNITY_ANDROID
+#if UNITY_ANDROID || UNITY_IPHONE
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -27,6 +27,7 @@ public static class InputManager {
 			if(touch.phase == TouchPhase.Began)
 			{
 				Debug.Log("Input triggered - Touch");
+				SetOffset(Vector2.zero);
 				return true;
 			}
 		}
@@ -35,6 +36,7 @@ public static class InputManager {
 		if(Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Input down - Mouse");
+			InputManager.SetOffset(direction);
 			return true;
 		}
 		return false;
@@ -47,7 +49,7 @@ public static class InputManager {
 	// Check if finger is pressing on the device
 	static public bool GetIsInputPressed()
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID || UNITY_IPHONE
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -74,7 +76,7 @@ public static class InputManager {
 	// Check if finger is lifted from device
 	static public bool GetIsInputReleased()
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID || UNITY_IPHONE
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -101,7 +103,7 @@ public static class InputManager {
 	
 	static public Vector2 GetCurrentPosition()
 	{
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID || UNITY_IPHONE
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -119,11 +121,17 @@ public static class InputManager {
 		#endif		
 	}
 
-	static public Vector2 offset;
+	static private Vector2 offset;
+
+	static public void SetOffset(Vector2 dir)
+	{
+		offset = dir;
+	}
+
 	// Track the direction vector from start to end point
 	static public Vector2 GetCurrentOffset()
 	{		
-		#if UNITY_ANDROID
+		#if UNITY_ANDROID || UNITY_IPHONE
 		/*if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
