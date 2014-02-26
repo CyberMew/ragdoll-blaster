@@ -100,7 +100,36 @@ public static class InputManager {
 		return false;
 		#endif
 	}
+
+	static private Vector2 pinchOffset;
 	
+	// Check if we detect pinching
+	static public bool GetIsPinchInwards()
+	{
+		bool result = false;
+		#if UNITY_ANDROID || UNITY_IPHONE
+		if(Input.touchCount > 0)
+		{
+			Touch touch = Input.GetTouch(0);
+			
+			if(touch.phase == TouchPhase.Ended)
+			{
+				Debug.Log("Input release - Touch");
+				result = true;
+			}
+		}
+		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		if(Input.GetMouseButtonUp(0))
+		{
+			Debug.Log("Input release - Mouse");
+			result = true;
+		}
+		#else
+		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
+		#endif
+		return result;
+	}
+
 	static public Vector2 GetCurrentPosition()
 	{
 		#if UNITY_ANDROID || UNITY_IPHONE
@@ -121,15 +150,15 @@ public static class InputManager {
 		#endif		
 	}
 
-	static private Vector2 offset;
+	static private Vector2 dragOffset;
 
 	static public void SetOffset(Vector2 dir)
 	{
-		offset = dir;
+		dragOffset = dir;
 	}
 
 	// Track the direction vector from start to end point
-	static public Vector2 GetCurrentOffset()
+	static public Vector2 GetCurrentDragOffset()
 	{		
 		#if UNITY_ANDROID || UNITY_IPHONE
 		/*if(Input.touchCount > 0)
@@ -139,7 +168,7 @@ public static class InputManager {
 			return touch.deltaPosition;
 		}
 		return new Vector2(-1,-1);*/
-		return offset;
+		return dragOffset;
 		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
 		Debug.Log("MOUSEoffset:" + offset);
 	//	return Input.mousePosition;

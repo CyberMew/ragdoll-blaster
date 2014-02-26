@@ -14,6 +14,23 @@ public class InputLogic : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		GetDistance();
+		GetPinch();
+	}
+
+	void GetPinch ()
+	{
+		#if UNITY_ANDROID || UNITY_IPHONE
+
+		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+
+		#else
+		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
+		#endif
+	}
+
+	void GetDistance()
+	{
 		#if UNITY_ANDROID || UNITY_IPHONE
 		// Track a single touch as a direction control.
 		if (Input.touchCount > 0)
@@ -43,11 +60,11 @@ public class InputLogic : MonoBehaviour {
 				break;
 			}
 		}
-
-
-		 //todo: rewrite above code to reuse from inputmanager!
-
-#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		
+		
+		//todo: rewrite above code to reuse from inputmanager!
+		
+		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
 		// no touch detected, switching to mouse instead
 		if(InputManager.GetIsInputDown())
 		{
@@ -65,12 +82,11 @@ public class InputLogic : MonoBehaviour {
 		}
 		#else
 		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
-#endif
+		#endif
 		InputManager.SetOffset(direction);
-
+		
 		if (directionChosen) {
 			// Something that uses the chosen direction...
 		}
-
 	}
 }
