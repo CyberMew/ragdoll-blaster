@@ -21,7 +21,7 @@ public class BulletManager : MonoBehaviour {
 //		Debug.Log(new Vector2(x,y));
 		if(InputManager.GetIsInputReleased())
 		{
-			m_Bullet.rigidbody2D.AddForce(InputManager.GetCurrentOffset());
+			m_Bullet.rigidbody2D.AddForce(InputManager.GetCurrentDragOffset());
 			// Reset the direction after we are done
 			//InputManager.SetOffset(direction);
 
