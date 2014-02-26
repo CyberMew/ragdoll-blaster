@@ -36,7 +36,7 @@ public static class InputManager {
 		if(Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Input down - Mouse");
-			InputManager.SetOffset(direction);
+			InputManager.SetOffset(Vector2.zero);
 			return true;
 		}
 		return false;
@@ -170,9 +170,9 @@ public static class InputManager {
 		return new Vector2(-1,-1);*/
 		return dragOffset;
 		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
-		Debug.Log("MOUSEoffset:" + offset);
+//		Debug.Log("MOUSEoffset:" + dragOffset);
 	//	return Input.mousePosition;
-		return offset;
+		return dragOffset;
 		#else
 		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
 		return new Vector2(-1,-1);
