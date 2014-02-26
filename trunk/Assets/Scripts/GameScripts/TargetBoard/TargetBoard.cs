@@ -23,9 +23,13 @@ public class TargetBoard : MonoBehaviour {
 		}
 	}
 		
-	void OnCollisionEnter2D()
+	void OnCollisionEnter2D(Collision2D other)
 	{
-		//GameManager.GoToNextLevel();
-		Debug.Log("Something hit the target board!");
+		// We do not want to execute if it hits the walls as well! Only bullet works!
+		if(other.gameObject.CompareTag("Bullet"))
+		{
+			//GameManager.GoToNextLevel();
+			Debug.Log("Something hit the target board!");
+		}
 	}
 }
