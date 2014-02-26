@@ -425,6 +425,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .135991633
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 026906658cea0534695626d1991c99e2, type: 2}
+      propertyPath: maxPoolObjects
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 026906658cea0534695626d1991c99e2, type: 2}
   m_RootGameObject: {fileID: 1425151270}
@@ -752,6 +756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 1279691665}
+  maxPoolObjects: 1
+  spawnRadius: 1
 --- !u!4 &1425151272
 Transform:
   m_ObjectHideFlags: 0
@@ -801,7 +807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1635081604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,6 +904,10 @@ Prefab:
     - target: {fileID: 400000, guid: e0bef0b759896484dae8fefe12478cf3, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e0bef0b759896484dae8fefe12478cf3, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0bef0b759896484dae8fefe12478cf3, type: 2}
