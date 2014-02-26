@@ -23,12 +23,9 @@ public class TargetBoard : MonoBehaviour {
 		}
 	}
 		
-	void OnCollisionEnter2D(Collision2D other)
+	void OnCollisionEnter2D()
 	{
-		if(other.gameObject.CompareTag("Bullet"))
-		{
-			//GameManager.GoToNextLevel();
-			Debug.Log("Something hit the target board!");
-		}
+		//GameManager.GoToNextLevel();
+		Debug.Log("Something hit the target board!");
 	}
 }
