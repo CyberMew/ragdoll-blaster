@@ -9,7 +9,7 @@ public class BulletManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		m_Bullet = GameObject.Find("bullet");
+		m_Bullet = GameObject.Find("Bullet");
 	
 	}
 	
