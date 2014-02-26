@@ -2,7 +2,9 @@
 using System.Collections;
 
 public static class GameManager {
-	
+
+	public const int width = 1280;
+	public const int height = 720;
 	public const int totalLevels = 3;
 	
 	public static int currLevel;
