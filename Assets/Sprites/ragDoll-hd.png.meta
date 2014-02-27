@@ -61,8 +61,8 @@ TextureImporter:
         y: 157
         width: 36
         height: 99
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .59519577, y: .90386039}
     - name: ragDoll-hd_2
       rect:
         serializedVersion: 2
@@ -79,8 +79,8 @@ TextureImporter:
         y: 38
         width: 40
         height: 105
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 2
+      pivot: {x: .5, y: 1}
     - name: ragDoll-hd_4
       rect:
         serializedVersion: 2
@@ -88,8 +88,8 @@ TextureImporter:
         y: 42
         width: 55
         height: 101
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 2
+      pivot: {x: .5, y: 1}
     - name: ragDoll-hd_5
       rect:
         serializedVersion: 2
@@ -97,7 +97,7 @@ TextureImporter:
         y: 1
         width: 67
         height: 34
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .789849222, y: .483201146}
   spritePackingTag: 
   userData: 
