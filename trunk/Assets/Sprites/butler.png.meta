@@ -1,0 +1,301 @@
+fileFormatVersion: 2
+guid: 77d273818c2e0a447aafacdedcb6bca9
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: butler_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 320
+        width: 70
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_1
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 320
+        width: 71
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_2
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 320
+        width: 71
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_3
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 324
+        width: 74
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_4
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 328
+        width: 76
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_5
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 332
+        width: 78
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_6
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 331
+        width: 74
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_7
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 223
+        width: 72
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_8
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 219
+        width: 76
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_9
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 219
+        width: 80
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_10
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 219
+        width: 83
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_11
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 219
+        width: 83
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_12
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 219
+        width: 81
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_13
+      rect:
+        serializedVersion: 2
+        x: 663
+        y: 219
+        width: 81
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_14
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 115
+        width: 80
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_15
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 115
+        width: 79
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_16
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 115
+        width: 77
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_17
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 115
+        width: 76
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_18
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 115
+        width: 74
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_19
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 115
+        width: 73
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_20
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 119
+        width: 71
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_21
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 19
+        width: 71
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_22
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 18
+        width: 72
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_23
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 14
+        width: 72
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_24
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 11
+        width: 71
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_25
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 8
+        width: 68
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_26
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 8
+        width: 68
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: butler_27
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 8
+        width: 70
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 
