@@ -130,7 +130,8 @@ public static class InputManager {
 		return result;
 	}
 
-	static public Vector2 GetCurrentPosition()
+	// Screen space/Pixel coordinates
+	static public Vector2 GetCurrentPositionScreenSpace()
 	{
 		#if UNITY_ANDROID || UNITY_IPHONE
 		if(Input.touchCount > 0)

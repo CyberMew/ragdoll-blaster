@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DrawInput : MonoBehaviour {
@@ -17,8 +17,8 @@ public class DrawInput : MonoBehaviour {
 	{
 		if(InputManager.GetIsInputPressed())
 		{
-			Debug.Log("Drawing line from " + (InputManager.GetCurrentPosition() - InputManager.GetCurrentDragOffset()).ToString() + " to " + InputManager.GetCurrentPosition().ToString());
-			Drawing.DrawLine(InputManager.GetCurrentPosition() - InputManager.GetCurrentDragOffset(), InputManager.GetCurrentPosition());
+			Debug.Log("Drawing line from " + (InputManager.GetCurrentPositionScreenSpace() - InputManager.GetCurrentDragOffset()).ToString() + " to " + InputManager.GetCurrentPositionScreenSpace().ToString());
+			Drawing.DrawLine(InputManager.GetCurrentPositionScreenSpace() - InputManager.GetCurrentDragOffset(), InputManager.GetCurrentPositionScreenSpace());
 		}
 	}
 }
