@@ -68,12 +68,12 @@ public class InputLogic : MonoBehaviour {
 		// no touch detected, switching to mouse instead
 		if(InputManager.GetIsInputDown())
 		{
-			startPos = InputManager.GetCurrentPosition();
+			startPos = InputManager.GetCurrentPositionScreenSpace();
 			Debug.Log("Triggered");
 		}
 		if(InputManager.GetIsInputPressed())
 		{
-			direction = InputManager.GetCurrentPosition() - startPos;
+			direction = InputManager.GetCurrentPositionScreenSpace() - startPos;
 			Debug.Log("Pressed");
 		}
 		if(InputManager.GetIsInputReleased())
