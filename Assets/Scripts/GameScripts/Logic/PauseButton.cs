@@ -72,10 +72,7 @@ public class PauseButton : MonoBehaviour {
 			GameManager.isPaused = true;
 			Time.timeScale = 0f;
 			// Bring up the pause menu object
-			//PauseMenuObject.SetActive(true);
-			
-			// When closed, unpause from there and reset back to default psrite
-
+			PauseMenuObject.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(true);
 		}
 		GameManager.isUIBusy = true;
 	}
