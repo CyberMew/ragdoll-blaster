@@ -15,7 +15,6 @@ public class CannonFire : MonoBehaviour {
 	public float maxCannonAngleinDegrees = 90f;
 	public float minCannonAngleinDegrees = -20f;
 
-	//private bool readyToFire = true;
 	private Vector2 newRelVec;
 
 	// Use this for initialization
@@ -84,20 +83,15 @@ public class CannonFire : MonoBehaviour {
 			// Recalculate the supposed angle again if we exceed the angle using the expensive operations
 			if(rawAngle > maxCannonAngleinDegrees)
 			{
-				Debug.Log("EXCEEDED MAX");
 				float radians = maxCannonAngleinDegrees * (Mathf.Deg2Rad);
 				newRelVec = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized * spawnRadius;
 			}
 			else if(rawAngle < minCannonAngleinDegrees)
 			{
-				Debug.Log("EXCEEDED MIN");
 				float radians = minCannonAngleinDegrees * (Mathf.Deg2Rad);
 				newRelVec = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized * spawnRadius;
 			}
 
-			//float radians = angle * (Mathf.Deg2Rad);
-			// todo: change this to class variable, so when release it doesn't have to recompute again
-			//Vector2 newRelPos = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized * spawnRadius;
 			oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
 			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
 		}
@@ -107,18 +101,10 @@ public class CannonFire : MonoBehaviour {
 		{
 			// Remove oldest bullet
 			GameObject oldestBullet = bullets.Dequeue();
-			
-			// Convert screen space to world space
-			//Vector2 mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
-			// Determine spawn point of bullet based on angle and offset
-			//Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
-			// Get vector from angle of cannon, not input
-			//float radians = angle * (Mathf.Deg2Rad);
-			//Vector2 cannonToMouse = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized;
-			
+
 			// Set is kinematic so the body parts can fling around!
 			SetMoving(oldestBullet.transform);
-			// Fire the bullet - in the direction from Cannon to Mouse
+			// Fire the bullet - in the direction from Cannon
 			float power = Mathf.Max(InputManager.GetCurrentDragOffset().magnitude, MIN_POWER);
 			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power * 20);
 			
@@ -194,9 +180,4 @@ public class CannonFire : MonoBehaviour {
 			StripPrefabExceptTransforms(go.transform);
 		}
 	}
-	/*
-	public void ReadyToFire(bool fire)
-	{
-		readyToFire = fire;
-	}*/
 }
