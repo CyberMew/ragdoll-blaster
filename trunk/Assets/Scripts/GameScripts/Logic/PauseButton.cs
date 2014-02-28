@@ -35,47 +35,56 @@ public class PauseButton : MonoBehaviour {
 	// OnHover
 	void OnMouseEnter()
 	{
-		if(GameManager.isTutorialOn == false)
+		if(GameManager.IsGamePaused() == false)
 		{
 			GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		}
+		GameManager.isUIBusy = true;
 	}	
 
 	// OnLeaving
 	void OnMouseExit()
 	{
-		if(GameManager.isTutorialOn == false && GameManager.isPaused == false)
+		if(GameManager.IsGamePaused() == false)
 		{
 			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 		}
+		//GameManager.isUIBusy = false;
 	}
 
 	// Being pushed
 	void OnMouseDown()
 	{
-		if(GameManager.isTutorialOn == false)
+		if(GameManager.IsGamePaused() == false)
 		{
 			GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
 		}
+		GameManager.isUIBusy = true;
 	}
 
 	// Clicked and released
 	void OnMouseUpAsButton()
 	{
-		if(GameManager.isTutorialOn == false && GameManager.isPaused == false && isClickedBefore)
+		if(GameManager.IsGamePaused() == false && isClickedBefore)
 		{
+			isClickedBefore = false;
 			GameManager.isPaused = true;
+			Time.timeScale = 0f;
 			// Bring up the pause menu object
 			//PauseMenuObject.SetActive(true);
 			
 			// When closed, unpause from there and reset back to default psrite
 
 		}
+		GameManager.isUIBusy = true;
 	}
 
 	public void Reset()
 	{
 		GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+		// todo: Check if the mouse is still hovering over the sprite. If it is, set it to hoversprite because the OnMouseOver will not activate
+		//GetComponent<SpriteRenderer>().sprite = HoverSprite;
+		GameManager.isUIBusy = false;
 	}
 }
