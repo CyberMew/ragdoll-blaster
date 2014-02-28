@@ -18,7 +18,6 @@ public class TargetBoard : MonoBehaviour {
 	{
 		if(other.CompareTag("Bullet"))
 		{
-			//GameManager.GoToNextLevel();
 			Debug.Log("Something hit the target board!");
 		}
 	}
@@ -28,8 +27,7 @@ public class TargetBoard : MonoBehaviour {
 		// We do not want to execute if it hits the walls as well! Only bullet works!
 		if(other.gameObject.CompareTag("Bullet"))
 		{
-			//GameManager.GoToNextLevel();
-			Debug.Log("Something hit the target board!");
+			GameManager.GoToNextLevel();
 		}
 	}
 }

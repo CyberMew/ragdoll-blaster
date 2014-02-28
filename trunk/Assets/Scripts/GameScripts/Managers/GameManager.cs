@@ -8,10 +8,14 @@ public static class GameManager {
 	public const int totalLevels = 3;
 	
 	public static int currLevel;
+	public static bool isPaused;
+	public static bool isTutorialOn;
 	
 	static GameManager()
 	{
 		currLevel = 0;
+		isPaused = false;
+		isTutorialOn = false;
 	}
 	
 	static public void GoToNextLevel()
@@ -23,7 +27,13 @@ public static class GameManager {
 		else
 		{
 			++currLevel;
-			Application.LoadLevel("level" + currLevel.ToString());
+			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
+			Application.LoadLevel("Level" + currLevel.ToString());
 		}
+	}
+
+	public static bool IsGamePaused ()
+	{
+		return isPaused || isTutorialOn;
 	}
 }
