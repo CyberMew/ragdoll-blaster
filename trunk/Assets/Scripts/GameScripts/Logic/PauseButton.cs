@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Pause : MonoBehaviour {
+public class PauseButton : MonoBehaviour {
 
 	public GameObject PauseMenuObject;
 	Sprite DefaultSprite;
 	public Sprite HoverSprite;
 	public Sprite PushedSprite;
+
+	private bool isClickedBefore = false;
 
 	// Use this for initialization
 	void Start () {
@@ -35,16 +37,16 @@ public class Pause : MonoBehaviour {
 	{
 		if(GameManager.isTutorialOn == false)
 		{
-			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
+			GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		}
 	}	
 
 	// OnLeaving
 	void OnMouseExit()
 	{
-		if(GameManager.isTutorialOn == false)
+		if(GameManager.isTutorialOn == false && GameManager.isPaused == false)
 		{
-			//GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 		}
 	}
 
@@ -53,16 +55,27 @@ public class Pause : MonoBehaviour {
 	{
 		if(GameManager.isTutorialOn == false)
 		{
-			//GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			isClickedBefore = true;
 		}
 	}
 
 	// Clicked and released
 	void OnMouseUpAsButton()
 	{
-		if(GameManager.isTutorialOn == false)
+		if(GameManager.isTutorialOn == false && GameManager.isPaused == false && isClickedBefore)
 		{
 			GameManager.isPaused = true;
+			// Bring up the pause menu object
+			//PauseMenuObject.SetActive(true);
+			
+			// When closed, unpause from there and reset back to default psrite
+
 		}
+	}
+
+	public void Reset()
+	{
+		GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 	}
 }

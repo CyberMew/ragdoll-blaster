@@ -2034,6 +2034,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1028808294}
+  - 114: {fileID: 1028808295}
   m_Layer: 0
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -2052,6 +2053,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1028808295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1028808293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5cb6c6a129239449973b551d8663be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1119919361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,6 +2251,7 @@ GameObject:
   - 4: {fileID: 1323138152}
   - 212: {fileID: 1323138151}
   - 61: {fileID: 1323138153}
+  - 114: {fileID: 1323138154}
   m_Layer: 0
   m_Name: PauseButton
   m_TagString: Untagged
@@ -2292,6 +2305,20 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: .479999989, y: .479999989}
   m_Center: {x: 0, y: 0}
+--- !u!114 &1323138154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1323138150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434a98fbdc3cc7245bfc638c4cb51405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseMenuObject: {fileID: 1028808293}
+  HoverSprite: {fileID: 21300000, guid: 7dd9daf9162b8cf4997b7ca1c6d5bf6f, type: 3}
+  PushedSprite: {fileID: 21300000, guid: 7dd9daf9162b8cf4997b7ca1c6d5bf6f, type: 3}
 --- !u!1 &1338436125
 GameObject:
   m_ObjectHideFlags: 0

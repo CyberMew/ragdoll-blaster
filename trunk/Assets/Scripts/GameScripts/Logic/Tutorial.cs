@@ -28,6 +28,6 @@ public class Tutorial : MonoBehaviour {
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(0,0,100,100), "Click to dismiss");
+		GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f,100,100), "Click to dismiss Tutorial");
 	}
 }
