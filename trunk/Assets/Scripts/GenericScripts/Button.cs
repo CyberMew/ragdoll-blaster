@@ -6,6 +6,7 @@ abstract class Button : MonoBehaviour {
 	Sprite DefaultSprite;
 	public Sprite HoverSprite;
 	public Sprite PushedSprite;
+	public GameObject ButtonMenuLogic;
 
 	protected bool isClickedBefore = false;
 	protected bool acceptInputs = false;
@@ -63,10 +64,16 @@ abstract class Button : MonoBehaviour {
 			isClickedBefore = false;
 			
 			Debug.Log("Disabling all buttons inputs");
-			gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
+			//gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
+			EnableAllButtonsInputs(false);
 
 			ButtonAction();
 		}
+	}
+
+	public void EnableAllButtonsInputs(bool inputs)
+	{
+		gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(inputs);
 	}
 
 	internal abstract void ButtonAction();
