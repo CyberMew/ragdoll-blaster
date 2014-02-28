@@ -10,12 +10,14 @@ public static class GameManager {
 	public static int currLevel;
 	public static bool isPaused;
 	public static bool isTutorialOn;
-	
+	public static bool isUIBusy;
+
 	static GameManager()
 	{
 		currLevel = 0;
 		isPaused = false;
 		isTutorialOn = false;
+		isUIBusy = false;
 	}
 	
 	static public void GoToNextLevel()

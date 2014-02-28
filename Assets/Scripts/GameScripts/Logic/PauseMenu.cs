@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(InputManager.GetIsInputDown())
+		if(GameManager.isPaused && (InputManager.GetIsInputDown() || Input.GetKeyDown(KeyCode.A)))
 		{
 			//this.gameObject.SetActive(false);
 			//cannonBarrel.GetComponent<CannonFire>().ReadyToFire(true);
@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour {
 			{
 				go.GetComponent<PauseButton>().Reset();
 			}
+			Time.timeScale = 1f;
 		}
 	}
 	

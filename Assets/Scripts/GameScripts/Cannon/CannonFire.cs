@@ -35,11 +35,12 @@ public class CannonFire : MonoBehaviour {
 		// Strip it or everything except transforms
 		StripPrefabExceptTransforms(BulletPrefab.transform);
 	}
-
+	
+	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
 	float angle = 0f;
 	// Update is called once per frame
 	void Update () {
-		if(GameManager.IsGamePaused())
+		if(GameManager.IsGamePaused() || GameManager.isUIBusy == true)
 		{
 			return;
 		}
@@ -54,11 +55,14 @@ public class CannonFire : MonoBehaviour {
 			SetStill(oldestBullet.transform);
 			// Copy transform data from Prefab (reset it's body parts correctly)
 			ResetFromPrefab(oldestBullet.transform);
+			Debug.Log("thisshouldappear2BEFORE PRESSED AFTER PAUSE MENU IS STOPPPED");
+			isFirstTriggered = true;
 		}
 
 		// Rotate the sprite to face the mouse when input depressed
-		if(InputManager.GetIsInputPressed())
+		if(isFirstTriggered && InputManager.GetIsInputPressed())
 		{
+			Debug.Log("thisshouldappearMORE");
 			// Convert screen space to world space
 			Vector2 mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
 			// Set the cannon barrel as origin
@@ -97,8 +101,9 @@ public class CannonFire : MonoBehaviour {
 		}
 
 		// Release it according to drag power
-		if(InputManager.GetIsInputReleased())
+		if(isFirstTriggered && InputManager.GetIsInputReleased())
 		{
+Debug.Log("This should not appear");
 			// Remove oldest bullet
 			GameObject oldestBullet = bullets.Dequeue();
 
@@ -110,6 +115,9 @@ public class CannonFire : MonoBehaviour {
 			
 			// Insert oldest bullet to the back as the freshest
 			bullets.Enqueue(oldestBullet);
+
+			// Reset the whole sequence
+			isFirstTriggered = false;
 		}	
 	}
 	
