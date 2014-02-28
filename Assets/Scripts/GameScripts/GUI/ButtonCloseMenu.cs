@@ -16,7 +16,7 @@ public class ButtonCloseMenu : MonoBehaviour {
 		{
 			OnMouseUpAsButton();
 		}
-		// Due to Unity bug I have to workaround the problem manually
+		// Due to Unity bug(?) I have to workaround the problem manually
 		if(InputManager.GetIsInputDown() && collider2D.OverlapPoint(Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace())))
 		{
 			OnMouseUpAsButton();
