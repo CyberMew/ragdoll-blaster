@@ -69,12 +69,12 @@ public class InputLogic : MonoBehaviour {
 		if(InputManager.GetIsInputDown())
 		{
 			startPos = InputManager.GetCurrentPositionScreenSpace();
-			Debug.Log("Triggered");
+	//		Debug.Log("Triggered");
 		}
 		if(InputManager.GetIsInputPressed())
 		{
 			direction = InputManager.GetCurrentPositionScreenSpace() - startPos;
-			Debug.Log("Pressed");
+//			Debug.Log("Pressed");
 		}
 		if(InputManager.GetIsInputReleased())
 		{

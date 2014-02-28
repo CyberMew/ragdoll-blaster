@@ -64,7 +64,7 @@ public static class InputManager {
 		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
 		if(Input.GetMouseButton(0))
 		{
-			Debug.Log("Input down - Mouse");
+//			Debug.Log("Input down - Mouse");
 			return true;
 		}
 		return false;
@@ -91,7 +91,7 @@ public static class InputManager {
 		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
 		if(Input.GetMouseButtonUp(0))
 		{
-			Debug.Log("Input release - Mouse");
+//			Debug.Log("Input release - Mouse");
 			return true;
 		}
 		return false;
