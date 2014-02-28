@@ -11,6 +11,9 @@ public class CannonFire : MonoBehaviour {
 	public const float MIN_POWER = 100f;
 	public int maxPoolObjects = 5;
 	public float spawnRadius = 1f;
+	
+	public float maxCannonAngleinDegrees = 90f;
+	public float minCannonAngleinDegrees = -20f;
 
 	// Use this for initialization
 	void Start () {
@@ -56,6 +59,11 @@ public class CannonFire : MonoBehaviour {
 			mouseWorldPt.y += Mathf.Abs(gameObject.transform.position.y);	// hardcoded because we know gameobject in negative region
 			// Determine the angle of the line.
 			angle = Mathf.Atan2(mouseWorldPt.y, mouseWorldPt.x) * Mathf.Rad2Deg;
+			// Restraint the MAX angle of the cannon angle
+			angle = Mathf.Min(maxCannonAngleinDegrees, angle);
+			// Restraint the MIN angle of the cannon angle
+			angle = Mathf.Max(minCannonAngleinDegrees, angle);
+
 			// Rotate about the z axis by angle degrees
 			gameObject.transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
@@ -65,8 +73,10 @@ public class CannonFire : MonoBehaviour {
 			// Reset position of whole object only, not torso (the rest will follow!)
 			Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
 			Vector2 newRelPos = cannonToMouse * spawnRadius;
-			//oldestBullet = oldestBullet;//.transform.FindChild("torso").gameObject;
-			oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelPos.x, newRelPos.y, 0f);
+			if(angle < maxCannonAngleinDegrees && angle > minCannonAngleinDegrees)
+			{
+				oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelPos.x, newRelPos.y, 0f);
+			}
 			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
 
 		}
