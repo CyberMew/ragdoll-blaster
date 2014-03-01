@@ -28,6 +28,7 @@ public class TargetBoard : MonoBehaviour {
 		if(other.gameObject.CompareTag("Bullet"))
 		{
 			GameManager.GoToNextLevel();
+			Handheld.Vibrate();
 		}
 	}
 }
