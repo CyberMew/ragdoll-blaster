@@ -21,9 +21,15 @@ public static class GameManager {
 		
 		Screen.autorotateToLandscapeLeft = true;
 		Screen.autorotateToLandscapeRight = true;
+		Screen.autorotateToPortrait = false;
+		Screen.autorotateToPortraitUpsideDown = false;
 		Screen.orientation = ScreenOrientation.AutoRotation;
-		//todo: remove me - just a test
-		Handheld.StartActivityIndicator();
+		
+		#if UNITY_IPHONE
+		Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
+		#elif UNITY_ANDROID
+		Handheld.SetActivityIndicatorStyle(AndroidActivityIndicatorStyle.Small);
+		#endif
 	}
 	
 	static public void GoToNextLevel()
@@ -49,13 +55,7 @@ public static class GameManager {
 
 	static void Load(string levelName)
 	{
-		#if UNITY_IPHONE
-		Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
-		#elif UNITY_ANDROID
-		Handheld.SetActivityIndicatorStyle(AndroidActivityIndicatorStyle.Small);
-		#endif
 		Handheld.StartActivityIndicator();
-		//yield return new WaitForSeconds(0);
 		Application.LoadLevel(levelName);
 	}
 }
