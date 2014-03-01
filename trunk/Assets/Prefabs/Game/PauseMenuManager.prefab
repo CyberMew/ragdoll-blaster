@@ -434,6 +434,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
+  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
+  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -448,6 +451,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 100012}
+  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
+  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
+  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,6 +468,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 100010}
+  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
+  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
+  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -476,6 +485,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 100014}
+  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
+  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
+  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
