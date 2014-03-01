@@ -20,10 +20,19 @@ public class PauseButtonsManager : MonoBehaviour {
 		{
 			go = gameObject.transform.GetChild(i).gameObject;
 
-			go.collider2D.enabled = inputs;//.GetComponent<Button>().AcceptInputs(inputs);
-			go.GetComponent<SpriteRenderer>().enabled = inputs;
+			if(go.collider2D)
+			{//todo: renable back becuase the guitext already provides thie collider crap
+				//go.collider2D.enabled = inputs;//.GetComponent<Button>().AcceptInputs(inputs);
+			}
+			if(go.GetComponent<SpriteRenderer>())
+			{
+				go.GetComponent<SpriteRenderer>().enabled = inputs;
+			}
 			// todo: remove this text bullshit
-			go.guiText.enabled = inputs;
+			if(go.guiText)
+			{
+				go.guiText.enabled = inputs;
+			}
 		}
 	}
 }
