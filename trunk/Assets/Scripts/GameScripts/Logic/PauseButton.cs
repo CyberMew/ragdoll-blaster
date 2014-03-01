@@ -9,10 +9,16 @@ public class PauseButton : MonoBehaviour {
 	public Sprite PushedSprite;
 
 	private bool isClickedBefore = false;
+	
+	public AudioClip hover;
+	public AudioClip click;
+	public AudioClip release;
+	private AudioSource audioPlayer;
 
 	// Use this for initialization
 	void Start () {
 		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
+		audioPlayer = Camera.main.audio;
 	}
 	
 	// Update is called once per frame
@@ -38,6 +44,7 @@ public class PauseButton : MonoBehaviour {
 		if(GameManager.IsGamePaused() == false)
 		{
 			GetComponent<SpriteRenderer>().sprite = HoverSprite;
+			audioPlayer.PlayOneShot(hover);
 		}
 		GameManager.isUIBusy = true;
 	}	
@@ -59,6 +66,7 @@ public class PauseButton : MonoBehaviour {
 		{
 			GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
+			audioPlayer.PlayOneShot(click);
 		}
 		GameManager.isUIBusy = true;
 	}
@@ -73,6 +81,7 @@ public class PauseButton : MonoBehaviour {
 			Time.timeScale = 0f;
 			// Bring up the pause menu object
 			PauseMenuObject.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(true);
+			audioPlayer.PlayOneShot(release);
 		}
 		GameManager.isUIBusy = true;
 	}

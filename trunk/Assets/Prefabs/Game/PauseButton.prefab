@@ -51,9 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434a98fbdc3cc7245bfc638c4cb51405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PauseMenuObject: {fileID: 100000, guid: 584d4fc4d2650ba439065b49317860f5, type: 2}
+  PauseMenuObject: {fileID: 0}
   HoverSprite: {fileID: 21300000, guid: 7dd9daf9162b8cf4997b7ca1c6d5bf6f, type: 3}
   PushedSprite: {fileID: 21300000, guid: 7dd9daf9162b8cf4997b7ca1c6d5bf6f, type: 3}
+  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
+  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
+  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
