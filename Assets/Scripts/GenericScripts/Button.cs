@@ -15,7 +15,7 @@ abstract class Button : MonoBehaviour {
 	protected bool isClickedBefore = false;
 	protected bool acceptInputs = false;
 
-	AudioSource audioPlayer;
+	private AudioSource audioPlayer;
 
 	void Awake()
 	{
@@ -47,7 +47,6 @@ abstract class Button : MonoBehaviour {
 			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		}
 		audioPlayer.PlayOneShot(hover);
-		Debug.Log("Hovering over " + gameObject.name);
 	}	
 	
 	// OnLeaving
