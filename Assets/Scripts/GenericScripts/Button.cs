@@ -8,12 +8,23 @@ abstract class Button : MonoBehaviour {
 	public Sprite PushedSprite;
 	public GameObject ButtonMenuLogic;
 
+	public AudioClip hover;
+	public AudioClip click;
+	public AudioClip release;
+
 	protected bool isClickedBefore = false;
 	protected bool acceptInputs = false;
 
+	AudioSource audioPlayer;
+
+	void Awake()
+	{
+		audioPlayer = Camera.main.audio;
+	}
+
 	// Use this for initialization
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame
@@ -35,6 +46,8 @@ abstract class Button : MonoBehaviour {
 		{
 			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		}
+		audioPlayer.PlayOneShot(hover);
+		Debug.Log("Hovering over " + gameObject.name);
 	}	
 	
 	// OnLeaving
@@ -54,6 +67,7 @@ abstract class Button : MonoBehaviour {
 			//GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
 		}
+		audioPlayer.PlayOneShot(click);
 	}
 	
 	// Clicked and released
@@ -63,6 +77,7 @@ abstract class Button : MonoBehaviour {
 		{
 			isClickedBefore = false;
 			
+			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
 			//gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
 			EnableAllButtonsInputs(false);
