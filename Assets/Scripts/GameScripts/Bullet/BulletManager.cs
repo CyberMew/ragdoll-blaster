@@ -26,6 +26,7 @@ public class BulletManager : MonoBehaviour {
 			//InputManager.SetOffset(direction);
 
 		}
+
 	
 	}
 }
