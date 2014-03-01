@@ -55,14 +55,14 @@ public class CannonFire : MonoBehaviour {
 			SetStill(oldestBullet.transform);
 			// Copy transform data from Prefab (reset it's body parts correctly)
 			ResetFromPrefab(oldestBullet.transform);
-			Debug.Log("thisshouldappear2BEFORE PRESSED AFTER PAUSE MENU IS STOPPPED");
+//			Debug.Log("thisshouldappear2BEFORE PRESSED AFTER PAUSE MENU IS STOPPPED");
 			isFirstTriggered = true;
 		}
 
 		// Rotate the sprite to face the mouse when input depressed
 		if(isFirstTriggered && InputManager.GetIsInputPressed())
 		{
-			Debug.Log("thisshouldappearMORE");
+	//		Debug.Log("thisshouldappearMORE");
 			// Convert screen space to world space
 			Vector2 mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
 			// Set the cannon barrel as origin

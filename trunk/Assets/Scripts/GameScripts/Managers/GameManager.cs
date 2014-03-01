@@ -18,24 +18,44 @@ public static class GameManager {
 		isPaused = false;
 		isTutorialOn = false;
 		isUIBusy = false;
+		
+		Screen.autorotateToLandscapeLeft = true;
+		Screen.autorotateToLandscapeRight = true;
+		Screen.orientation = ScreenOrientation.AutoRotation;
+		//todo: remove me - just a test
+		Handheld.StartActivityIndicator();
 	}
 	
 	static public void GoToNextLevel()
 	{
 		if(currLevel == totalLevels)
 		{
-			Application.LoadLevel("Credits");
+			//Application.LoadLevel("Credits");
+			Load("Credits");
 		}
 		else
 		{
 			++currLevel;
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
-			Application.LoadLevel("Level" + currLevel.ToString());
+			//Application.LoadLevel("Level" + currLevel.ToString());
+			Load("Level" + currLevel.ToString());
 		}
 	}
 
 	public static bool IsGamePaused ()
 	{
 		return isPaused || isTutorialOn;
+	}
+
+	static void Load(string levelName)
+	{
+		#if UNITY_IPHONE
+		Handheld.SetActivityIndicatorStyle(iOSActivityIndicatorStyle.Gray);
+		#elif UNITY_ANDROID
+		Handheld.SetActivityIndicatorStyle(AndroidActivityIndicatorStyle.Small);
+		#endif
+		Handheld.StartActivityIndicator();
+		//yield return new WaitForSeconds(0);
+		Application.LoadLevel(levelName);
 	}
 }
