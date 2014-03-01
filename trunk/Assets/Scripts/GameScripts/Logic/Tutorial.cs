@@ -6,6 +6,14 @@ public class Tutorial : MonoBehaviour {
 	public GameObject Tap;
 	public GameObject Hold;
 	public GameObject SwipeRight;
+	
+	LTDescr tweenTapAlpha;
+	LTDescr tweenTapMove;
+	LTDescr tweenHoldAlpha;
+	LTDescr tweenHoldMove;
+	LTDescr tweenSwipeAlpha;
+	LTDescr tweenSwipeMoveX;
+	LTDescr tweenSwipeMoveY;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +38,11 @@ public class Tutorial : MonoBehaviour {
 	void OnDisable()
 	{
 		Destroy(this.gameObject);
+
+		// Reset data FIRST
+		ResetTweenData();
 		// Stop all tweens
+		CancelTweens();
 	}
 
 	void OnDestroy()
@@ -43,58 +55,71 @@ public class Tutorial : MonoBehaviour {
 		GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f,100,100), "BACKGROUND HERE??");
 	}
 
-	void Tets()
+	void CancelTweens ()
 	{
-		Debug.Log("ok");
+		LeanTween.cancel(Tap,tweenTapAlpha.id);
+		LeanTween.cancel(Tap,tweenTapMove.id);
+		LeanTween.cancel(Hold,tweenHoldAlpha.id);
+		LeanTween.cancel(Hold,tweenHoldMove.id);
+		LeanTween.cancel(SwipeRight,tweenSwipeAlpha.id);
+		LeanTween.cancel(SwipeRight,tweenSwipeMoveX.id);
+		LeanTween.cancel(SwipeRight,tweenSwipeMoveY.id);
+	}
+
+	void ResetTweenData ()
+	{
+		// Reset their alpha values back to 1f
+		Color col = Tap.GetComponent<SpriteRenderer>().color;
+		col.a = 1f;
+		Tap.GetComponent<SpriteRenderer>().color = col;
+		Hold.GetComponent<SpriteRenderer>().color = col;
+		SwipeRight.GetComponent<SpriteRenderer>().color = col;
+
+		Debug.Log("ending:"+tweenTapMove.from.y);
+		Tap.transform.localPosition = new Vector2(Tap.transform.position.x, tweenTapMove.from.y);
+		
+		SwipeRight.transform.position =  new Vector2(tweenSwipeMoveX.from.x, tweenSwipeMoveY.from.y);
+
+		//StartAnimationSequence();
 	}
 
 	void StartAnimationSequence()
 	{
-		Color col = Tap.GetComponent<SpriteRenderer> ().color;
+		Color col = Tap.GetComponent<SpriteRenderer>().color;
 		col.a = 0f;
-		Tap.GetComponent<SpriteRenderer> ().color = col;
-		Hold.GetComponent<SpriteRenderer> ().color = col;
-		SwipeRight.GetComponent<SpriteRenderer> ().color = col;
-		//LeanTween.value(Tap, SetTapAlphaValue, 1f, 0f, 0.000001f).setOnComplete(Tets).setd;
+		Tap.GetComponent<SpriteRenderer>().color = col;
+		Hold.GetComponent<SpriteRenderer>().color = col;
+		SwipeRight.GetComponent<SpriteRenderer>().color = col;
+
 		StartTap ();
 	}
 
-	void SetTapAlphaValue(float alpha)
-	{
-		Color col = Tap.GetComponent<SpriteRenderer>().color;
-		col.a = alpha;
-		Tap.GetComponent<SpriteRenderer>().color = col;
-	}
 
 	void StartTap()
 	{
-		// Appear
-		LeanTween.value(Tap, SetTapAlphaValue, Tap.GetComponent<SpriteRenderer>().color.a, 1f, 1f);//.setRepeat(-1).setLoopClamp();;
-		LeanTween.moveY(Tap, Tap.transform.position.y - 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine).setOnComplete(StartHold);//.setRepeat(-1).setLoopClamp();;
+		tweenTapAlpha = LeanTween.alpha(Tap, 1f, 1f);
+		tweenTapMove = LeanTween.moveY(Tap, Tap.transform.position.y - 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine).setOnComplete(StartHold);//.setRepeat(-1).setLoopClamp();;
+		Debug.Log("starting:"+tweenTapMove.from.y);
 	}
-	
-	void SetHoldAlphaValue(float alpha)
-	{
-		Color col = Hold.GetComponent<SpriteRenderer>().color;
-		col.a = alpha;
-		Hold.GetComponent<SpriteRenderer>().color = col;
-	}
+
 	void StartHold()
 	{
-		LeanTween.value(Hold, SetHoldAlphaValue, Hold.GetComponent<SpriteRenderer>().color.a, 1f, 1f).setDelay(0.3f);
-		LeanTween.scale(Hold, new Vector2(3f, 3f), 1f).setOnComplete(StartSwipeRight);
+		//tweenHoldAlpha = LeanTween.alpha(Hold, 1f, 1f).setDelay(0.5f).setLoopClamp().setRepeat(2).id;
+		tweenHoldAlpha = LeanTween.alpha(Hold, 1f, 1f).setDelay(0.5f).setOnComplete(StartSwipeRight);
+		//tweenHoldMove = LeanTween.scale(Hold, new Vector2(3f, 3f), 1f).setLoopClamp().setRepeat(2).id;//.setOnComplete(StartSwipeRight);
 	}
-	
-	void SetSwipeRightAlphaValue(float alpha)
-	{
-		Color col = SwipeRight.GetComponent<SpriteRenderer>().color;
-		col.a = alpha;
-		SwipeRight.GetComponent<SpriteRenderer>().color = col;
-	}
+
 	void StartSwipeRight()
 	{
-		LeanTween.value(SwipeRight, SetSwipeRightAlphaValue, SwipeRight.GetComponent<SpriteRenderer>().color.a, 1f, 1f);
-		LeanTween.moveX(SwipeRight, SwipeRight.transform.position.x + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
-		LeanTween.moveY(SwipeRight, SwipeRight.transform.position.y + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
+		tweenSwipeAlpha = LeanTween.alpha(SwipeRight, 1f, 1f).setOnComplete(FadeAway);
+		tweenSwipeMoveX = LeanTween.moveX(SwipeRight, SwipeRight.transform.position.x + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
+		tweenSwipeMoveY = LeanTween.moveY(SwipeRight, SwipeRight.transform.position.y + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);
+	}
+
+	void FadeAway()
+	{
+		LeanTween.alpha(Tap, 0f, 0.8f);
+		LeanTween.alpha(Hold, 0f, 0.8f);
+		LeanTween.alpha(SwipeRight, 0f, 0.8f).setOnComplete(ResetTweenData);
 	}
 }

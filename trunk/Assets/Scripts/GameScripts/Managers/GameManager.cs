@@ -15,6 +15,10 @@ public static class GameManager {
 	static GameManager()
 	{
 		currLevel = 0;
+		if(PlayerPrefs.HasKey("LastPlayedLevel"))
+		{
+			currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+		}
 		isPaused = false;
 		isTutorialOn = false;
 		isUIBusy = false;
@@ -42,6 +46,8 @@ public static class GameManager {
 		else
 		{
 			++currLevel;
+			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
+			PlayerPrefs.Save();
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
 			//Application.LoadLevel("Level" + currLevel.ToString());
 			Load("Level" + currLevel.ToString());
