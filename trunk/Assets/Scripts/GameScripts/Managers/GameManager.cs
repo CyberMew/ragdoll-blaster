@@ -12,6 +12,11 @@ public static class GameManager {
 	public static bool isTutorialOn;
 	public static bool isUIBusy;
 
+	public static int totalShots;
+	public static bool isStartGame;  // main menu or in game.
+
+
+	public static int graphicQuality;
 	static GameManager()
 	{
 		currLevel = 0;
@@ -22,6 +27,9 @@ public static class GameManager {
 		isPaused = false;
 		isTutorialOn = false;
 		isUIBusy = false;
+		totalShots = 0;
+		isStartGame =false;
+		graphicQuality = 1;
 		
 		Screen.autorotateToLandscapeLeft = true;
 		Screen.autorotateToLandscapeRight = true;
@@ -46,6 +54,9 @@ public static class GameManager {
 		else
 		{
 			++currLevel;
+
+			isStartGame = (currLevel > 0)? false : true;
+			QualitySettings.SetQualityLevel(graphicQuality, false);
 			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
 			PlayerPrefs.Save();
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());

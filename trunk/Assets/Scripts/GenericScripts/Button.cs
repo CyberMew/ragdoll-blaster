@@ -79,7 +79,8 @@ abstract class Button : MonoBehaviour {
 			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
 			//gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
-			EnableAllButtonsInputs(false);
+			if(GameManager.isStartGame)
+				EnableAllButtonsInputs(false);
 
 			ButtonAction();
 		}

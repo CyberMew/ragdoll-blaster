@@ -11,6 +11,8 @@ public class TargetBoard : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		if(Input.GetKeyDown(KeyCode.P))
+			Debug.Log("Graphics Level:  " + QualitySettings.GetQualityLevel());
 	}
 
 	// This will not work, since if we enable Trigger, then it doesn't collide with other rigidbodies
