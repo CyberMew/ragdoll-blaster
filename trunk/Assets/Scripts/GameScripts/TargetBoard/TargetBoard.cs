@@ -10,7 +10,7 @@ public class TargetBoard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		// todo: remove this code when done
 		if(Input.GetKeyDown(KeyCode.P))
 			Debug.Log("Graphics Level:  " + QualitySettings.GetQualityLevel());
 	}
