@@ -14,6 +14,7 @@ class ButtonResume : Button {
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
 			gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
+			ButtonAction();
 		}
 		#endif
 	}

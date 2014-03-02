@@ -179,6 +179,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!1 &185060963
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +324,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!132 &600505048
 GUIText:
   m_ObjectHideFlags: 0
@@ -486,6 +492,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!1 &1101045333
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +541,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 302814577}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!132 &1101045336
 GUIText:
   m_ObjectHideFlags: 0
@@ -855,6 +867,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!1 &1600759034
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +904,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 1117501350}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!212 &1600759036
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1116,6 +1134,9 @@ MonoBehaviour:
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
   ButtonMenuLogic: {fileID: 0}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
 --- !u!1001 &1811260654
 Prefab:
   m_ObjectHideFlags: 0

@@ -19,10 +19,11 @@ public static class GameManager {
 	public static int graphicQuality;
 	static GameManager()
 	{
-		currLevel = 0;
+		currLevel = -1;
 		if(PlayerPrefs.HasKey("LastPlayedLevel"))
 		{
-			currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+			// todo: restore this back!
+			//currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
 		}
 		isPaused = false;
 		isTutorialOn = false;
@@ -55,7 +56,9 @@ public static class GameManager {
 		{
 			++currLevel;
 
+			// todo: remove this line because we will always be in game. if needed, this should be put into the buttonstart logic of main menu
 			isStartGame = (currLevel > 0)? false : true;
+			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
 			QualitySettings.SetQualityLevel(graphicQuality, false);
 			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
 			PlayerPrefs.Save();

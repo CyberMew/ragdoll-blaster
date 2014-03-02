@@ -10,10 +10,10 @@ public class Tutorial : MonoBehaviour {
 	LTDescr tweenTapAlpha;
 	LTDescr tweenTapMove;
 	LTDescr tweenHoldAlpha;
-	LTDescr tweenHoldMove;
+	//LTDescr tweenHoldMove;
 	LTDescr tweenSwipeAlpha;
 	LTDescr tweenSwipeMoveX;
-	LTDescr tweenSwipeMoveY;
+	//LTDescr tweenSwipeMoveY;
 
 	// Use this for initialization
 	void Start () {
@@ -59,11 +59,20 @@ public class Tutorial : MonoBehaviour {
 	{
 		LeanTween.cancel(Tap,tweenTapAlpha.id);
 		LeanTween.cancel(Tap,tweenTapMove.id);
-		LeanTween.cancel(Hold,tweenHoldAlpha.id);
-		LeanTween.cancel(Hold,tweenHoldMove.id);
-		LeanTween.cancel(SwipeRight,tweenSwipeAlpha.id);
-		LeanTween.cancel(SwipeRight,tweenSwipeMoveX.id);
-		LeanTween.cancel(SwipeRight,tweenSwipeMoveY.id);
+		if(tweenHoldAlpha != null)
+		{
+			LeanTween.cancel(Hold,tweenHoldAlpha.id);
+		}
+		//LeanTween.cancel(Hold,tweenHoldMove.id);
+		if(tweenSwipeAlpha != null)
+		{
+			LeanTween.cancel(SwipeRight,tweenSwipeAlpha.id);
+		}
+		if(tweenSwipeMoveX != null)
+		{
+			LeanTween.cancel(SwipeRight,tweenSwipeMoveX.id);
+		}
+//		LeanTween.cancel(SwipeRight,tweenSwipeMoveY.id);
 	}
 
 	void ResetTweenData ()
@@ -76,11 +85,17 @@ public class Tutorial : MonoBehaviour {
 		SwipeRight.GetComponent<SpriteRenderer>().color = col;
 
 		Debug.Log("ending:"+tweenTapMove.from.y);
-		Tap.transform.localPosition = new Vector2(Tap.transform.position.x, tweenTapMove.from.y);
+		Tap.transform.localPosition = new Vector2(Tap.transform.position.x, tweenTapMove.from.x);
 		
-		SwipeRight.transform.position =  new Vector2(tweenSwipeMoveX.from.x, tweenSwipeMoveY.from.y);
+		//SwipeRight.transform.position =  new Vector2(tweenSwipeMoveX.from.x, tweenSwipeMoveY.from.x);
+		// Check if the tween has even been created yet
+		if(tweenSwipeMoveX != null)
+		{
+			SwipeRight.transform.localPosition = tweenSwipeMoveX.from;
+		}
+		//CancelTweens();
 
-		//StartAnimationSequence();
+		StartAnimationSequence();
 	}
 
 	void StartAnimationSequence()
@@ -112,8 +127,10 @@ public class Tutorial : MonoBehaviour {
 	void StartSwipeRight()
 	{
 		tweenSwipeAlpha = LeanTween.alpha(SwipeRight, 1f, 1f).setOnComplete(FadeAway);
-		tweenSwipeMoveX = LeanTween.moveX(SwipeRight, SwipeRight.transform.position.x + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
-		tweenSwipeMoveY = LeanTween.moveY(SwipeRight, SwipeRight.transform.position.y + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);
+		//tweenSwipeMoveX = LeanTween.moveX(SwipeRight, SwipeRight.transform.position.x + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
+		//tweenSwipeMoveY = LeanTween.moveY(SwipeRight, SwipeRight.transform.position.y + 1f, 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);
+		tweenSwipeMoveX = LeanTween.move(SwipeRight, new Vector2(SwipeRight.transform.position.x, SwipeRight.transform.position.y) + new Vector2(1f, 1f), 0.5f).setDelay(0.1f).setEase(LeanTweenType.easeInSine);//.setOnComplete(StartAnimationSequence);
+
 	}
 
 	void FadeAway()

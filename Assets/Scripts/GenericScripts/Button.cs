@@ -78,8 +78,8 @@ abstract class Button : MonoBehaviour {
 			
 			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
-			//gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
-			if(GameManager.isStartGame)
+			// todo: i'm comment this because the button doesn't matter if the game is started yet or not. Even if the game is not started, it should still work.
+			//if(GameManager.isStartGame)
 				EnableAllButtonsInputs(false);
 
 			ButtonAction();
@@ -91,10 +91,7 @@ abstract class Button : MonoBehaviour {
 		gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(inputs);
 	}
 
+	// Force them to implement behaviour of the button behavior when clicked
 	internal abstract void ButtonAction();
-
-
-	///{
-		//Debug.LogWarning("ButtonAction for button " + gameObject.name + " is undefined.");
-	//}
+	
 }
