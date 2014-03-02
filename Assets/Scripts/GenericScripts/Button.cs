@@ -7,14 +7,14 @@ abstract class Button : MonoBehaviour {
 	public Sprite HoverSprite;
 	public Sprite PushedSprite;
 
-	public GameObject ButtonMenuLogic;
+	public GameObject MenuToOpen;
 		
 	public AudioClip hover;
 	public AudioClip click;
 	public AudioClip release;
 
 	protected bool isClickedBefore = false;
-	protected bool acceptInputs = false;
+	//protected bool acceptInputs = false;
 
 	private AudioSource audioPlayer;
 

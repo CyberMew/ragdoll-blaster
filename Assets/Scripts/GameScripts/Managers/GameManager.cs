@@ -67,6 +67,11 @@ public static class GameManager {
 		}
 	}
 
+	static public void LoadLevel(string levelname)
+	{
+		Application.LoadLevel(levelname);
+	}
+
 	public static bool IsGamePaused ()
 	{
 		return isPaused || isTutorialOn;

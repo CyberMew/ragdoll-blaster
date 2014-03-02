@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 class ButtonCredits : Button {
@@ -16,11 +16,13 @@ class ButtonCredits : Button {
 	internal override void ButtonAction()
 	{
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
-		if(ButtonMenuLogic)
+		if(MenuToOpen)
 		{
-			if(GameManager.currLevel == -1);
-				MainMenuManager.Instance.SetAllChildButtonsInput(false);
-			ButtonMenuLogic.SetActive(true);
+			//todo: remove this and move to another class specific for mainmenu behaviours
+			//if(GameManager.currLevel == -1);
+			//	MainMenuManager.Instance.SetAllChildButtonsInput(false);
+			MenuToOpen.SetActive(true);
+			EnableAllPauseButtonsInputs(false);
 		}
 	}
 }

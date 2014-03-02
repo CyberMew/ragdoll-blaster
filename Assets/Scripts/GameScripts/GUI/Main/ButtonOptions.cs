@@ -17,11 +17,11 @@ using System.Collections;
 	internal override void ButtonAction()
 	{
 		// If pointer to the menu/etc exists, then we enable it
-		if(ButtonMenuLogic)
+		if(MenuToOpen)
 		{
 			// todo: to be removed and shifted to it's own logic class code
 			//MainMenuManager.Instance.SetAllChildButtonsInput(false);
-			ButtonMenuLogic.SetActive(true);
+			MenuToOpen.SetActive(true);
 			// Hide/DisableClick all other buttons
 			EnableAllPauseButtonsInputs(false);
 		}

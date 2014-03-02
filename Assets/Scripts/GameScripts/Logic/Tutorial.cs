@@ -14,6 +14,9 @@ public class Tutorial : MonoBehaviour {
 	LTDescr tweenSwipeAlpha;
 	LTDescr tweenSwipeMoveX;
 	//LTDescr tweenSwipeMoveY;
+	
+	Vector3 swipeOriginalPosition;
+	Vector3 holdOriginalScale;
 
 	// Use this for initialization
 	void Start () {
@@ -22,9 +25,12 @@ public class Tutorial : MonoBehaviour {
 		//LeanTween.value(Hold, 0f, 0f);
 		//LeanTween.value(SwipeRight, 0f, 0f);
 
+		swipeOriginalPosition = SwipeRight.transform.position;
+
+		holdOriginalScale = Hold.transform.localScale;
 		
 		StartAnimationSequence ();
-		
+		Debug.Log("wtf");
 	}
 	
 	// Update is called once per frame
@@ -86,13 +92,16 @@ public class Tutorial : MonoBehaviour {
 
 		Debug.Log("ending:"+tweenTapMove.from.y);
 		Tap.transform.localPosition = new Vector2(Tap.transform.position.x, tweenTapMove.from.x);
-		
+
+		Hold.transform.localScale = holdOriginalScale;
+
 		//SwipeRight.transform.position =  new Vector2(tweenSwipeMoveX.from.x, tweenSwipeMoveY.from.x);
 		// Check if the tween has even been created yet
 		if(tweenSwipeMoveX != null)
 		{
-			SwipeRight.transform.localPosition = tweenSwipeMoveX.from;
+			//SwipeRight.transform.localPosition = tweenSwipeMoveX.from;
 		}
+		SwipeRight.transform.position = swipeOriginalPosition;
 		//CancelTweens();
 
 		StartAnimationSequence();
@@ -122,6 +131,8 @@ public class Tutorial : MonoBehaviour {
 		//tweenHoldAlpha = LeanTween.alpha(Hold, 1f, 1f).setDelay(0.5f).setLoopClamp().setRepeat(2).id;
 		tweenHoldAlpha = LeanTween.alpha(Hold, 1f, 1f).setDelay(0.5f).setOnComplete(StartSwipeRight);
 		//tweenHoldMove = LeanTween.scale(Hold, new Vector2(3f, 3f), 1f).setLoopClamp().setRepeat(2).id;//.setOnComplete(StartSwipeRight);
+		LeanTween.scaleX(Hold, 1f, 1f).setDelay(0.5f);
+		LeanTween.scaleY(Hold, 1f, 1f).setDelay(0.5f);
 	}
 
 	void StartSwipeRight()
@@ -135,8 +146,8 @@ public class Tutorial : MonoBehaviour {
 
 	void FadeAway()
 	{
-		LeanTween.alpha(Tap, 0f, 0.8f);
-		LeanTween.alpha(Hold, 0f, 0.8f);
-		LeanTween.alpha(SwipeRight, 0f, 0.8f).setOnComplete(ResetTweenData);
+		LeanTween.alpha(Tap, 0f, 0.8f).setDelay(0.8f);
+		LeanTween.alpha(Hold, 0f, 0.8f).setDelay(0.8f);
+		LeanTween.alpha(SwipeRight, 0f, 0.8f).setDelay(0.8f).setOnComplete(ResetTweenData);
 	}
 }
