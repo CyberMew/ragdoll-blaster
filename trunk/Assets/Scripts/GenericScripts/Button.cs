@@ -6,8 +6,9 @@ abstract class Button : MonoBehaviour {
 	Sprite DefaultSprite;
 	public Sprite HoverSprite;
 	public Sprite PushedSprite;
-	public GameObject ButtonMenuLogic;
 
+	public GameObject ButtonMenuLogic;
+		
 	public AudioClip hover;
 	public AudioClip click;
 	public AudioClip release;
@@ -78,17 +79,19 @@ abstract class Button : MonoBehaviour {
 			
 			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
-			// todo: i'm comment this because the button doesn't matter if the game is started yet or not. Even if the game is not started, it should still work.
-			//it matters because main menu buttons are not the child of pausemenu ojbect. 
-			//it will throw null reference exception if you don't check game states.
-			if(GameManager.currLevel != -1)
-				EnableAllButtonsInputs(false);
+
+			// MainMenu scene is also using this base class - do a check
+			/*if(GameManager.isInGame)
+			{
+				// Get the pause manager script to disable all buttons
+				EnableAllButtonsInputs(false); // This should be called in button resume or something
+			}*/
 
 			ButtonAction();
 		}
 	}
 
-	public void EnableAllButtonsInputs(bool inputs)
+	public void EnableAllPauseButtonsInputs(bool inputs)
 	{
 		gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(inputs);
 	}

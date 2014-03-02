@@ -13,7 +13,8 @@ class ButtonResume : Button {
 		#if UNITYSTANDALONE_WIN || UNITY_EDITOR
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-			gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
+			//EnableAllButtonsInputs(false);
+			//gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(false);
 			ButtonAction();
 		}
 		#endif
@@ -29,5 +30,7 @@ class ButtonResume : Button {
 			go.GetComponent<PauseButton>().Reset();
 		}
 		Time.timeScale = 1f;
+
+		EnableAllPauseButtonsInputs(false);
 	}
 }

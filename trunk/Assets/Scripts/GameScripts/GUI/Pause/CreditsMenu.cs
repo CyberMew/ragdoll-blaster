@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class CreditsMenu : MonoBehaviour {
@@ -23,6 +23,6 @@ public class CreditsMenu : MonoBehaviour {
 	{
 		// Report to my parent button, and they should them to renable the pause menus
 		if(GameManager.currLevel != -1)
-		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllButtonsInputs(true);		
+		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllPauseButtonsInputs(true);		
 	}
 }

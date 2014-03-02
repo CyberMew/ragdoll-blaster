@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class HowToPlayMenu : MonoBehaviour {
@@ -22,6 +22,6 @@ public class HowToPlayMenu : MonoBehaviour {
 	void OnDisable()
 	{
 		// Report to my parent button, and they should them to renable the pause menus
-		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllButtonsInputs(true);		
+		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllPauseButtonsInputs(true);		
 	}
 }
