@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-class ButtonMenu: Button {
+class ButtonConfirmation: Button {
+	
+	public GameObject ConfirmationWindowMenu;
 
 	// Use this for initialization
 	void Start () {
@@ -16,9 +18,9 @@ class ButtonMenu: Button {
 	internal override void ButtonAction()
 	{
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
-		if(ButtonMenuLogic)
+		if(ConfirmationWindowMenu)
 		{
-			ButtonMenuLogic.SetActive(true);
+			ConfirmationWindowMenu.SetActive(true);
 		}
 	}
 }

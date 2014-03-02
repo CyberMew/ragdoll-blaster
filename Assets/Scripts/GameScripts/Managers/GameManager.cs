@@ -11,15 +11,15 @@ public static class GameManager {
 	public static bool isPaused;
 	public static bool isTutorialOn;
 	public static bool isUIBusy;
+	public static bool isInGame;
 
 	public static int totalShots;
 
-
+	
 
 	public static int graphicQuality;
 	static GameManager()
 	{
-
 		currLevel = -1;  //-1 point to main menu level. 
 		if(PlayerPrefs.HasKey("LastPlayedLevel"))
 		{
@@ -29,6 +29,8 @@ public static class GameManager {
 		isPaused = false;
 		isTutorialOn = false;
 		isUIBusy = false;
+		isInGame = false;
+
 		totalShots = 0;
 		graphicQuality = 1;
 		
@@ -55,14 +57,12 @@ public static class GameManager {
 		else
 		{
 			++currLevel;
-
 		
 			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
 			QualitySettings.SetQualityLevel(graphicQuality, false);
 			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
 			PlayerPrefs.Save();
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
-			//Application.LoadLevel("Level" + currLevel.ToString());
 			Load("Level" + currLevel.ToString());
 		}
 	}
