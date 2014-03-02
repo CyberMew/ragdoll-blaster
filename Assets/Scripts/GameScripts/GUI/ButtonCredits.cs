@@ -18,6 +18,8 @@ class ButtonCredits : Button {
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
 		if(ButtonMenuLogic)
 		{
+			if(GameManager.currLevel == -1);
+				MainMenuManager.Instance.SetAllChildButtonsInput(false);
 			ButtonMenuLogic.SetActive(true);
 		}
 	}
