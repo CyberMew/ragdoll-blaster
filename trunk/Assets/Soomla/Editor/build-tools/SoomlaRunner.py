@@ -5,7 +5,7 @@ import shutil
 
 from mod_pbxproj import XcodeProject
 projectPath = sys.argv[1]
-projectPath = projectPath.replace('_;@#',' ')
+projectPath = projectPath.replace('_SOOM@#',' ')
 
 project = XcodeProject.Load(projectPath + '/Unity-iPhone.xcodeproj/project.pbxproj')
 
