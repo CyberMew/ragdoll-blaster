@@ -22,6 +22,7 @@ public class CreditsMenu : MonoBehaviour {
 	void OnDisable()
 	{
 		// Report to my parent button, and they should them to renable the pause menus
+		if(GameManager.currLevel != -1)
 		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllButtonsInputs(true);		
 	}
 }

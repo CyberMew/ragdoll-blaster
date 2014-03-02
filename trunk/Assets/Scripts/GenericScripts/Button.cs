@@ -79,7 +79,9 @@ abstract class Button : MonoBehaviour {
 			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
 			// todo: i'm comment this because the button doesn't matter if the game is started yet or not. Even if the game is not started, it should still work.
-			//if(GameManager.isStartGame)
+			//it matters because main menu buttons are not the child of pausemenu ojbect. 
+			//it will throw null reference exception if you don't check game states.
+			if(GameManager.currLevel != -1)
 				EnableAllButtonsInputs(false);
 
 			ButtonAction();
