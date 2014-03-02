@@ -2,8 +2,6 @@
 using System.Collections;
 
 class ButtonConfirmation: Button {
-	
-	public GameObject ConfirmationWindowMenu;
 
 	// Use this for initialization
 	void Start () {
@@ -18,9 +16,10 @@ class ButtonConfirmation: Button {
 	internal override void ButtonAction()
 	{
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
-		if(ConfirmationWindowMenu)
+		if(MenuToOpen)
 		{
-			ConfirmationWindowMenu.SetActive(true);
+			MenuToOpen.SetActive(true);
+			EnableAllPauseButtonsInputs(false);
 		}
 	}
 }

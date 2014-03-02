@@ -22,6 +22,8 @@ class ButtonResume : Button {
 
 	internal override void ButtonAction()
 	{
+		// Get PauseMenuManager to reset it
+		/*
 		// Resume the game
 		GameManager.isPaused = false;
 		GameObject go = GameObject.Find("PauseButton");
@@ -30,7 +32,8 @@ class ButtonResume : Button {
 			go.GetComponent<PauseButton>().Reset();
 		}
 		Time.timeScale = 1f;
-
+*/
 		EnableAllPauseButtonsInputs(false);
+		transform.parent.gameObject.SetActive(false);
 	}
 }

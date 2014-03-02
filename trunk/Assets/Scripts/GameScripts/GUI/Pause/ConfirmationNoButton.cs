@@ -10,21 +10,23 @@ class ConfirmationNoButton : Button {
 	
 	// Update is called once per frame
 	void Update () {
-	//GameManager.isInGame 
 	}
 
 	
 	internal override void ButtonAction()
 	{
-		// If pointer to the menu/etc exists, then we enable it
-		if(ButtonMenuLogic)
+		// If pointer to the menu/etc exists, then we want to close the whole menu disable the whole thing
+		//if(ButtonMenuLogic)
 		{
 			// todo: to be removed and shifted to it's own logic class code
 			//MainMenuManager.Instance.SetAllChildButtonsInput(false);
-			ButtonMenuLogic.SetActive(true);
+			//ButtonMenuLogic.SetActive(true);
 			// Disable/Hide all other buttons
-			EnableAllPauseButtonsInputs(false);
+			//EnableAllPauseButtonsInputs(true);
 		}
+
+		// Want to disable it's parent (aka current menu)
+		gameObject.transform.parent.gameObject.SetActive(false);
 	}
 
 }

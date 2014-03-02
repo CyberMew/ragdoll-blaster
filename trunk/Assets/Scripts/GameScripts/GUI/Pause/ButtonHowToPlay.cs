@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 class ButtonHowToPlay: Button {
@@ -16,9 +16,11 @@ class ButtonHowToPlay: Button {
 	internal override void ButtonAction()
 	{
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
-		if(ButtonMenuLogic)
+		if(MenuToOpen)
 		{
-			ButtonMenuLogic.SetActive(true);
+			MenuToOpen.SetActive(true);
+			
+			EnableAllPauseButtonsInputs(false);
 		}
 	}
 }

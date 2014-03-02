@@ -15,13 +15,13 @@ public class HowToPlayMenu : MonoBehaviour {
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f,100,100), "Some completed how to play code here.");
+		GUI.Label(new Rect(Screen.width * 0.5f, 200f,100,100), "Some completed how to play code here.");
 	}
 	
 	// Someone disabled/close my HowToPlay logic/menu
 	void OnDisable()
 	{
 		// Report to my parent button, and they should them to renable the pause menus
-		gameObject.transform.parent.gameObject.GetComponent<ButtonCredits>().EnableAllPauseButtonsInputs(true);		
+		gameObject.transform.parent.gameObject.GetComponent<ButtonHowToPlay>().EnableAllPauseButtonsInputs(true);		
 	}
 }
