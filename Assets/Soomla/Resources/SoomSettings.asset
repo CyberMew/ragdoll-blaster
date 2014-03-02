@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iosSSV: 0
   androidPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk646aVsk0pvV2A0bTddOyGKxhbhflTwTUvdnf1wWPCVLfB1PcmXZnIRtdajCxKvnwp8f13IwZxx+K1JqeTstyozY7ZnXE7cLpszz9BRD/jiOktw+8QgjYedN1Mb7GoZcK4XkPSHnd4tzYZLFC+5MXM4mABgDVN7/Fghwsb5jeyLNCFisyxQdxD+Ul2lAyseTPF7G/hqt1H5zDgOStNxXqJW/pQulGIraCoikOrQNeeIBPzpg+FgzNN7FSYMEnm2LM7LYyILM0Fg5BWqZjNZZyAgIrkDdXoqWgWsoAWUrdB9Km1+2Y1EsMfhBLQDwgxDddnzzc8w9mmRa80xOI6xE2wIDAQAB
-  customSecret: password
-  soomSec: pasword
+  customSecret: password2
+  soomSec: password1
