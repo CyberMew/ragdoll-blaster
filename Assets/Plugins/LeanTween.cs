@@ -1530,7 +1530,7 @@ public static void update() {
 					    	trans.eulerAngles=new Vector3(trans.eulerAngles.x,trans.eulerAngles.y,val);
 					    }else if(tweenAction==TweenAction.ROTATE_AROUND){
 							
-							float move = val -  tween.lastVal;
+//							float move = val -  tween.lastVal;
 					    	// Debug.Log("move:"+move+" val:"+val + " timeTotal:"+timeTotal + " from:"+tween.from+ " diff:"+tween.diff);
 					    	/*if(isTweenFinished){
 					    		trans.eulerAngles = tween.origRotation;
