@@ -6,9 +6,19 @@ public class InputLogic : MonoBehaviour {
 	Vector2 direction;
 	bool directionChosen;
 
+	static bool alreadyExists = false;
+
 	// Use this for initialization
 	void Start () {
-		DontDestroyOnLoad(this.gameObject);
+		if(alreadyExists == false)
+		{
+			DontDestroyOnLoad(this.gameObject);
+			alreadyExists = true;
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 		direction = Vector2.zero;
 	}
 
