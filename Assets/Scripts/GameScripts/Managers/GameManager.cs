@@ -79,7 +79,9 @@ public static class GameManager {
 
 	static void Load(string levelName)
 	{
+		#if UNITY_IPHONE || UNITY_ANDROID
 		Handheld.StartActivityIndicator();
+		#endif
 		Application.LoadLevel(levelName);
 	}
 }

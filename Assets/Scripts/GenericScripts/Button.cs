@@ -21,11 +21,25 @@ abstract class Button : MonoBehaviour {
 	void Awake()
 	{
 		audioPlayer = Camera.main.audio;
+		if(hover == null)
+		{
+			Debug.Log("(" + gameObject.name + ") hover not supplied: loading defaults");
+			hover = Resources.Load("/Audio/rollover1") as AudioClip;
+		}
+		if(click == null)
+		{
+			Debug.Log("(" + gameObject.name + ") click not supplied: loading defaults");
+			click = Resources.Load("/Audio/click1") as AudioClip;
+		}
+		if(release == null)
+		{
+			Debug.Log("(" + gameObject.name + ") release not supplied: loading defaults");
+			release = Resources.Load("/Audio/mouserelease1") as AudioClip;
+		}
 	}
 
 	// Use this for initialization
 	void Start () {
-
 	}
 	
 	// Update is called once per frame
