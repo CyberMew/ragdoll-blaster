@@ -46,7 +46,7 @@ public class PauseButton : MonoBehaviour {
 			GetComponent<SpriteRenderer>().sprite = HoverSprite;
 			audioPlayer.PlayOneShot(hover);
 		}
-		GameManager.isUIBusy = true;
+		//GameManager.isUIBusy = true;
 	}	
 
 	// OnLeaving
@@ -68,6 +68,7 @@ public class PauseButton : MonoBehaviour {
 			isClickedBefore = true;
 			audioPlayer.PlayOneShot(click);
 		}
+		Debug.Log("test");
 		GameManager.isUIBusy = true;
 	}
 
