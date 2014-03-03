@@ -56,11 +56,6 @@ public class Tutorial : MonoBehaviour {
 		GameManager.isTutorialOn = false;
 	}
 
-	void OnGUI()
-	{
-		GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f,100,100), "BACKGROUND HERE??");
-	}
-
 	void CancelTweens ()
 	{
 		LeanTween.cancel(Tap,tweenTapAlpha.id);

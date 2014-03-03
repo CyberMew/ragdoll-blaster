@@ -30,7 +30,9 @@ public class TargetBoard : MonoBehaviour {
 		if(other.gameObject.CompareTag("Bullet"))
 		{
 			GameManager.GoToNextLevel();
+			#if UNITY_IPHONE || UNITY_ANDROID
 			Handheld.Vibrate();
+			#endif
 		}
 	}
 }

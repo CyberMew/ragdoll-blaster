@@ -11,7 +11,7 @@ public static class InputManager {
 		Debug.Log("Android Input detected. Setting to Single-based Touch.");
 #endif
 
-#if UNITYSTANDALONE_WIN
+#if UNITY_STANDALONE
 		Debug.Log("Input - Mouse");
 #endif
 	}
@@ -32,7 +32,7 @@ public static class InputManager {
 			}
 		}
 		return false;
-#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 		if(Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("Input down - Mouse");
@@ -61,7 +61,7 @@ public static class InputManager {
 			}
 		}
 		return false;
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 		if(Input.GetMouseButton(0))
 		{
 //			Debug.Log("Input down - Mouse");
@@ -88,7 +88,7 @@ public static class InputManager {
 			}
 		}
 		return false;	// Cancelled phase not counted (face close to phone or call coming in).
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 		if(Input.GetMouseButtonUp(0))
 		{
 //			Debug.Log("Input release - Mouse");
@@ -118,7 +118,7 @@ public static class InputManager {
 				result = true;
 			}
 		}
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 		if(Input.GetMouseButtonUp(0))
 		{
 			Debug.Log("Input release - Mouse");
@@ -142,7 +142,7 @@ public static class InputManager {
 			return touch.position;
 		}
 		return new Vector2(-1,-1);
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 //		Debug.Log("MOUSE:" + Input.mousePosition);
 		return Input.mousePosition;
 		#else
@@ -170,7 +170,7 @@ public static class InputManager {
 		}
 		return new Vector2(-1,-1);*/
 		return dragOffset;
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 //		Debug.Log("MOUSEoffset:" + dragOffset);
 	//	return Input.mousePosition;
 		return dragOffset;

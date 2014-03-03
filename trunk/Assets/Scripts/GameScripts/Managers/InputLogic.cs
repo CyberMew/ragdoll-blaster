@@ -22,7 +22,7 @@ public class InputLogic : MonoBehaviour {
 	{
 		#if UNITY_ANDROID || UNITY_IPHONE
 
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR || UNITY_WEBPLAYER
 
 		#else
 		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
@@ -64,7 +64,7 @@ public class InputLogic : MonoBehaviour {
 		
 		//todo: rewrite above code to reuse from inputmanager!
 		
-		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR
+		#elif UNITYSTANDALONE_WIN || UNITY_EDITOR || UNITY_WEBPLAYER
 		// no touch detected, switching to mouse instead
 		if(InputManager.GetIsInputDown())
 		{
