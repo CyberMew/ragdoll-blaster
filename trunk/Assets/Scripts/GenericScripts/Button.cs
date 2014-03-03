@@ -4,10 +4,10 @@ using System.Collections;
 abstract class Button : MonoBehaviour {
 	
 	Sprite DefaultSprite;
-	public Sprite HoverSprite;
-	public Sprite PushedSprite;
+	public Sprite HoverSprite = null;
+	public Sprite PushedSprite = null;
 
-	public GameObject MenuToOpen;
+	public GameObject MenuToOpen = null;
 		
 	public AudioClip hover;
 	public AudioClip click;

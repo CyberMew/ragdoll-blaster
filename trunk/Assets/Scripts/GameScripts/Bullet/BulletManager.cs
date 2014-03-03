@@ -16,8 +16,8 @@ public class BulletManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		int x = Random.Range(-1000,1000);
-		int y = Random.Range(0,1000);
+//		int x = Random.Range(-1000,1000);
+//		int y = Random.Range(0,1000);
 //		Debug.Log(new Vector2(x,y));
 		if(InputManager.GetIsInputReleased())
 		{
