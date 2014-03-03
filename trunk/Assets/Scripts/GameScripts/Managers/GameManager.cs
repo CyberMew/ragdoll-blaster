@@ -15,7 +15,7 @@ public static class GameManager {
 
 	public static int totalShots;
 
-	
+	public static bool isGameWon;
 
 	public static int graphicQuality;
 	static GameManager()
@@ -30,6 +30,7 @@ public static class GameManager {
 		isTutorialOn = false;
 		isUIBusy = false;
 		isInGame = false;
+		isGameWon = false;
 
 		totalShots = 0;
 		graphicQuality = 1;
@@ -82,6 +83,7 @@ public static class GameManager {
 		#if UNITY_IPHONE || UNITY_ANDROID
 		Handheld.StartActivityIndicator();
 		#endif
+		isGameWon = false;
 		Application.LoadLevel(levelName);
 	}
 }
