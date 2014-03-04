@@ -559,9 +559,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_SortingLayerID: 1194049119
+  m_SortingLayerID: 3451248373
   m_Sprite: {fileID: 21300000, guid: 5548c5c7d015c4348a48a94df1db31f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &286087657
@@ -3188,9 +3188,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 5
-  m_SortingLayerID: 1194049119
+  m_SortingLayerID: 3451248373
   m_Sprite: {fileID: 21300000, guid: 16536bc7ed229da43b94c1dd14ead11f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1017951901
@@ -3452,9 +3452,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
-  m_SortingLayerID: 1194049119
+  m_SortingLayerID: 3451248373
   m_Sprite: {fileID: 21300000, guid: e8742014eb94cc546a39a6013d32747a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1139258073
@@ -3657,9 +3657,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 6
-  m_SortingLayerID: 1194049119
+  m_SortingLayerID: 3451248373
   m_Sprite: {fileID: 21300000, guid: 153b7a1857abd90498362e943d895ec1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1321955288
@@ -4463,7 +4463,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1672328555}
   - 212: {fileID: 1672328554}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: flat_ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
