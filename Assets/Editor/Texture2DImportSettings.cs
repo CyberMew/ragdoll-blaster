@@ -223,6 +223,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		if(fullDirectory.Contains("Levels/Obstacles"))
 		{
 			go.AddComponent<PolygonCollider2D>();
+			go.tag = "Obstacle";
 		}
 		/*
 		SpriteRenderer rr = go.GetComponent<SpriteRenderer>();
