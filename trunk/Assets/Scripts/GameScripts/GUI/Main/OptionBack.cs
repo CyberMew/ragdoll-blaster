@@ -16,6 +16,6 @@ class OptionBack : Button {
 	internal override void ButtonAction()
 	{
 		this.transform.parent.gameObject.SetActive(false);
-		MainMenuManager.Instance.SetAllChildButtonsInput(true);
+		MainMenuManager.Instance.ActiveButtons(true);
 	}
 }
