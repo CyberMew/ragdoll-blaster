@@ -18,6 +18,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			textureImporter.spritePixelsToUnits = 72f;
 			textureImporter.filterMode = FilterMode.Point;
 			textureImporter.wrapMode = TextureWrapMode.Clamp;
+			textureImporter.spriteImportMode = SpriteImportMode.Single;
 			int width = 0, height = 0;
 				
 			if(GetImageSize(textureImporter, out width, out height))
@@ -79,6 +80,11 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 	{
 		if(!assetImporter.userData.Equals("loadedBefore"))
 		{
+			// Totally done with custom processing
+			// Set userdata to loadBefore
+			assetImporter.userData = "loadedBefore";	// we check this to make sure we don't overwrite existing changes
+			
+			
 			/*Debug.Log(texture.name);
 
 			string texturePath = AssetDatabase.GetAssetPath(texture);
@@ -152,17 +158,20 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 				}*/
 				{
 					if(EditorUtility.DisplayDialog("Create prefab from asset",
-					                               "Do you want to create a new prefab automatically from asset?" +
+					                               "Do you want to create a new prefab automatically for asset?\n" +
+					                               "filename" + 
 					                               "\n\nSelect \"Do not Create\" if you have no idea.",
 					                               "Create Prefab", "Do Not Create"))
 					{
+						// todo: Should have create it here first then use AssetDatabase.MoveAsset
+
 						// Replace first occurance of Sprites to Prefabs
 						//string newPrefabDirectory = 
 						//pos = fullPrefabDirectory.IndexOf("Assets/Sprites/");
 						string newPrefabDirectory = fullPrefabDirectory.Replace("Assets/Sprites/", "Assets/Prefabs/");
 						string newPrefabPath = newPrefabDirectory + filename + ".prefab";
 						if(EditorUtility.DisplayDialog("Move prefab?",
-						                               "Do you want to move the newly created prefab from\n\"" + fullPrefabPath + "\"\nto\n\"</b>" + newPrefabPath + "\"\n?",
+						                               "Do you want to move the newly created prefab from\n\"" + fullPrefabPath + "\"\nto\n\"" + newPrefabPath + "\"\n?",
 						                               "Yes please", "No, leave it as it is"))
 						{
 							if(!Directory.Exists(newPrefabDirectory))
@@ -173,32 +182,57 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 								AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 							}
 							Debug.Log("Created prefab: " + newPrefabPath);
-							CreatePrefab(newPrefabPath);
+							CreatePrefab(texture, newPrefabPath);
 						}
 						else
 						{
 							Debug.Log("Created prefab: " + fullPrefabPath);
-							CreatePrefab(fullPrefabPath);
+							CreatePrefab(texture, fullPrefabPath);
 						}
 					}
 				}
 			}
-
-			
-			// Totally done with custom processing
-			// Set userdata to loadBefore
-			assetImporter.userData = "loadedBefore";	// we check this to make sure we don't overwrite existing changes
 		}
 	}
 
-	void CreatePrefab (string fullPath)
+	void CreatePrefab(Texture2D texture, string fullPath)
 	{
+		int pos = fullPath.LastIndexOf("/");
+		string fullDirectory = fullPath.Remove(pos + 1);
+
+
+
 		// Create and prepare your game object.
 		GameObject go = new GameObject(fullPath);
-		go.AddComponent<SpriteRenderer> ();
+		SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+
+		if(fullDirectory.Contains("Levels/Ground"))
+		{
+			sr.sprite = Sprite.Create(texture, sr.sprite.rect, new Vector2 (0.5f, 0f));
+			go.transform.position = new Vector3(0f, 720f, go.transform.position.z);
+		}
+		else
+		{
+			sr.sprite = Sprite.Create(texture, new Rect(0,0,500,500), new Vector2 (0.5f, 0.0f));
+		}
+
+		Debug.Log("HERE" + sr.sprite.bounds.center.ToString());
+
+		// Check if the object is obstacle
+		if(fullDirectory.Contains("Levels/Obstacles"))
+		{
+			go.AddComponent<PolygonCollider2D>();
+		}
+		/*
+		SpriteRenderer rr = go.GetComponent<SpriteRenderer>();
+		rr.sprite = new Sprite()
+		Debug.Log(texture.name + " " + go.GetComponent<SpriteRenderer>().sprite.name);
+*/
+
 		// Create prefab from object.
-		PrefabUtility.CreatePrefab (fullPath, go, ReplacePrefabOptions.ConnectToPrefab);
+		PrefabUtility.CreatePrefab(fullPath, go, ReplacePrefabOptions.ConnectToPrefab);
 		// or ReplacePrefabOptions.ReplaceNameBased?
+
 		//Destroy GameObject
 		GameObject.DestroyImmediate (go);
 	}
