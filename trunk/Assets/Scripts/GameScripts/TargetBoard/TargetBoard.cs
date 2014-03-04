@@ -3,9 +3,11 @@ using System.Collections;
 
 public class TargetBoard : MonoBehaviour {
 
+	private bool levelComplete;
+
 	// Use this for initialization
 	void Start () {
-	
+		levelComplete = false;
 	}
 	
 	// Update is called once per frame
@@ -27,10 +29,13 @@ public class TargetBoard : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other)
 	{
 		// We do not want to execute if it hits the walls as well! Only bullet works!
-		if(other.gameObject.CompareTag("Bullet") && GameManager.isGameWon == false)
+		if(other.gameObject.CompareTag("Bullet") && levelComplete == false)
 		{
+			levelComplete = true;
+
 			GameManager.isGameWon = true;
 			GameManager.GoToNextLevel();
+
 			#if UNITY_IPHONE || UNITY_ANDROID
 			Handheld.Vibrate();
 			#endif

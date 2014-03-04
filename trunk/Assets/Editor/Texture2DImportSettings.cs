@@ -206,11 +206,13 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		// Create and prepare your game object.
 		GameObject go = new GameObject(fullPath);
 		SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+		sr.sortingLayerName = "GameObjects";
 
 		if(fullDirectory.Contains("Levels/Ground"))
 		{
-			sr.sprite = Sprite.Create(texture, sr.sprite.rect, new Vector2 (0.5f, 0f));
-			go.transform.position = new Vector3(0f, 720f, go.transform.position.z);
+			sr.sprite = Sprite.Create(texture, new Rect(0,0,500,500), new Vector2 (0.5f, 0f));
+			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
+			go.tag = "Obstacle";
 		}
 		else
 		{
@@ -224,6 +226,13 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		{
 			go.AddComponent<PolygonCollider2D>();
 			go.tag = "Obstacle";
+		}
+
+		// Check if the object is decoration
+		if(fullDirectory.Contains("Levels/Decorations"))
+		{
+			sr.sortingLayerName = "Decorations";
+			sr.sortingOrder = -3;
 		}
 		/*
 		SpriteRenderer rr = go.GetComponent<SpriteRenderer>();

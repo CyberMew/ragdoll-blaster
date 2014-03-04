@@ -38,6 +38,13 @@ public class PauseButton : MonoBehaviour {
 
 	}
 
+	void OnApplicationPause()
+	{
+#if !UNITY_EDITOR
+		OnMouseUpAsButton();
+#endif
+	}
+
 	// OnHover
 	void OnMouseEnter()
 	{

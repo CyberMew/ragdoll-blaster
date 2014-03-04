@@ -83,7 +83,12 @@ public static class GameManager {
 		#if UNITY_IPHONE || UNITY_ANDROID
 		Handheld.StartActivityIndicator();
 		#endif
-		isGameWon = false;
+
+		// In case this is called multiple times before the next level is ready to be loaded
+		if(Application.isLoadingLevel == false)
+		{
+			isGameWon = false;
+		}
 		Application.LoadLevel(levelName);
 	}
 }
