@@ -123,9 +123,10 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			// Check if prefab already exists in destination folder
 			if(AssetDatabase.LoadAssetAtPath(fullPrefabPath, (typeof(GameObject))) as GameObject)
 			{
+				Debug.Log("Prefab already exists! " + fullPrefabPath);
 				if(EditorUtility.DisplayDialog("Override existing prefab?",
 				                            "Are you sure you want to create a new prefab? Existing prefabs instances in scene will be messed up!" +
-				                            "\n\nSelect Do not Create if you have no idea what is going on", "Create Prefab", "Do Not Create"))
+				                            "\n\nSelect Do not Create if you have no idea what is going on", "Overwrite Prefab", "Cancel Action"))
 				{
 					//CreatePrefab(dir, filename);
 					/*http://docs.unity3d.com/Documentation/ScriptReference/PrefabUtility.CreateEmptyPrefab.html
@@ -158,8 +159,8 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 				}*/
 				{
 					if(EditorUtility.DisplayDialog("Create prefab from asset",
-					                               "Do you want to create a new prefab automatically for asset?\n" +
-					                               "filename" + 
+					                               "Do you want to create a new prefab automatically for asset?\n\n" +
+					                               fullPrefabPath + 
 					                               "\n\nSelect \"Do not Create\" if you have no idea.",
 					                               "Create Prefab", "Do Not Create"))
 					{
@@ -216,7 +217,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			sr.sprite = Sprite.Create(texture, new Rect(0,0,500,500), new Vector2 (0.5f, 0.0f));
 		}
 
-		Debug.Log("HERE" + sr.sprite.bounds.center.ToString());
+//		Debug.Log("HERE" + sr.sprite.bounds.center.ToString());
 
 		// Check if the object is obstacle
 		if(fullDirectory.Contains("Levels/Obstacles"))
