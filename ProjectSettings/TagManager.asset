@@ -9,6 +9,8 @@ TagManager:
   - ObstacleHarmless
   - ObstacleDestroy
   - 
+  - Obstacle
+  - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
   Builtin Layer 2: Ignore Raycast
@@ -46,9 +48,17 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
-  - name: GameObjects
+  - name: Decorations
+    userID: 4
+    uniqueID: 4111166571
+    locked: 0
+  - name: Obstacles
     userID: 1
     uniqueID: 1194049119
+    locked: 0
+  - name: Actors
+    userID: 3
+    uniqueID: 3451248373
     locked: 0
   - name: GUI
     userID: 2
