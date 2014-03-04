@@ -43,8 +43,9 @@ public class MainMenuManager : MonoBehaviour {
 	void Update () {
 		
 	}
-	
-	public void SetButtonInput(string _childName, bool _input)
+
+	//disable/ enable specific button.
+	public void SetButton(string _childName, bool _input)
 	{
 		GameObject btn = GameObject.Find(_childName);
 
@@ -57,7 +58,9 @@ public class MainMenuManager : MonoBehaviour {
 		}
 	}
 
-	public void SetAllChildButtonsInput(bool inputs)
+
+	// set disable/enable children buttons.
+	public void ActiveButtons(bool inputs)
 	{
 		GameObject go;
 		for(int i = 0; i < gameObject.transform.childCount; ++i)
