@@ -29,14 +29,43 @@ public class MainMenuManager : MonoBehaviour {
 	/************ end of Singleton**************/
 
 
+	public GameObject m_CreditBtn  = null;
+	public GameObject m_OptionsBtn = null;
+	public GameObject m_StartBtn   = null;
+	public GameObject m_Ttile 	   = null;
 
-
-
+	private float m_TweenInTime;
 
 
 	// Use this for initialization
 	void Start () {
-		
+		m_TweenInTime = 0.5f;
+
+
+		if(m_StartBtn)
+		{
+			LeanTween.moveLocalX(m_StartBtn, 0.5f, m_TweenInTime).setEase( LeanTweenType.easeOutBounce);
+		}
+		if(m_OptionsBtn)
+		{
+			LeanTween.moveLocalX(m_OptionsBtn, 0.5f, m_TweenInTime)
+					 .setEase( LeanTweenType.easeOutBounce)
+					 .setDelay(m_TweenInTime);
+		}
+		if(m_CreditBtn)
+		{
+			LeanTween.moveLocalY(m_CreditBtn, 0.3f, m_TweenInTime)
+					 .setEase( LeanTweenType.easeOutBounce)
+					 .setDelay(m_TweenInTime*2);
+		}
+		if(m_Ttile)
+		{
+			LeanTween.moveLocalY(m_CreditBtn, 0.8f, m_TweenInTime)
+				     .setEase( LeanTweenType.easeOutBounce)
+					 .setDelay(m_TweenInTime*3);
+		}
+
+
 	}
 	
 	// Update is called once per frame

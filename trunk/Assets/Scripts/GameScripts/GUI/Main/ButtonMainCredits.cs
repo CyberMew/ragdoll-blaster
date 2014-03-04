@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
- class ButtonOptions : Button {
+ class ButtonMainCredits : Button {
 
 	// Use this for initialization
 	void Start () {
-
 
 	}
 	
@@ -14,20 +13,20 @@ using System.Collections;
 	
 	}
 
-	
+
 	internal override void ButtonAction()
 	{
-		// If pointer to the menu/etc exists, then we enable it
+		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
 		if(MenuToOpen)
 		{
 			MainMenuManager.Instance.ActiveButtons(false);
 			MenuToOpen.SetActive(true);
-			LeanTween.moveLocalY(MenuToOpen, -0.1f, 0.5f)
-					 .setEase( LeanTweenType.easeInOutExpo);
-					 
-
 		}
 	}
+
+
+
+
 
 
 }
