@@ -213,6 +213,19 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			Debug.LogError("Unable to load sprite for prefab creation!");
 			return;
 		}
+		Object obj = AssetDatabase.LoadMainAssetAtPath(fullPath);
+		if(AssetDatabase.IsMainAsset(obj))
+		{
+			Debug.Log("ismainssset");
+		}
+		if(AssetDatabase.IsSubAsset(sprite))
+		{
+			Debug.Log("IsSubAsset");
+		}
+		if(AssetDatabase.Contains(sprite))
+		{
+			Debug.Log("is an asset file");
+		}
 
 		int pos = fullPath.LastIndexOf("/");
 		string fullDirectory = fullPath.Remove(pos + 1);
@@ -254,11 +267,19 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		Debug.LogWarning("Sanity check for 'texture name' string: " + texture.name);
 		// Create and prepare your game object.
 		GameObject go = new GameObject(fullPath);
-		EditorUtility.SetDirty(go);
+		//EditorUtility.SetDirty(go);
 		SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
 		sr.sortingLayerName = "GameObjects";
-		
+
+		string omg = fullPath.Replace(".prefab", ".png");
+
 		Sprite tmpSprite = new Sprite();
+		Object obj = AssetDatabase.LoadMainAssetAtPath(omg);
+		Debug.Log("obj name:" + obj.name);
+
+		// fail
+		//Texture2D texturetemp1 = Resources.LoadAssetAtPath(omg, typeof(Texture2D)) as Texture2D;
+		//Texture2D texturetemp2 = AssetDatabase.LoadAssetAtPath(omg, typeof(Texture2D)) as Texture2D;
 
 		if(fullPath.Contains("Levels/Ground"))
 		{
@@ -272,9 +293,14 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		}
 
 		// FK UPPPPPPP HEREE HOWOWOWHWHOWOW
-		EditorUtility.SetDirty(tmpSprite);
-		sr.sprite = tmpSprite;
-		sr.sprite = Resources.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
+		//EditorUtility.SetDirty(tmpSprite);
+		//sr.sprite = tmpSprite;
+		//sr.sprite = Resources.LoadAssetAtPath(omg, typeof(Sprite)) as Sprite;
+		sr.sprite = AssetDatabase.LoadAssetAtPath(omg, typeof(Sprite)) as Sprite;
+		//Texture2D testing = AssetDatabase.LoadAssetAtPath(omg, typeof(Texture2D)) as Texture2D;
+		//sr.sprite = Sprite.Create(testing, new Rect(0,0,testing.width,testing.height), new Vector2(0.5f, 0f));
+		//sr.sprite = Sprite.Create(sr.sprite.texture, new Rect(0,0,sr.sprite.texture.width,sr.sprite.texture.height), new Vector2(0.5f, 0f));
+		Debug.Log( sr.sprite.bounds.center.normalized );
 
 		// Check if the object is obstacle
 		if(fullPath.Contains("Levels/Obstacles"))
@@ -294,16 +320,16 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		rr.sprite = new Sprite()
 		Debug.Log(texture.name + " " + go.GetComponent<SpriteRenderer>().sprite.name);
 */
-		EditorUtility.SetDirty(go);
+		//EditorUtility.SetDirty(go);
 
 		// Create prefab from object.
-		EditorUtility.SetDirty(PrefabUtility.CreatePrefab(fullPath, go, ReplacePrefabOptions.ConnectToPrefab));
+		PrefabUtility.CreatePrefab(fullPath, go, ReplacePrefabOptions.ConnectToPrefab);
 		// or ReplacePrefabOptions.ReplaceNameBased?
 
 		//Destroy GameObject
 		GameObject.DestroyImmediate (go);
 
-		AssetDatabase.Refresh();
+		//AssetDatabase.Refresh();
 	}
 
 	// http://forum.unity3d.com/threads/165295-Getting-original-size-of-texture-asset-in-pixels
