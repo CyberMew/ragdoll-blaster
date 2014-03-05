@@ -290,7 +290,7 @@ Transform:
   m_PrefabInternal: {fileID: 1837785394}
   m_GameObject: {fileID: 302814577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.25, y: 1, z: 0}
+  m_LocalPosition: {x: -.129088998, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1628594565}
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HoverSprite: {fileID: 0}
   PushedSprite: {fileID: 0}
-  MenuToOpen: {fileID: 1117501350}
+  MenuToOpen: {fileID: 0}
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
@@ -1410,17 +1410,9 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 81492b9d9a43d6b47924e8c2e389f523, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 81492b9d9a43d6b47924e8c2e389f523, type: 2}
       propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11400014, guid: 81492b9d9a43d6b47924e8c2e389f523, type: 2}
-      propertyPath: MenuToOpen
-      value: 
-      objectReference: {fileID: 1117501350}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81492b9d9a43d6b47924e8c2e389f523, type: 2}
   m_RootGameObject: {fileID: 185060963}
