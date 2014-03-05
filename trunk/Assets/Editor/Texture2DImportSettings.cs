@@ -10,12 +10,15 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 
 	void OnPreprocessTexture()
 	{
-		if(assetImporter.userData.Equals("loadedBefore"))
+		// We don't want to preprocess it again when user switch platforms
+		if(assetImporter.userData.Contains("loadedBefore"))
 		{
 			Debug.Log("Texture already processed, skipping custom processing for: " + assetPath);
 		}
 		else if(assetPath.EndsWith(".png"))
 		{
+			assetImporter.userData += "loadedBefore|";
+
 			TextureImporter textureImporter = assetImporter as TextureImporter;
 			textureImporter.spritePixelsToUnits = 72f;
 			textureImporter.filterMode = FilterMode.Point;
@@ -54,36 +57,16 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 					textureImporter.maxTextureSize = 32;
 				}
 			}
-			if(assetPath.Contains("Assets/Sprites/Game/Backgrounds/"))
+			if(assetPath.Contains("Assets/Sprites/Game/Levels/Ground/"))
 			{
-				//if(assetPath.EndsWith("ground.png"))
-				{
-					textureImporter.spritePivot = new Vector2(0.5f, 0f);
-
-					//TextureImporterSettings tis = new TextureImporterSettings();
-					//tis.spritePivot = new Vector2(0.5f, 0f);
-					//tis.
-					//textureImporter.SetTextureSettings(tis);
-
-				//	Debug.Log("Ground texture detected, changing pivot point to bottom");
-					//EditorUtility.SetDirty(assetImporter);
-					//AssetDatabase.Refresh();
-				}
+				textureImporter.spritePivot = new Vector2(0.5f, 0f);
 			}
-//			AssetDatabase.SaveAssets();
-
-			EditorUtility.SetDirty(assetImporter);
-			AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
-			/*if(System.IO.File.Exists(assetPath))
-			{
-				Debug.Log(".meta also generated before preprocess");
-			}*/
-		//	Debug.Log("Changing Texture2D import settings for: " + assetPath + ". TextureImporter name; " + textureImporter.name);
 		}		
 	}
 
-	void OnPostprocessTexture(Texture2D texture)
+	void OnPostprocessTextureDONOTCALLTHIS(Texture2D texture)
 	{
+		Debug.LogError("aerdere");
 		if(!assetImporter.userData.Equals("loadedBefore"))
 		{
 			// Totally done with custom processing
@@ -94,27 +77,8 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			EditorUtility.SetDirty(assetImporter);
 			AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 			
-			/*Debug.Log(texture.name);
-
-			string texturePath = AssetDatabase.GetAssetPath(texture);
-			Debug.Log(texturePath);
-			TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(texturePath);
-			if(textureImporter && textureImporter.isReadable)
-			{
-				//have some fun!
-				Debug.Log("Texture2d is readable!");
-			}*/
-			/*TextureImporter textureImporter = assetImporter as TextureImporter;
-			int width = texture.width, height = texture.height;	// already processed, cannot use this!
-			//GetImageSize(texture, out width, out height);
-			if(width > 1280 || height > 1280)
-			{
-				textureImporter.maxTextureSize = 2048;
-			}*/
+		
 			TextureImporter textureImporter = assetImporter as TextureImporter;
-			//Debug.Log(textureImporter.spritePivot);
-			//AssetDatabase.Refresh();
-
 			string fullPath = textureImporter.assetPath;
 
 			// Getting the full path to the asset, but just the folder path
@@ -150,25 +114,6 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			}
 			else
 			{
-				// Check if meta file already exists before
-				/*if(System.IO.File.Exists(dir + filename + ".png"))
-				{
-					Debug.Log("Old art assets detected! Skipping prefab generation. " + dir + filename + ".meta");
-					
-				}
-				else
-	*/
-				/*Debug.Log((fullPrefabDirectory));
-				if(!Directory.Exists("Assets/Prefabs/addfasd"))
-				{
-					Directory.CreateDirectory("Assets/Prefabs/addfasd");
-				}
-				CreatePrefab(fullPrefabDirectory + "addfasd/" + filename + ".prefab");*/
-				/*
-				if(!Directory.Exists("Assets/Prefabs/addfasd/aere.prefab"))
-				{
-					Directory.CreateDirectory("Assets/Prefabs/addfasd/");
-				}*/
 				{
 					if(EditorUtility.DisplayDialog("Create prefab from asset",
 					                               "Do you want to create a new prefab automatically for asset?\n\n" +
@@ -176,7 +121,6 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 					                               "\n\nSelect \"Do not Create\" if you have no idea.",
 					                               "Create Prefab", "Do Not Create"))
 					{
-						// todo: Should have create it here first then use AssetDatabase.MoveAsset
 
 						// Replace first occurance of Sprites to Prefabs
 						//string newPrefabDirectory = 
@@ -200,7 +144,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 						else
 						{
 							Debug.Log("Created prefab: " + fullPrefabPath);
-							CreatePrefab(AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D, fullPrefabPath);
+							//CreatePrefab(AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D, fullPrefabPath);
 
 //							createPrefabCB = new EditorApplication.CallbackFunction(createPrefabCB, );
 
@@ -224,11 +168,11 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 	{
 		foreach(string asset in importedAssets)
 		{
-			// we really havet o check for png here, since ANYTHING can be imported
-			Debug.Log("Imported: " + asset);
-			//CreatePrefab(AssetDatabase.LoadAssetAtPath(asset, typeof(Texture2D)) as Texture2D, asset);
+			//Debug.Log("Imported: " + asset);
+			CreatePrefab(asset);
 		}
-		
+
+		/*
 		foreach (string asset in deletedAssets)
 		{
 			Debug.Log("Deleted: " + asset);
@@ -237,43 +181,110 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		for (int i = 0; i < movedAssets.Length; i++ )
 		{
 			Debug.Log("Moved: from " + movedFromPath[i] + " to " + movedAssets[i]);
-		}
+		}*/
 	}
 
-	static void CreatePrefab(Texture2D texture, string fullPath)
+	static void CreatePrefab(string fullPath)
 	{
+		// We do not want to process non png files
+		if(!fullPath.EndsWith(".png"))
+		{
+			return;
+		}
+		// We do not want to prompt user again to create with each reimport
+		AssetImporter ai = AssetImporter.GetAtPath(fullPath);
+		if(ai.userData.Contains("prefabPrompted"))
+		{
+			// Check if user was prompted to create prefab before
+			return;
+		}
+		ai.userData += "prefabPrompted|";
+		Debug.LogWarning("Sanity check for 'prefabPrompted' string: " + AssetImporter.GetAtPath(fullPath).userData);
+
+		Texture2D texture = Resources.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D;
+		if(texture == null)
+		{
+			Debug.LogError("Unable to load texture for prefab creation!");
+			return;
+		}
+		Sprite sprite = Resources.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
+		if(sprite == null)
+		{
+			Debug.LogError("Unable to load sprite for prefab creation!");
+			return;
+		}
+
 		int pos = fullPath.LastIndexOf("/");
 		string fullDirectory = fullPath.Remove(pos + 1);
-		fullPath = fullDirectory + "adef.prefab";
+		string fileName = Path.GetFileNameWithoutExtension(fullPath);
+		string fullWithoutExtension = fullDirectory + fileName;
+
+		// Ask if they want the prefab to be created
+		if(EditorUtility.DisplayDialog("Create prefab from asset",
+		                               "Do you want to create a new prefab automatically for asset:\n\n" +
+		                               fullPath + 
+		                               "\n\nSelect \"Do not Create\" if you have no idea.",
+		                               "Create Prefab", "Do Not Create"))
+		{
+			// Create prefab at Sprites folder
+			string fullPrefabPath = fullWithoutExtension + ".prefab";
+			GeneratePrefab(texture, fullPrefabPath);
+
+			string newPrefabDirectory = fullDirectory.Replace("Assets/Sprites/", "Assets/Prefabs/");
+			string newPrefabPath = newPrefabDirectory + fileName + ".prefab";
+			if(EditorUtility.DisplayDialog("Move prefab?",
+			                               "Do you want to move the newly created prefab from\n\"" + fullPrefabPath + "\"\nto\n\"" + newPrefabPath + "\"\n?",
+			                               "Yes please", "No, leave it as it is"))
+			{
+				// Create directory if it doesn't exist yet
+				if(!Directory.Exists(newPrefabDirectory))
+				{
+					Directory.CreateDirectory(newPrefabDirectory);
+				}
+				// Shift created prefab
+				AssetDatabase.MoveAsset(fullPrefabPath, newPrefabPath);
+			}
+		}
 
 
+	}
+
+	static void GeneratePrefab(Texture2D texture, string fullPath)
+	{
+		Debug.LogWarning("Sanity check for 'texture name' string: " + texture.name);
 		// Create and prepare your game object.
 		GameObject go = new GameObject(fullPath);
+		EditorUtility.SetDirty(go);
 		SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
 		sr.sortingLayerName = "GameObjects";
+		
+		Sprite tmpSprite = new Sprite();
 
-		if(fullDirectory.Contains("Levels/Ground"))
+		if(fullPath.Contains("Levels/Ground"))
 		{
-			sr.sprite = Sprite.Create(texture, new Rect(0,0,500,500), new Vector2 (0.5f, 0f));
+			tmpSprite = Sprite.Create(texture, new Rect(0,0,texture.width,texture.height), new Vector2 (0.5f, 0f));
 			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
 			go.tag = "Obstacle";
 		}
 		else
 		{
-			sr.sprite = Sprite.Create(texture, new Rect(0,0,500,500), new Vector2 (0.5f, 0.0f));
+			tmpSprite = Sprite.Create(texture, new Rect(0,0,texture.width,texture.height), new Vector2 (0.5f, 0.0f));
 		}
 
-//		Debug.Log("HERE" + sr.sprite.bounds.center.ToString());
+		// FK UPPPPPPP HEREE HOWOWOWHWHOWOW
+		EditorUtility.SetDirty(tmpSprite);
+		sr.sprite = tmpSprite;
+		sr.sprite = Resources.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
 
 		// Check if the object is obstacle
-		if(fullDirectory.Contains("Levels/Obstacles"))
+		if(fullPath.Contains("Levels/Obstacles"))
 		{
 			go.AddComponent<PolygonCollider2D>();
 			go.tag = "Obstacle";
 		}
 
 		// Check if the object is decoration
-		if(fullDirectory.Contains("Levels/Decorations"))
+		if(fullPath.Contains("Levels/Decorations"))
 		{
 			sr.sortingLayerName = "Decorations";
 			sr.sortingOrder = -3;
@@ -283,13 +294,16 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		rr.sprite = new Sprite()
 		Debug.Log(texture.name + " " + go.GetComponent<SpriteRenderer>().sprite.name);
 */
+		EditorUtility.SetDirty(go);
 
 		// Create prefab from object.
-		PrefabUtility.CreatePrefab(fullPath, go, ReplacePrefabOptions.ConnectToPrefab);
+		EditorUtility.SetDirty(PrefabUtility.CreatePrefab(fullPath, go, ReplacePrefabOptions.ConnectToPrefab));
 		// or ReplacePrefabOptions.ReplaceNameBased?
 
 		//Destroy GameObject
 		GameObject.DestroyImmediate (go);
+
+		AssetDatabase.Refresh();
 	}
 
 	// http://forum.unity3d.com/threads/165295-Getting-original-size-of-texture-asset-in-pixels
