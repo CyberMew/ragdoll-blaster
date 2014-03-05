@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 using System.Reflection;
@@ -13,55 +13,94 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		// We don't want to preprocess it again when user switch platforms
 		if(assetImporter.userData.Contains("loadedBefore"))
 		{
-			Debug.Log("Texture already processed, skipping custom processing for: " + assetPath);
+			LogWarning("Texture already processed, skipping custom processing for: " + assetPath);
+			// I could also do something like this to prevent overriding my manual settings
+			/*Object asset = AssetDatabase.LoadAssetAtPath(importer.assetPath, typeof(Texture2D));
+			if (asset)
+			{
+				EditorUtility.SetDirty(asset);
+				return;
+			}*/
 		}
 		else if(assetPath.EndsWith(".png"))
 		{
 			assetImporter.userData += "loadedBefore|";
 
 			TextureImporter textureImporter = assetImporter as TextureImporter;
+			
+			TextureImporterSettings tis = new TextureImporterSettings();
+			textureImporter.ReadTextureSettings(tis);
+
+			// Custom settings
+			//textureImporter.spritePivot = new Vector2(1,1);
+			//TextureImporterSettings tis = new TextureImporterSettings();
+			tis.spriteMode = 1;
+			tis.spritePixelsToUnits = 72f;
+			tis.spritePivot = new Vector2(0.5f, 0.5f);
+			tis.spriteExtrude = 1;
+			//Center = 0, TopLeft = 1, TopCenter = 2, TopRight = 3, LeftCenter = 4, RightCenter = 5, BottomLeft = 6, BottomCenter = 7, BottomRight = 8, Custom = 9.
+			//tis.spriteAlignment = SpriteAlignment.BottomCenter;
+			tis.spriteAlignment = 7;
+			tis.spriteMeshType = SpriteMeshType.Tight;
+			//tis.textureFormat = TextureImporterFormat.AutomaticCompressed;
+			//tis.text
+
+/*
+
+			textureImporter.spriteImportMode = SpriteImportMode.Single;
 			textureImporter.spritePixelsToUnits = 72f;
 			textureImporter.filterMode = FilterMode.Point;
 			textureImporter.wrapMode = TextureWrapMode.Clamp;
-			textureImporter.spriteImportMode = SpriteImportMode.Single;
+		//	textureImporter.textureFormat = TextureImporterFormat.AutomaticCompressed;
+			textureImporter.textureType = TextureImporterType.Sprite;
+*/
 			int width = 0, height = 0;
 				
 			if(GetImageSize(textureImporter, out width, out height))
 			{
 				if(Mathf.Max(width, height) > 1280)
 				{
-					textureImporter.maxTextureSize = 2048;
+					tis.maxTextureSize = 2048;
 				}
 				else if(Mathf.Max(width, height) > 512)
 				{
-					textureImporter.maxTextureSize = 1024;
+					tis.maxTextureSize = 1024;
 				}
 				else if(Mathf.Max(width, height) > 256)
 				{
-					textureImporter.maxTextureSize = 512;
+					tis.maxTextureSize = 512;
 				}
 				else if(Mathf.Max(width, height) > 128)
 				{
-					textureImporter.maxTextureSize = 256;
+					tis.maxTextureSize = 256;
 				}
 				else if(Mathf.Max(width, height) > 64)
 				{
-					textureImporter.maxTextureSize = 128;
+					tis.maxTextureSize = 128;
 				}
 				else if(Mathf.Max(width, height) > 32)
 				{
-					textureImporter.maxTextureSize = 64;
+					tis.maxTextureSize = 64;
 				}
 				else
 				{
-					textureImporter.maxTextureSize = 32;
+					tis.maxTextureSize = 32;
 				}
 			}
 			if(assetPath.Contains("Assets/Sprites/Game/Levels/Ground/"))
 			{
-				textureImporter.spritePivot = new Vector2(0.5f, 0f);
+				//textureImporter.spritePivot = new Vector2(0.5f, 0f);
 			}
+			//TextureImporter haha = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+			//Debug.Log(haha.ToString());
+			textureImporter.SetTextureSettings(tis);
 		}		
+	}
+
+	void OnPostprocessTexture(Texture2D texture)
+	{
+		TextureImporter haha = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+
 	}
 
 	/// <summary>
@@ -150,8 +189,8 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		Texture2D texture = AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D;
 		if(fullPath.Contains("Levels/Ground"))
 		{
-			sr.sprite = Sprite.Create(texture, new Rect(0,0,texture.width,texture.height), new Vector2 (0.5f, 0f));
-			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
+			//sr.sprite = Sprite.Create(texture, new Rect(0,0,texture.width,texture.height), new Vector2 (0.5f, 0f));
+			//go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
 			go.tag = "Obstacle";
 			// Workaround for not being able to set the pivot point via Sprite.Create
 			go.AddComponent<SetSpritePivot>().texture = texture;
@@ -163,6 +202,9 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			//sr.sprite = Sprite.Create(testing, new Rect(0,0,testing.width,testing.height), new Vector2(0.5f, 0f));
 			//sr.sprite = Sprite.Create(sr.sprite.texture, new Rect(0,0,sr.sprite.texture.width,sr.sprite.texture.height), new Vector2(0.5f, 0f));
 		}
+
+		
+		TextureImporter textureImporter = AssetImporter.GetAtPath(fullPath) as TextureImporter;
 
 		// Check if the object is obstacle
 		if(fullPath.Contains("Levels/Obstacles"))
