@@ -32,8 +32,6 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			textureImporter.ReadTextureSettings(tis);
 
 			// Custom settings
-			//textureImporter.spritePivot = new Vector2(1,1);
-			//TextureImporterSettings tis = new TextureImporterSettings();
 			tis.spriteMode = 1;
 			tis.spritePixelsToUnits = 72f;
 			tis.spritePivot = new Vector2(0.5f, 0.5f);
@@ -41,19 +39,12 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			//Center = 0, TopLeft = 1, TopCenter = 2, TopRight = 3, LeftCenter = 4, RightCenter = 5, BottomLeft = 6, BottomCenter = 7, BottomRight = 8, Custom = 9.
 			//tis.spriteAlignment = SpriteAlignment.BottomCenter;
 			tis.spriteAlignment = 7;
-			tis.spriteMeshType = SpriteMeshType.Tight;
-			//tis.textureFormat = TextureImporterFormat.AutomaticCompressed;
-			//tis.text
-
-/*
-
-			textureImporter.spriteImportMode = SpriteImportMode.Single;
-			textureImporter.spritePixelsToUnits = 72f;
-			textureImporter.filterMode = FilterMode.Point;
-			textureImporter.wrapMode = TextureWrapMode.Clamp;
-		//	textureImporter.textureFormat = TextureImporterFormat.AutomaticCompressed;
+			//tis.spriteMeshType = SpriteMeshType.Tight;
+			tis.spriteImportMode = SpriteImportMode.Single;
+			tis.filterMode = FilterMode.Point;
+			tis.wrapMode = TextureWrapMode.Clamp;
 			textureImporter.textureType = TextureImporterType.Sprite;
-*/
+
 			int width = 0, height = 0;
 				
 			if(GetImageSize(textureImporter, out width, out height))
@@ -95,12 +86,6 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			//Debug.Log(haha.ToString());
 			textureImporter.SetTextureSettings(tis);
 		}		
-	}
-
-	void OnPostprocessTexture(Texture2D texture)
-	{
-		TextureImporter haha = AssetImporter.GetAtPath(assetPath) as TextureImporter;
-
 	}
 
 	/// <summary>
@@ -183,28 +168,20 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 	{
 		// Create and prepare your game object.
 		GameObject go = new GameObject(fullPath);
+
+		// All of them will have a SpriteRenderer
 		SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
 		sr.sortingLayerName = "GameObjects";
+		//sr.sprite = Resources.LoadAssetAtPath(omg, typeof(Sprite)) as Sprite;
+		sr.sprite = AssetDatabase.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
+		//sr.sprite = Sprite.Create(testing, new Rect(0,0,testing.width,testing.height), new Vector2(0.5f, 0f));
+		//sr.sprite = Sprite.Create(sr.sprite.texture, new Rect(0,0,sr.sprite.texture.width,sr.sprite.texture.height), new Vector2(0.5f, 0f));
 
-		Texture2D texture = AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D;
 		if(fullPath.Contains("Levels/Ground"))
 		{
-			//sr.sprite = Sprite.Create(texture, new Rect(0,0,texture.width,texture.height), new Vector2 (0.5f, 0f));
-			//go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
+			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
 			go.tag = "Obstacle";
-			// Workaround for not being able to set the pivot point via Sprite.Create
-			go.AddComponent<SetSpritePivot>().texture = texture;
 		}
-		//else
-		{
-			//sr.sprite = Resources.LoadAssetAtPath(omg, typeof(Sprite)) as Sprite;
-			sr.sprite = AssetDatabase.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
-			//sr.sprite = Sprite.Create(testing, new Rect(0,0,testing.width,testing.height), new Vector2(0.5f, 0f));
-			//sr.sprite = Sprite.Create(sr.sprite.texture, new Rect(0,0,sr.sprite.texture.width,sr.sprite.texture.height), new Vector2(0.5f, 0f));
-		}
-
-		
-		TextureImporter textureImporter = AssetImporter.GetAtPath(fullPath) as TextureImporter;
 
 		// Check if the object is obstacle
 		if(fullPath.Contains("Levels/Obstacles"))
