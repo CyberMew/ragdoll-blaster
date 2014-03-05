@@ -5,7 +5,9 @@ using System.Reflection;
 using System.IO;
 
 public class Texture2DImportSettings : AssetPostprocessor  {
-	
+
+	private static EditorApplication.CallbackFunction createPrefabCB;
+
 	void OnPreprocessTexture()
 	{
 		if(assetImporter.userData.Equals("loadedBefore"))
@@ -68,6 +70,10 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 					//AssetDatabase.Refresh();
 				}
 			}
+//			AssetDatabase.SaveAssets();
+
+			EditorUtility.SetDirty(assetImporter);
+			AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 			/*if(System.IO.File.Exists(assetPath))
 			{
 				Debug.Log(".meta also generated before preprocess");
@@ -84,6 +90,9 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			// Set userdata to loadBefore
 			assetImporter.userData = "loadedBefore";	// we check this to make sure we don't overwrite existing changes
 			
+//			AssetDatabase.SaveAssets();
+			EditorUtility.SetDirty(assetImporter);
+			AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 			
 			/*Debug.Log(texture.name);
 
@@ -119,6 +128,9 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			//string fileName = Path.GetFileNameWithoutExtension(fullPath);
 
 			string fullPrefabPath = fullPrefabDirectory + filename + ".prefab";
+//			AssetDatabase.SaveAssets();
+			EditorUtility.SetDirty(assetImporter);
+			AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 
 			// Check if prefab already exists in destination folder
 			if(AssetDatabase.LoadAssetAtPath(fullPrefabPath, (typeof(GameObject))) as GameObject)
@@ -182,25 +194,57 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 								// This will import any assets that have changed their content modification data or have been added-removed to the project folder.
 								AssetDatabase.Refresh();	// This will trigger the whole postprocess on the same asset once again - not good. But we have no choice.
 							}
-							Debug.Log("Created prefab: " + newPrefabPath);
-							CreatePrefab(texture, newPrefabPath);
+							//Debug.Log("Created prefab: " + newPrefabPath);
+							// EditorApplication.delayCall += CreatePrefab(AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D, newPrefabPath);
 						}
 						else
 						{
 							Debug.Log("Created prefab: " + fullPrefabPath);
-							CreatePrefab(texture, fullPrefabPath);
+							CreatePrefab(AssetDatabase.LoadAssetAtPath(fullPath, typeof(Texture2D)) as Texture2D, fullPrefabPath);
+
+//							createPrefabCB = new EditorApplication.CallbackFunction(createPrefabCB, );
+
+//							EditorApplication.delayCall += createPrefabCB;
 						}
+
+						AssetDatabase.Refresh();
 					}
 				}
 			}
 		}
 	}
+	/// <summary>
+	/// Handles when ANY asset is imported, deleted, or moved.  Each parameter is the full path of the asset, including filename and extension.
+	/// </summary>
+	/// <param name="importedAssets">The array of assets that were imported.</param>
+	/// <param name="deletedAssets">The array of assets that were deleted.</param>
+	/// <param name="movedAssets">The array of assets that were moved.  These are the new file paths.</param>
+	/// <param name="movedFromPath">The array of assets that were moved.  These are the old file paths.</param>
+	private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromPath)
+	{
+		foreach(string asset in importedAssets)
+		{
+			// we really havet o check for png here, since ANYTHING can be imported
+			Debug.Log("Imported: " + asset);
+			//CreatePrefab(AssetDatabase.LoadAssetAtPath(asset, typeof(Texture2D)) as Texture2D, asset);
+		}
+		
+		foreach (string asset in deletedAssets)
+		{
+			Debug.Log("Deleted: " + asset);
+		}
+		
+		for (int i = 0; i < movedAssets.Length; i++ )
+		{
+			Debug.Log("Moved: from " + movedFromPath[i] + " to " + movedAssets[i]);
+		}
+	}
 
-	void CreatePrefab(Texture2D texture, string fullPath)
+	static void CreatePrefab(Texture2D texture, string fullPath)
 	{
 		int pos = fullPath.LastIndexOf("/");
 		string fullDirectory = fullPath.Remove(pos + 1);
-
+		fullPath = fullDirectory + "adef.prefab";
 
 
 		// Create and prepare your game object.
