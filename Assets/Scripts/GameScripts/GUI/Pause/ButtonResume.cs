@@ -33,7 +33,7 @@ class ButtonResume : Button {
 		}
 		Time.timeScale = 1f;
 */
-		EnableAllPauseButtonsInputs(false);
+		EnableAllPauseButtonsInputs(false, false);
 		transform.parent.gameObject.SetActive(false);
 	}
 }

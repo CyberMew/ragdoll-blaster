@@ -105,9 +105,9 @@ abstract class Button : MonoBehaviour {
 		}
 	}
 
-	public void EnableAllPauseButtonsInputs(bool inputs)
+	public void EnableAllPauseButtonsInputs(bool inputs, bool isVisible)
 	{
-		gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(inputs);
+		gameObject.transform.parent.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(inputs, isVisible);
 	}
 
 	// Force them to implement behaviour of the button behavior when clicked

@@ -39,7 +39,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			tis.spriteExtrude = 1;
 			//Center = 0, TopLeft = 1, TopCenter = 2, TopRight = 3, LeftCenter = 4, RightCenter = 5, BottomLeft = 6, BottomCenter = 7, BottomRight = 8, Custom = 9.
 			//tis.spriteAlignment = SpriteAlignment.BottomCenter;
-			tis.spriteAlignment = 7;
+
 			//tis.spriteMeshType = SpriteMeshType.Tight;
 			tis.filterMode = FilterMode.Point;
 			tis.wrapMode = TextureWrapMode.Clamp;
@@ -81,6 +81,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			if(assetPath.Contains("Assets/Sprites/Game/Levels/Ground/"))
 			{
 				//textureImporter.spritePivot = new Vector2(0.5f, 0f);
+				tis.spriteAlignment = 7;
 			}
 			//TextureImporter haha = AssetImporter.GetAtPath(assetPath) as TextureImporter;
 			//Debug.Log(haha.ToString());
@@ -186,22 +187,27 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		sr.sprite = AssetDatabase.LoadAssetAtPath(fullPath, typeof(Sprite)) as Sprite;
 		//sr.sprite = Sprite.Create(testing, new Rect(0,0,testing.width,testing.height), new Vector2(0.5f, 0f));
 		//sr.sprite = Sprite.Create(sr.sprite.texture, new Rect(0,0,sr.sprite.texture.width,sr.sprite.texture.height), new Vector2(0.5f, 0f));
+		
+		if(fullPath.Contains("Sprites/Game/GUI"))
+		{
+			sr.sortingLayerName = "GUI";
+		}
 
-		if(fullPath.Contains("Levels/Ground"))
+		if(fullPath.Contains("Game/Levels/Ground"))
 		{
 			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
 			go.tag = "Obstacle";
 		}
 
 		// Check if the object is obstacle
-		if(fullPath.Contains("Levels/Obstacles"))
+		if(fullPath.Contains("Game/Levels/Obstacles"))
 		{
 			go.AddComponent<PolygonCollider2D>();
 			go.tag = "Obstacle";
 		}
 
 		// Check if the object is decoration
-		if(fullPath.Contains("Levels/Decorations"))
+		if(fullPath.Contains("Game/Levels/Decorations"))
 		{
 			sr.sortingLayerName = "Decorations";
 			sr.sortingOrder = -3;

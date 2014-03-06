@@ -16,7 +16,7 @@ public class PauseButtonsManager : MonoBehaviour {
 	}
 
 	// This is for direct child enable/disable
-	public void SetAllChildButtonsInput(bool inputs)
+	public void SetAllChildButtonsInput(bool inputs, bool isVisible)
 	{
 		GameObject go;
 		for(int i = 0; i < listOfAffectedButtons.Length; ++i)
@@ -25,22 +25,27 @@ public class PauseButtonsManager : MonoBehaviour {
 
 			if(go.collider2D)
 			{//todo: renable back becuase the guitext already provides thie collider crap
-				//go.collider2D.enabled = inputs;//.GetComponent<Button>().AcceptInputs(inputs);
+				go.collider2D.enabled = inputs;//.GetComponent<Button>().AcceptInputs(inputs);
 			}
 			if(go.GetComponent<SpriteRenderer>())
 			{
-				go.GetComponent<SpriteRenderer>().enabled = inputs;
+				go.GetComponent<SpriteRenderer>().enabled = isVisible;
 			}
 			// todo: remove this text bullshit
 			if(go.guiText)
 			{
-				go.guiText.enabled = inputs;
+				//go.guiText.enabled = inputs;
 			}
+		}
+		// Set myself to invisible as well
+		if(GetComponent<SpriteRenderer>())
+		{
+			GetComponent<SpriteRenderer>().enabled = isVisible;
 		}
 	}
 	void OnEnable()
 	{
-		SetAllChildButtonsInput(true);
+		SetAllChildButtonsInput(true, true);
 	}
 
 	void OnDisable()
