@@ -158,8 +158,18 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 				{
 					Directory.CreateDirectory(newPrefabDirectory);
 				}
+
+				string ret;
 				// Shift created prefab
-				AssetDatabase.MoveAsset(fullPrefabPath, newPrefabPath);
+				ret = AssetDatabase.MoveAsset(fullPrefabPath, newPrefabPath);
+				if(ret == "")
+				{
+					Debug.Log("Asset moved to " + newPrefabPath);
+				}
+				else
+				{
+					Debug.Log(ret);
+				}
 			}
 		}
 	}
