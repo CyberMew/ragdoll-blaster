@@ -5,7 +5,7 @@ public static class GameManager {
 
 	public const int width = 1280;
 	public const int height = 720;
-	public const int totalLevels = 3;
+	public static int totalLevels = 3;
 	
 	public static int currLevel;
 	public static bool isPaused;
@@ -32,6 +32,9 @@ public static class GameManager {
 		isInGame = false;
 		isGameWon = false;
 
+		// -1 for main menu scene
+		totalLevels = Application.levelCount - 1;
+
 		totalShots = 0;
 		graphicQuality = 1;
 		
@@ -50,15 +53,17 @@ public static class GameManager {
 	
 	static public void GoToNextLevel()
 	{
+		++currLevel;
+
 		if(currLevel == totalLevels)
 		{
 			//Application.LoadLevel("Credits");
-			Load("Credits");
+			//Load("Credits");
+			
+			Debug.Log ("todo: change to mainmenu credits screen");
 		}
 		else
 		{
-			++currLevel;
-		
 			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
 			QualitySettings.SetQualityLevel(graphicQuality, false);
 			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
