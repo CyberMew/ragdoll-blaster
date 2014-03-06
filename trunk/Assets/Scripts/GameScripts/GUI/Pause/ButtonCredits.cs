@@ -22,7 +22,7 @@ class ButtonCredits : Button {
 			//if(GameManager.currLevel == -1);
 			//	MainMenuManager.Instance.SetAllChildButtonsInput(false);
 			MenuToOpen.SetActive(true);
-			EnableAllPauseButtonsInputs(false);
+			EnableAllPauseButtonsInputs(false, false);
 		}
 	}
 }

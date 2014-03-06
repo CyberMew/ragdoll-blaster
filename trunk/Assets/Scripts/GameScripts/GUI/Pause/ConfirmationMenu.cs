@@ -16,6 +16,6 @@ public class ConfirmationMenu : MonoBehaviour {
 	void OnDisable()
 	{
 		// Receive message about current menu being disabled, so we are closed and have to show the pause menu buttons
-		gameObject.transform.parent.gameObject.GetComponent<ButtonConfirmation>().EnableAllPauseButtonsInputs(true);
+		gameObject.transform.parent.gameObject.GetComponent<ButtonConfirmation>().EnableAllPauseButtonsInputs(true, true);
 	}
 }

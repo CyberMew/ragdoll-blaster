@@ -20,7 +20,7 @@ class ButtonHowToPlay: Button {
 		{
 			MenuToOpen.SetActive(true);
 			
-			EnableAllPauseButtonsInputs(false);
+			EnableAllPauseButtonsInputs(false, false);
 		}
 	}
 }

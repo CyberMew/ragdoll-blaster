@@ -19,7 +19,7 @@ class ButtonConfirmation: Button {
 		if(MenuToOpen)
 		{
 			MenuToOpen.SetActive(true);
-			EnableAllPauseButtonsInputs(false);
+			EnableAllPauseButtonsInputs(false, true);
 		}
 	}
 }
