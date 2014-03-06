@@ -8,10 +8,12 @@ public class CannonFire : MonoBehaviour {
 	Queue<GameObject> bullets = new Queue<GameObject>();
 	GameObject emptyParent;
 	
-	public const float MIN_POWER = 100f;
-	public const float MAX_POWER = 300f;
+	public float MIN_POWER = 2000f;
+	public float MAX_POWER = 6000f;
 	public int maxPoolObjects = 5;
 	public float spawnRadius = 1f;
+	public float maxDistanceScaler = 800f;	// total amount of magnitude needed to hit MAX_POWER
+	private float currDistance;
 	
 	public float maxCannonAngleinDegrees = 90f;
 	public float minCannonAngleinDegrees = -20f;
@@ -47,6 +49,7 @@ public class CannonFire : MonoBehaviour {
 		StripPrefabExceptTransforms(BulletPrefab.transform);
 
 		currPowerForce = MIN_POWER;
+		currDistance = 0f;
 	}
 	
 	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
@@ -113,6 +116,7 @@ public class CannonFire : MonoBehaviour {
 			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
 
 			currPowerForce = CalculatePowerForce();
+			Debug.Log("currPowerForce:" + currPowerForce.ToString());
 		}
 
 		// Release it according to drag power
@@ -124,10 +128,8 @@ public class CannonFire : MonoBehaviour {
 			// Set is kinematic so the body parts can fling around!
 			SetMoving(oldestBullet.transform);
 			float power = currPowerForce;//CalculatePowerForce();
-			// Reset value
-			currPowerForce = MIN_POWER;
 			// Fire the bullet - in the direction from Cannon
-			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power * 20);
+			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power);
 			//Debug.Log((newRelVec * power * 20).magnitude.ToString());
 			
 			// Insert oldest bullet to the back as the freshest
@@ -135,17 +137,23 @@ public class CannonFire : MonoBehaviour {
 
 			// Reset the whole sequence
 			isFirstTriggered = false;
+			// Reset values
+			currPowerForce = MIN_POWER;
+			currDistance = 0f;
 		}	
 	}
 
 	float CalculatePowerForce()
 	{
-		// Calculate the amount of power force
-		float power = Mathf.Max(InputManager.GetCurrentDragOffset().magnitude, MIN_POWER);
-		power = Mathf.Min(MAX_POWER, power);
-		Debug.Log(power.ToString());
+		// Get a value between 0 to maxDistance (= 800)
+		currDistance = Mathf.Min(InputManager.GetCurrentDragOffset().magnitude, maxDistanceScaler);
+		// Calculate the amount of power force based on the distance travelled
+		float rawPower = MIN_POWER + (MAX_POWER - MIN_POWER) / maxDistanceScaler * currDistance;
+		//float power = Mathf.Max(rawPower, MIN_POWER);
+		//power = Mathf.Min(MAX_POWER, power);
+		Debug.Log(InputManager.GetCurrentDragOffset().magnitude.ToString());
 
-		return power;
+		return rawPower;
 	}
 	
 	// Loop through all the nest child recursively
@@ -228,7 +236,9 @@ public class CannonFire : MonoBehaviour {
 			// Draw white background
 			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY, white.width, white.height), white);
 			// Draw gradient
-			float percent = (currPowerForce - MIN_POWER) / (MAX_POWER - MIN_POWER);
+			//float percent = (currPowerForce - MIN_POWER) / (MAX_POWER - MIN_POWER);
+			float percent = currDistance / maxDistanceScaler;
+			//Debug.Log(percent.ToString() +" power:"+currPowerForce.ToString());
 			float amountOfYtoShow = gradient.height * percent;
 			float amountOfYEmptySpace = gradient.height - amountOfYtoShow;
 			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY + amountOfYEmptySpace, gradient.width, amountOfYtoShow), gradient, new Rect(0,0,1f,percent), 0,0,0,0);
