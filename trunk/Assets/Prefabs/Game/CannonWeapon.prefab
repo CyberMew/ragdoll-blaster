@@ -81,7 +81,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: .258819044, w: .965925813}
-  m_LocalPosition: {x: -8.19070721, y: -4.01216507, z: 0}
+  m_LocalPosition: {x: -8.13809395, y: -3.53865385, z: 0}
   m_LocalScale: {x: .769999981, y: .769999981, z: .769999981}
   m_Children:
   - {fileID: 400002}
@@ -125,6 +125,12 @@ MonoBehaviour:
   spawnRadius: 1
   maxCannonAngleinDegrees: 90
   minCannonAngleinDegrees: -20
+  frame: {fileID: 2800000, guid: 275ae2e62cf472542bd5ad741fea77d8, type: 3}
+  white: {fileID: 2800000, guid: 1f4a4c5fd59353542aee7dbff3442b48, type: 3}
+  arrow: {fileID: 2800000, guid: 9490bf612521e984caab3e81bde8853a, type: 3}
+  gradient: {fileID: 2800000, guid: 1ca45e6d99340dc4fabdd0b7174e3b6a, type: 3}
+  posX: 50
+  posY: 100
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

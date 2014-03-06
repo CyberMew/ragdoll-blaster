@@ -46,7 +46,7 @@ public class CannonFire : MonoBehaviour {
 		// Strip it or everything except transforms
 		StripPrefabExceptTransforms(BulletPrefab.transform);
 
-		currPowerForce = 0f;
+		currPowerForce = MIN_POWER;
 	}
 	
 	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
@@ -125,7 +125,7 @@ public class CannonFire : MonoBehaviour {
 			SetMoving(oldestBullet.transform);
 			float power = currPowerForce;//CalculatePowerForce();
 			// Reset value
-			currPowerForce = 0f;
+			currPowerForce = MIN_POWER;
 			// Fire the bullet - in the direction from Cannon
 			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power * 20);
 			//Debug.Log((newRelVec * power * 20).magnitude.ToString());
@@ -228,15 +228,15 @@ public class CannonFire : MonoBehaviour {
 			// Draw white background
 			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY, white.width, white.height), white);
 			// Draw gradient
-			float percent = currPowerForce / (MAX_POWER - MIN_POWER);
+			float percent = (currPowerForce - MIN_POWER) / (MAX_POWER - MIN_POWER);
 			float amountOfYtoShow = gradient.height * percent;
 			float amountOfYEmptySpace = gradient.height - amountOfYtoShow;
 			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY + amountOfYEmptySpace, gradient.width, amountOfYtoShow), gradient, new Rect(0,0,1f,percent), 0,0,0,0);
 			// Draw frame
 			Graphics.DrawTexture(new Rect(posX, posY, frame.width, frame.height), frame);
 			// Draw arrow to follow gradient (but staying away from the border by x pixels)
-			float spacingFromBorder = 10f;
-			Graphics.DrawTexture(new Rect(posX - offsetX - spacingFromBorder, posY + offsetY + amountOfYEmptySpace, arrow.width, arrow.height), arrow);
+			float spacingFromBorder = 30f;
+			Graphics.DrawTexture(new Rect(posX - offsetX - spacingFromBorder, posY + offsetY + amountOfYEmptySpace - (arrow.height * 0.5f), arrow.width, arrow.height), arrow);
 		}
 	}
 }
