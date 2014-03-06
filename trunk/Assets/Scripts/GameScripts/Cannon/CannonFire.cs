@@ -17,6 +17,16 @@ public class CannonFire : MonoBehaviour {
 	public float minCannonAngleinDegrees = -20f;
 
 	private Vector2 newRelVec;
+	private float currPowerForce;
+
+	// Variables for power gauge bar	
+	public Texture2D frame;
+	public Texture2D white;
+	public Texture2D arrow;
+	public Texture2D gradient;
+	//public float percent = 1.0f;	// Amount of bar to fill
+	public float posX = 50f;	// top left
+	public float posY = 100f;	// top left
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +45,8 @@ public class CannonFire : MonoBehaviour {
 
 		// Strip it or everything except transforms
 		StripPrefabExceptTransforms(BulletPrefab.transform);
+
+		currPowerForce = 0f;
 	}
 	
 	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
@@ -99,6 +111,8 @@ public class CannonFire : MonoBehaviour {
 
 			oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
 			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
+
+			currPowerForce = CalculatePowerForce();
 		}
 
 		// Release it according to drag power
@@ -109,10 +123,9 @@ public class CannonFire : MonoBehaviour {
 
 			// Set is kinematic so the body parts can fling around!
 			SetMoving(oldestBullet.transform);
-			// Set the amount of power force
-			float power = Mathf.Max(InputManager.GetCurrentDragOffset().magnitude, MIN_POWER);
-			power = Mathf.Min(MAX_POWER, power);
-			Debug.Log(power.ToString());
+			float power = currPowerForce;//CalculatePowerForce();
+			// Reset value
+			currPowerForce = 0f;
 			// Fire the bullet - in the direction from Cannon
 			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power * 20);
 			//Debug.Log((newRelVec * power * 20).magnitude.ToString());
@@ -123,6 +136,16 @@ public class CannonFire : MonoBehaviour {
 			// Reset the whole sequence
 			isFirstTriggered = false;
 		}	
+	}
+
+	float CalculatePowerForce()
+	{
+		// Calculate the amount of power force
+		float power = Mathf.Max(InputManager.GetCurrentDragOffset().magnitude, MIN_POWER);
+		power = Mathf.Min(MAX_POWER, power);
+		Debug.Log(power.ToString());
+
+		return power;
 	}
 	
 	// Loop through all the nest child recursively
@@ -190,6 +213,30 @@ public class CannonFire : MonoBehaviour {
 
 			// Repeat for all child
 			StripPrefabExceptTransforms(go.transform);
+		}
+	}
+
+	// Draw power bar gauge
+	void OnGUI()
+	{
+		if(Event.current.type.Equals(EventType.Repaint))
+		{
+			// We will be offsetting based on the frame since it is bigger (getting frame border thickness width/height here)
+			float offsetX = (frame.width - gradient.width) * 0.5f;
+			float offsetY = (frame.width - gradient.width) * 0.5f;
+
+			// Draw white background
+			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY, white.width, white.height), white);
+			// Draw gradient
+			float percent = currPowerForce / (MAX_POWER - MIN_POWER);
+			float amountOfYtoShow = gradient.height * percent;
+			float amountOfYEmptySpace = gradient.height - amountOfYtoShow;
+			Graphics.DrawTexture(new Rect(posX + offsetX, posY + offsetY + amountOfYEmptySpace, gradient.width, amountOfYtoShow), gradient, new Rect(0,0,1f,percent), 0,0,0,0);
+			// Draw frame
+			Graphics.DrawTexture(new Rect(posX, posY, frame.width, frame.height), frame);
+			// Draw arrow to follow gradient (but staying away from the border by x pixels)
+			float spacingFromBorder = 10f;
+			Graphics.DrawTexture(new Rect(posX - offsetX - spacingFromBorder, posY + offsetY + amountOfYEmptySpace, arrow.width, arrow.height), arrow);
 		}
 	}
 }
