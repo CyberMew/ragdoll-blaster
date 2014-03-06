@@ -12,9 +12,14 @@ public class TargetBoard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+#if UNITY_EDITOR
 		// todo: remove this code when done
 		if(Input.GetKeyDown(KeyCode.P))
 			Debug.Log("Graphics Level:  " + QualitySettings.GetQualityLevel());
+		// todo: remove this code when done
+		if(Input.GetKeyDown(KeyCode.N))
+			GameManager.GoToNextLevel();
+#endif
 	}
 
 	// This will not work, since if we enable Trigger, then it doesn't collide with other rigidbodies
