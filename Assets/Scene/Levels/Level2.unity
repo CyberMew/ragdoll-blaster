@@ -3109,10 +3109,10 @@ MonoBehaviour:
   spawnRadius: 1
   maxCannonAngleinDegrees: 90
   minCannonAngleinDegrees: -20
-  frame: {fileID: 0}
-  white: {fileID: 0}
-  arrow: {fileID: 0}
-  gradient: {fileID: 0}
+  frame: {fileID: 2800000, guid: 275ae2e62cf472542bd5ad741fea77d8, type: 3}
+  white: {fileID: 2800000, guid: 1f4a4c5fd59353542aee7dbff3442b48, type: 3}
+  arrow: {fileID: 2800000, guid: 9490bf612521e984caab3e81bde8853a, type: 3}
+  gradient: {fileID: 2800000, guid: 1ca45e6d99340dc4fabdd0b7174e3b6a, type: 3}
   posX: 50
   posY: 100
 --- !u!61 &1017951902
