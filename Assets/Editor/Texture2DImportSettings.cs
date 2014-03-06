@@ -32,6 +32,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			textureImporter.ReadTextureSettings(tis);
 
 			// Custom settings
+			//tis.spriteImportMode = SpriteImportMode.Single;
 			tis.spriteMode = 1;
 			tis.spritePixelsToUnits = 72f;
 			tis.spritePivot = new Vector2(0.5f, 0.5f);
@@ -40,7 +41,6 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			//tis.spriteAlignment = SpriteAlignment.BottomCenter;
 			tis.spriteAlignment = 7;
 			//tis.spriteMeshType = SpriteMeshType.Tight;
-			tis.spriteImportMode = SpriteImportMode.Single;
 			tis.filterMode = FilterMode.Point;
 			tis.wrapMode = TextureWrapMode.Clamp;
 			textureImporter.textureType = TextureImporterType.Sprite;
