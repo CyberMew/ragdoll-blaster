@@ -18,7 +18,10 @@ public class TargetBoard : MonoBehaviour {
 			Debug.Log("Graphics Level:  " + QualitySettings.GetQualityLevel());
 		// todo: remove this code when done
 		if(Input.GetKeyDown(KeyCode.N))
+		{
+			GameManager.isGameWon = true;
 			GameManager.GoToNextLevel();
+		}
 #endif
 	}
 

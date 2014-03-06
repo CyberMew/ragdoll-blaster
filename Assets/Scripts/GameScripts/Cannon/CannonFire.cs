@@ -9,7 +9,7 @@ public class CannonFire : MonoBehaviour {
 	GameObject emptyParent;
 	
 	public const float MIN_POWER = 100f;
-	public const float MAX_POWER = 250f;
+	public const float MAX_POWER = 300f;
 	public int maxPoolObjects = 5;
 	public float spawnRadius = 1f;
 	
