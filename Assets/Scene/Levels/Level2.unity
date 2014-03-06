@@ -3105,8 +3105,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 525999237}
+  MIN_POWER: 2000
+  MAX_POWER: 6000
   maxPoolObjects: 5
   spawnRadius: 1
+  maxDistanceScaler: 800
   maxCannonAngleinDegrees: 90
   minCannonAngleinDegrees: -20
   frame: {fileID: 2800000, guid: 275ae2e62cf472542bd5ad741fea77d8, type: 3}
