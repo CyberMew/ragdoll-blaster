@@ -173,6 +173,11 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 				}
 			}
 		}
+		else
+		{
+			// Log this down in console when user cancels
+			Debug.Log("Current cancelled. Asset meta userData for " + fullPath + ": " + ai.userData);
+		}
 	}
 
 	static void GeneratePrefab(string fullPath)

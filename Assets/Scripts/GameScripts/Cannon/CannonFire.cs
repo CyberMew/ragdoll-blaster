@@ -7,8 +7,9 @@ public class CannonFire : MonoBehaviour {
 	public GameObject BulletPrefab;
 	Queue<GameObject> bullets = new Queue<GameObject>();
 	GameObject emptyParent;
-
+	
 	public const float MIN_POWER = 100f;
+	public const float MAX_POWER = 250f;
 	public int maxPoolObjects = 5;
 	public float spawnRadius = 1f;
 	
@@ -103,15 +104,18 @@ public class CannonFire : MonoBehaviour {
 		// Release it according to drag power
 		if(isFirstTriggered && InputManager.GetIsInputReleased())
 		{
-Debug.Log("This should not appear");
 			// Remove oldest bullet
 			GameObject oldestBullet = bullets.Dequeue();
 
 			// Set is kinematic so the body parts can fling around!
 			SetMoving(oldestBullet.transform);
-			// Fire the bullet - in the direction from Cannon
+			// Set the amount of power force
 			float power = Mathf.Max(InputManager.GetCurrentDragOffset().magnitude, MIN_POWER);
+			power = Mathf.Min(MAX_POWER, power);
+			Debug.Log(power.ToString());
+			// Fire the bullet - in the direction from Cannon
 			oldestBullet.transform.FindChild("torso").rigidbody2D.AddForce(newRelVec * power * 20);
+			//Debug.Log((newRelVec * power * 20).magnitude.ToString());
 			
 			// Insert oldest bullet to the back as the freshest
 			bullets.Enqueue(oldestBullet);
