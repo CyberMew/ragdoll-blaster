@@ -1639,8 +1639,8 @@ Transform:
   m_PrefabInternal: {fileID: 331330673}
   m_GameObject: {fileID: 755406588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.99284101, y: 2.71269321, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3.79437685, y: 2.51423097, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 956295727}
 --- !u!1 &766262061
@@ -3102,6 +3102,12 @@ MonoBehaviour:
   spawnRadius: 1
   maxCannonAngleinDegrees: 90
   minCannonAngleinDegrees: -20
+  frame: {fileID: 0}
+  white: {fileID: 0}
+  arrow: {fileID: 0}
+  gradient: {fileID: 0}
+  posX: 50
+  posY: 100
 --- !u!61 &1017951902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3613,7 +3619,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Size: {x: .654999971, y: .654999971}
-  m_Center: {x: 0, y: 0}
+  m_Center: {x: -.0599999987, y: .0299999993}
 --- !u!114 &1323138154
 MonoBehaviour:
   m_ObjectHideFlags: 0
