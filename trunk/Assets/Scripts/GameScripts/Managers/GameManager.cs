@@ -20,11 +20,13 @@ public static class GameManager {
 	public static int graphicQuality;
 	static GameManager()
 	{
-		currLevel = -1;  //-1 point to main menu level. 
+		currLevel = 0;  //-1 point to main menu level. 
 		if(PlayerPrefs.HasKey("LastPlayedLevel"))
 		{
+			#if !UNITY_EDITOR
 			// todo: restore this back!
-			//currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+			currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+			#endif
 		}
 		isPaused = false;
 		isTutorialOn = false;
@@ -53,7 +55,10 @@ public static class GameManager {
 	
 	static public void GoToNextLevel()
 	{
-		++currLevel;
+		if(isGameWon)
+		{
+			++currLevel;
+		}
 
 		if(currLevel == totalLevels)
 		{
