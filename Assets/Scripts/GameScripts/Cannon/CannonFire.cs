@@ -140,6 +140,9 @@ public class CannonFire : MonoBehaviour {
 			// Reset values
 			currPowerForce = MIN_POWER;
 			currDistance = 0f;
+
+			// Store fire counts
+			++GameManager.tempShots;
 		}	
 	}
 
