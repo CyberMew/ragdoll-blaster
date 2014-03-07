@@ -14,6 +14,7 @@ public static class GameManager {
 	public static bool isInGame;
 
 	public static int totalShots;
+	public static int tempShots;
 
 	public static bool isGameWon;
 
@@ -21,11 +22,15 @@ public static class GameManager {
 	static GameManager()
 	{
 		currLevel = 0;  //-1 point to main menu level. 
+		totalShots = 0;
+		tempShots = 0;
+		
 		if(PlayerPrefs.HasKey("LastPlayedLevel"))
 		{
 			#if !UNITY_EDITOR
 			// todo: restore this back!
 			currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+			totalShots = PlayerPrefs.GetInt("TotalShots");
 			#endif
 		}
 		isPaused = false;
@@ -36,8 +41,6 @@ public static class GameManager {
 
 		// -1 for main menu scene
 		totalLevels = Application.levelCount - 1;
-
-		totalShots = 0;
 		graphicQuality = 1;
 		
 		Screen.autorotateToLandscapeLeft = true;
@@ -58,7 +61,12 @@ public static class GameManager {
 		if(isGameWon)
 		{
 			++currLevel;
+			
+			// Save the shots only when player has completed the level
+			totalShots += tempShots;
 		}
+		// Reset the tempshots no matter what as long as we switch levels
+		tempShots = 0;
 
 		if(currLevel == totalLevels)
 		{
@@ -72,6 +80,7 @@ public static class GameManager {
 			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
 			QualitySettings.SetQualityLevel(graphicQuality, false);
 			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
+			PlayerPrefs.SetInt("TotalShots", totalShots);
 			PlayerPrefs.Save();
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
 			Load("Level" + currLevel.ToString());
@@ -91,7 +100,7 @@ public static class GameManager {
 	static void Load(string levelName)
 	{
 		#if UNITY_IPHONE || UNITY_ANDROID
-		Handheld.StartActivityIndicator();
+		//Handheld.StartActivityIndicator();
 		#endif
 
 		// In case this is called multiple times before the next level is ready to be loaded
