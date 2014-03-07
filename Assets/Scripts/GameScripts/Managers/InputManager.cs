@@ -137,8 +137,8 @@ public static class InputManager {
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
-			Debug.Log("RAW:" + touch.rawPosition);
-			Debug.Log("NON:" + touch.position);
+			//;			Debug.Log("RAW:" + touch.rawPosition);
+	//		Debug.Log("NON:" + touch.position);
 			return touch.position;
 		}
 		return new Vector2(-1,-1);

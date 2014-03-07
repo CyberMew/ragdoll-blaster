@@ -73,6 +73,11 @@ public class CannonFire : MonoBehaviour {
 			ResetFromPrefab(oldestBullet.transform);
 //			Debug.Log("thisshouldappear2BEFORE PRESSED AFTER PAUSE MENU IS STOPPPED");
 			isFirstTriggered = true;
+
+			
+			// Reset values
+			currPowerForce = MIN_POWER;
+			currDistance = 0f;
 		}
 
 		// Rotate the sprite to face the mouse when input depressed
@@ -241,6 +246,7 @@ public class CannonFire : MonoBehaviour {
 			// Draw gradient
 			//float percent = (currPowerForce - MIN_POWER) / (MAX_POWER - MIN_POWER);
 			float percent = currDistance / maxDistanceScaler;
+			//Debug.Log(percent.ToString());
 			//Debug.Log(percent.ToString() +" power:"+currPowerForce.ToString());
 			float amountOfYtoShow = gradient.height * percent;
 			float amountOfYEmptySpace = gradient.height - amountOfYtoShow;

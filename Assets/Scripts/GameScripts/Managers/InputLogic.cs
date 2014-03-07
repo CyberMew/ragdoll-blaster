@@ -54,6 +54,7 @@ public class InputLogic : MonoBehaviour {
 				startPos = touch.position;
 				directionChosen = false;
 				Debug.Log("InputLogic - Touched begin");
+				direction = Vector2.zero;
 				break;
 				
 				// Determine direction by comparing the current touch
