@@ -77,8 +77,8 @@ PlayerSettings:
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   productGUID: 243356eed4069c44fb379a84ac860526
-  iPhoneBundleVersion: 3.0
-  AndroidBundleVersionCode: 3
+  iPhoneBundleVersion: 4.0
+  AndroidBundleVersionCode: 4
   AndroidMinSdkVersion: 17
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -107,7 +107,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   AndroidKeystoreName: C:/Users/Charles/Desktop/ragdoll-blaster/private.keystore
-  AndroidKeyaliasName: ahchao
+  AndroidKeyaliasName: 
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
   - m_BuildTarget: 
