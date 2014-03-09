@@ -30,6 +30,10 @@ public class CannonFire : MonoBehaviour {
 	public float posX = 50f;	// top left
 	public float posY = 100f;	// top left
 
+	// SmokeAnimator effect
+	public GameObject smokeObj;
+	private SmokeController smokeScript;
+
 	// Use this for initialization
 	void Start () {
 		// Create a master parent object for cannons - less mess in hierachy
@@ -50,6 +54,8 @@ public class CannonFire : MonoBehaviour {
 
 		currPowerForce = MIN_POWER;
 		currDistance = 0f;
+
+		smokeScript = smokeObj.GetComponent<SmokeController>();
 	}
 	
 	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
@@ -120,8 +126,11 @@ public class CannonFire : MonoBehaviour {
 			oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
 			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
 
+			smokeObj.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * 1.5f, newRelVec.y * 1.5f, 0f);
+			smokeObj.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
 			currPowerForce = CalculatePowerForce();
-			Debug.Log("currPowerForce:" + currPowerForce.ToString());
+//			Debug.Log("currPowerForce:" + currPowerForce.ToString());
 		}
 
 		// Release it according to drag power
@@ -148,6 +157,9 @@ public class CannonFire : MonoBehaviour {
 
 			// Store fire counts
 			++GameManager.tempShots;
+
+			// Show smoke animation
+			smokeScript.ResetAndPlay();
 		}	
 	}
 
@@ -159,7 +171,7 @@ public class CannonFire : MonoBehaviour {
 		float rawPower = MIN_POWER + (MAX_POWER - MIN_POWER) / maxDistanceScaler * currDistance;
 		//float power = Mathf.Max(rawPower, MIN_POWER);
 		//power = Mathf.Min(MAX_POWER, power);
-		Debug.Log(InputManager.GetCurrentDragOffset().magnitude.ToString());
+//		Debug.Log(InputManager.GetCurrentDragOffset().magnitude.ToString());
 
 		return rawPower;
 	}
