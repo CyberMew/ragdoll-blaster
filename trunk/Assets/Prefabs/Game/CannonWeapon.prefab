@@ -132,6 +132,7 @@ MonoBehaviour:
   gradient: {fileID: 2800000, guid: 1ca45e6d99340dc4fabdd0b7174e3b6a, type: 3}
   posX: 50
   posY: 100
+  smokeObj: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
