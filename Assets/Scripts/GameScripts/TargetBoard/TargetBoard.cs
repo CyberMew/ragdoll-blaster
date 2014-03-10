@@ -48,5 +48,16 @@ public class TargetBoard : MonoBehaviour {
 			Handheld.Vibrate();
 			#endif
 		}
+
+		if(other.gameObject.CompareTag("ObstacleDestroy"))
+		{
+			// Restart the level
+			Application.LoadLevel(Application.loadedLevel);
+			Debug.Log("Restart leveling, target destroyed");
+		}
+	}
+
+	void OnDestroy()
+	{
 	}
 }
