@@ -138,7 +138,7 @@ public class SpiderController : MonoBehaviour {
 		}
 	}
 	[ExecuteInEditMode]
-	void DrawLine()
+	static void DrawLine()
 	{
 		//todo: visually draw 2d line to indicate path
 	}

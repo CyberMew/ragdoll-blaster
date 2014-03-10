@@ -7,6 +7,7 @@ public class CannonFire : MonoBehaviour {
 	public GameObject BulletPrefab;
 	Queue<GameObject> bullets = new Queue<GameObject>();
 	GameObject emptyParent;
+//	private float prefabGravityScale;
 	
 	public float MIN_POWER = 2000f;
 	public float MAX_POWER = 6000f;
@@ -36,6 +37,9 @@ public class CannonFire : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// Disable the prefab
+		BulletPrefab.SetActive(false);
+
 		// Create a master parent object for cannons - less mess in hierachy
 		emptyParent = new GameObject("HumanCannons");
 
@@ -49,6 +53,7 @@ public class CannonFire : MonoBehaviour {
 			bullets.Enqueue(temp);
 		}
 
+//		prefabGravityScale = BulletPrefab.rigidbody2D.gravityScale;
 		// Strip it or everything except transforms
 		StripPrefabExceptTransforms(BulletPrefab.transform);
 
@@ -205,6 +210,7 @@ public class CannonFire : MonoBehaviour {
 			go.collider2D.enabled = true;
 			// Make sure it is affected by physics
 			go.rigidbody2D.isKinematic = false;
+			// Reset back gravity
 
 			// Repeat for all child
 			SetMoving(go.transform);
@@ -213,6 +219,7 @@ public class CannonFire : MonoBehaviour {
 
 	void ResetFromPrefab(Transform rootTransform)
 	{
+		BulletPrefab.SetActive(true);
 		Transform[] allChildren = rootTransform.GetComponentsInChildren<Transform>();
 		Transform[] transforms = BulletPrefab.GetComponentsInChildren<Transform>();
 		if(transforms.Length != allChildren.Length)
@@ -224,7 +231,18 @@ public class CannonFire : MonoBehaviour {
 			// Reset transforms
 			allChildren[i].position = transforms[i].position;
 			allChildren[i].rotation = transforms[i].rotation;
+			// Reset Tags (by Lava)
+			allChildren[i].tag = "Bullet";
+			// Reset gravity scale
+//			allChildren[i].rigidbody2D.gravityScale = prefabGravityScale;
+			if(allChildren[i].rigidbody2D && transforms[i].rigidbody2D)
+			{
+				//allChildren[i].rigidbody2D.mass = transforms[i].rigidbody2D.mass;
+				allChildren[i].rigidbody2D.gravityScale = transforms[i].rigidbody2D.gravityScale;
+				//Debug.Log(transforms[i].rigidbody2D.gravityScale.ToString());
+			}
 		}
+		BulletPrefab.SetActive(false);
 	}
 
 	void StripPrefabExceptTransforms(Transform rootTransform)
@@ -235,7 +253,7 @@ public class CannonFire : MonoBehaviour {
 			go = rootTransform.GetChild(i).gameObject;
 			// Strip and remove unnecessary components (might show up in game, affect physics etc)
 			Destroy(go.GetComponent<HingeJoint2D>());
-			Destroy(go.rigidbody2D);
+			//Destroy(go.rigidbody2D); // We still need the gravity scale for reset
 			Destroy(go.collider2D);
 			Destroy(go.GetComponent<SpriteRenderer>());
 
