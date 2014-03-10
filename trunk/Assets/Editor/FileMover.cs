@@ -171,12 +171,12 @@ public class FileMover : MonoBehaviour {
 	}
 	
 	
-	[MenuItem("Assets/Custom Move/To Corresponding Scripts Folder", false, 100)]
-	static void CustomMoveAssetToPrefab ()
+	[MenuItem("Assets/Custom Move/To Corresponding Scripts Folder", false, 101)]
+	static void CustomMoveAssetToScript ()
 	{
 		// Assumes verified beforehand
 		string dstPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-		string newPrefabPath = dstPath.Replace("Assets/Sprites/", "Assets/Scripts/");
+		string newPrefabPath = dstPath.Replace("Assets/Sprites/Game/Levels", "Assets/Scripts/GameScripts");
 		string newPrefabDirectory = System.IO.Path.GetDirectoryName(newPrefabPath);
 		/*
 		string fileExt = System.IO.Path.GetExtension(dstPath);
@@ -202,7 +202,7 @@ public class FileMover : MonoBehaviour {
 	}
 	
 	[MenuItem("Assets/Custom Move/To Corresponding Scripts Folder", true)]
-	static bool CustomMoveAssetToPrefabValidate ()
+	static bool CustomMoveAssetToScriptValidate ()
 	{
 		// Make sure it is selected first
 		if(Selection.activeObject == null)
@@ -210,7 +210,7 @@ public class FileMover : MonoBehaviour {
 		
 		string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 		//Debug.Log(path);
-		if(path.Contains("Assets/Scripts/") == false)
+		if(path.Contains("Assets/Sprites/") == false)
 			return false;
 		
 		// Only custom move for .prefab files
