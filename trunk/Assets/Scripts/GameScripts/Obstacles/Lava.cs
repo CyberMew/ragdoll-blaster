@@ -5,6 +5,8 @@ public class Lava : MonoBehaviour {
 
 	private bool isTriggered;
 
+	public GameObject fireSmokeObj;
+
 	// Use this for initialization
 	void Start () {
 		isTriggered = false;
@@ -24,13 +26,23 @@ public class Lava : MonoBehaviour {
 
 			if(other.CompareTag("Bullet"))
 			{
-				SetLowerGravity(other.transform.root.GetChild(0));
 				// Only affect the body parts in Lava!
 				other.tag = "Untagged";	// We don't want Bullet to collide with target in Lava by accident
+				// Create firesmoke
+				fireSmokeObj.SetActive(true);
+				Instantiate(fireSmokeObj, other.gameObject.transform.position, Quaternion.identity);
+				fireSmokeObj.SetActive(false);
+
+				SetLowerGravity(other.transform.root.GetChild(0));
 			}
 
 			if(other.CompareTag("Target"))
 			{
+				// Create firesmoke
+				fireSmokeObj.SetActive(true);
+				Instantiate(fireSmokeObj, other.gameObject.transform.position, Quaternion.identity);
+				fireSmokeObj.SetActive(false);
+
 				// Remove forces and let it sink down slowly
 				other.rigidbody2D.velocity = Vector2.zero;
 				other.rigidbody2D.angularVelocity = 0f;
