@@ -1838,7 +1838,6 @@ GameObject:
   - 212: {fileID: 814843324}
   - 95: {fileID: 814843323}
   - 114: {fileID: 814843322}
-  - 111: {fileID: 814843321}
   m_Layer: 0
   m_Name: Smoke45Frames_45
   m_TagString: Untagged
@@ -1846,22 +1845,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!111 &814843321
-Animation:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11100000, guid: d14cca65225ac154796569b81e39899f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1752759489}
-  m_GameObject: {fileID: 814843320}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 647c743af1afe474ba36512551e627c0, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 647c743af1afe474ba36512551e627c0, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &814843322
 MonoBehaviour:
   m_ObjectHideFlags: 0
