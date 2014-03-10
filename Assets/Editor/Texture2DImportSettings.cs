@@ -202,6 +202,9 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		{
 			go.transform.position = new Vector3(0f, -5f, go.transform.position.z);
 			go.tag = "Obstacle";
+			go.layer = LayerMask.NameToLayer("Obstacle");
+			go.AddComponent<PolygonCollider2D>();
+			sr.sortingLayerName = "GUI";
 		}
 
 		// Check if the object is obstacle
@@ -209,6 +212,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 		{
 			go.AddComponent<PolygonCollider2D>();
 			go.tag = "Obstacle";
+			go.layer = LayerMask.NameToLayer("Obstacle");
 		}
 
 		// Check if the object is decoration

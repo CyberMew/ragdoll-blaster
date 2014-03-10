@@ -19,7 +19,7 @@ class CloseMenuButton : Button {
 		// Due to Unity bug(?) I have to workaround the problem manually
 		if(InputManager.GetIsInputDown() && collider2D.OverlapPoint(Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace())))
 		{
-			ButtonAction();
+		//	ButtonAction();
 		}
 	}
 	
