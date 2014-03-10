@@ -21,8 +21,13 @@ public class SpiderController : MonoBehaviour {
 
 	private float totalDistanceTravelled;
 
+	public bool ActivateOnHit = false;
+	private bool isHit;
+
 	// Use this for initialization
 	void Start () {
+		isHit = false;
+
 		animator = GetComponent<Animator>();
 		//animator.StartPlayback();
 
@@ -57,6 +62,11 @@ public class SpiderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(ActivateOnHit && isHit == false)
+		{
+			return;
+		}
+
 		// Idling
 		if(isWalking == false)
 		{
@@ -109,10 +119,27 @@ public class SpiderController : MonoBehaviour {
 		{
 		}
 	}
-
+		
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		// We do not want to execute if it hits the walls as well! Only bullet works!
+		if(ActivateOnHit && isHit == false && other.gameObject.CompareTag("Bullet"))
+		{
+			isHit = true;
+		}
+	}
+	
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		// We do not want to execute if it hits the walls as well! Only bullet works!
+		if(ActivateOnHit && isHit == false && other.CompareTag("Bullet"))
+		{
+			isHit = true;
+		}
+	}
 	[ExecuteInEditMode]
 	void DrawLine()
 	{
-
+		//todo: visually draw 2d line to indicate path
 	}
 }

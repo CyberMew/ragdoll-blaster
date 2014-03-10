@@ -9,12 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 95: {fileID: 9500000}
-  - 114: {fileID: 11400000}
-  - 61: {fileID: 6100000}
-  - 50: {fileID: 5000000}
+  - 60: {fileID: 6000000}
   m_Layer: 11
-  m_Name: Spider
+  m_Name: lv4
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,67 +24,32 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.92184877, y: -3.68981457, z: 0}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!50 &5000000
-Rigidbody2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 1
-  m_FixedAngle: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
---- !u!61 &6100000
-BoxCollider2D:
+--- !u!60 &6000000
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: de2a76956eb689246942b969554c773b, type: 2}
   m_IsTrigger: 0
-  m_Size: {x: .986111104, y: .625}
-  m_Center: {x: 0, y: 0}
---- !u!95 &9500000
-Animator:
-  serializedVersion: 2
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 05c5f2995ac0c0b48b5ec8eab8a77989, type: 2}
-  m_CullingMode: 0
-  m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
-  m_HasTransformHierarchy: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add2a0ee621c6584caac82c92d613f35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startTowardsLeft: 1
-  startIdle: 1
-  walkSpeed: 50
-  distanceToTravel: 200
-  idleTime: 1
-  ActivateOnHit: 1
+  m_Poly:
+    m_Paths:
+    - - {x: 8.24171257, y: 4.85495329}
+      - {x: 6.29974794, y: 4.83863974}
+      - {x: 3.42008281, y: 1.92802072}
+      - {x: .497826993, y: 1.93571162}
+      - {x: -1.43857169, y: 3.87079954}
+      - {x: -4.40360212, y: 3.87794709}
+      - {x: -7.30247259, y: .966516972}
+      - {x: -9.23611164, y: .994035721}
+      - {x: -9.23611164, y: 0}
+      - {x: 9.23611164, y: 0}
+      - {x: 9.23611164, y: 5.83333349}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -106,10 +68,10 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_SortingLayerID: 1194049119
-  m_Sprite: {fileID: 21300000, guid: ec8df3336eb11bf418461168a4c949a1, type: 3}
+  m_SortingLayerID: 2296738421
+  m_Sprite: {fileID: 21300000, guid: e51f38889ecefbc479302007013c0100, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
