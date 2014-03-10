@@ -24,23 +24,31 @@ public class SpiderController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
-		animator.StartPlayback();
+		//animator.StartPlayback();
 
-//		animator.SetBool("IsIdle", startIdle);
+		animator.SetBool("IsIdle", startIdle);
 
 		isWalking = !startIdle;
+		if(startIdle)
+		{
+			animator.Play("SpiderIdle", -1, 1f);
+		}
+		else
+		{
+			animator.Play("SpiderWalk", -1, 1f);
+		}
 
 		startPoint = transform.position;
-		endPoint = new Vector3(transform.position.x + distanceToTravel / 72f, transform.position.y, transform.position.z);
+		endPoint = new Vector3(transform.position.x + (startTowardsLeft ? -distanceToTravel: distanceToTravel) / 72f, transform.position.y, transform.position.z);
 
 		totalDistanceTravelled = 0f;
 
 		if(startTowardsLeft)
 		{
 			transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-			//Vector3 tmp = endPoint;
-			//endPoint = startPoint;
-			//startPoint = tmp;
+			Vector3 tmp = endPoint;
+			endPoint = startPoint;
+			startPoint = tmp;
 			startTowardsLeft = !startTowardsLeft;
 		}
 		Debug.Log(startPoint.ToString() + " " + endPoint.ToString());
@@ -49,15 +57,6 @@ public class SpiderController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		if(Input.GetKeyDown(KeyCode.A))
-		{
-			animator.SetBool("IsIdle", true);
-		}
-		if(Input.GetKeyDown(KeyCode.S))
-		{
-			animator.SetBool("IsIdle", false);
-		}
 		// Idling
 		if(isWalking == false)
 		{
@@ -67,7 +66,7 @@ public class SpiderController : MonoBehaviour {
 			if(idleCounter > idleTime)
 			{
 				startIdle = false;
-	//			animator.SetBool("IsIdle", startIdle);
+				animator.SetBool("IsIdle", startIdle);
 				// Reset distance counter
 				totalDistanceTravelled = 0f;
 
@@ -83,6 +82,8 @@ public class SpiderController : MonoBehaviour {
 				transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 				// Flip current moving direction too
 				startTowardsLeft = !startTowardsLeft;
+
+			//	animator.Play("SpiderWalk", -1, 1f);
 			}
 		}
 		else // Walking
@@ -93,8 +94,8 @@ public class SpiderController : MonoBehaviour {
 			{
 				isWalking = false;
 				startIdle = true;
-	//			animator.SetBool("IsIdle", startIdle);
-				animator.StartPlayback();
+				animator.SetBool("IsIdle", startIdle);
+		//		animator.StartPlayback();
 				// Make sure the ending is precise
 				totalDistanceTravelled = totalDistanceTravelled < 0 ? -distanceToTravel: distanceToTravel;
 				//Debug.Log(startPoint.ToString() + " " + endPoint.ToString());
