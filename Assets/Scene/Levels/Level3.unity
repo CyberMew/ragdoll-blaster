@@ -163,11 +163,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.09603882
+      value: 6.70043755
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.36165977
+      value: 4.34678745
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: m_LocalPosition.z
@@ -356,11 +356,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 987c0746ce68789458160a989efdc55d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7.03549862
+      value: 8.21218109
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 987c0746ce68789458160a989efdc55d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.27083921
+      value: 3.18874454
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 987c0746ce68789458160a989efdc55d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -634,7 +634,7 @@ Transform:
   m_PrefabInternal: {fileID: 115159534}
   m_GameObject: {fileID: 286087652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.09603882, y: 3.36165977, z: 0}
+  m_LocalPosition: {x: 6.70043755, y: 4.34678745, z: 0}
   m_LocalScale: {x: .0759999976, y: .0759999976, z: .0759999976}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2113,11 +2113,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 525999237}
-  MIN_POWER: 2000
+  MIN_POWER: 3000
   MAX_POWER: 6000
-  maxPoolObjects: 5
+  maxPoolObjects: 1
   spawnRadius: 1
-  maxDistanceScaler: 600
+  maxDistanceScaler: 400
   maxCannonAngleinDegrees: 90
   minCannonAngleinDegrees: -20
   frame: {fileID: 2800000, guid: 275ae2e62cf472542bd5ad741fea77d8, type: 3}
@@ -2474,7 +2474,7 @@ AudioSource:
   m_GameObject: {fileID: 1139258073}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: c8f0d3a5b06b0e04d8b932bff6856ae7, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c56ca1406306155428b7951606f6180d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: .200000003
   m_Pitch: 1
@@ -3757,7 +3757,7 @@ Transform:
   m_PrefabInternal: {fileID: 246465411}
   m_GameObject: {fileID: 1860751576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.03549862, y: 3.27083921, z: 0}
+  m_LocalPosition: {x: 8.21218109, y: 3.18874454, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
