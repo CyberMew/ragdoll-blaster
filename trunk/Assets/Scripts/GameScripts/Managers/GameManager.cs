@@ -56,7 +56,7 @@ public static class GameManager {
 		#endif
 	}
 	
-	static public void GoToNextLevel()
+	static public void GoToNextLevel(string nextLevelOverride = "")
 	{
 		if(isGameWon)
 		{
@@ -83,9 +83,48 @@ public static class GameManager {
 			PlayerPrefs.SetInt("TotalShots", totalShots);
 			PlayerPrefs.Save();
 			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
-			Load("Level" + currLevel.ToString());
+			if(nextLevelOverride.Length == 0)
+			{
+				Load("Level" + currLevel.ToString());
+			}
+			else
+			{
+				Load(nextLevelOverride);
+			}
 		}
 	}
+
+	/*
+	static public void OverWriteGoToNextLevel(string sceneName)
+	{
+		if(isGameWon)
+		{
+			++currLevel;
+			
+			// Save the shots only when player has completed the level
+			totalShots += tempShots;
+		}
+		// Reset the tempshots no matter what as long as we switch levels
+		tempShots = 0;
+		
+		if(currLevel == totalLevels)
+		{
+			//Application.LoadLevel("Credits");
+			//Load("Credits");
+			
+			Debug.Log ("todo: change to mainmenu credits screen");
+		}
+		else
+		{
+			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
+			QualitySettings.SetQualityLevel(graphicQuality, false);
+			PlayerPrefs.SetInt("LastPlayedLevel", currLevel);
+			PlayerPrefs.SetInt("TotalShots", totalShots);
+			PlayerPrefs.Save();
+			Debug.Log("Loading next level: " + "Level" + currLevel.ToString());
+			Load(sceneName);
+		}
+	}*/
 
 	static public void LoadLevel(string levelname)
 	{
