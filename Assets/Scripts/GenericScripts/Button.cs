@@ -13,6 +13,10 @@ abstract class Button : MonoBehaviour {
 	public AudioClip click;
 	public AudioClip release;
 
+	private Color m_DefaultColor;
+
+	public Color HoverColor = new Color(1f,1f,1f,1f);
+
 	protected bool isClickedBefore = false;
 	//protected bool acceptInputs = false;
 
@@ -20,6 +24,7 @@ abstract class Button : MonoBehaviour {
 
 	void Awake()
 	{
+		m_DefaultColor = new Color(1f,1f,1f,1f);
 		audioPlayer = Camera.main.audio;
 		if(hover == null)
 		{
@@ -57,16 +62,19 @@ abstract class Button : MonoBehaviour {
 	// OnHover
 	void OnMouseEnter()
 	{
+
+		GetComponent<SpriteRenderer>().color = HoverColor;
 		//if(acceptInputs)
-		{
+		//{
 			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
-		}
+		//}
 		audioPlayer.PlayOneShot(hover);
 	}	
 	
 	// OnLeaving
 	void OnMouseExit()
 	{
+		GetComponent<SpriteRenderer>().color = m_DefaultColor;
 		//if(acceptInputs)
 		{
 			//GetComponent<SpriteRenderer>().sprite = DefaultSprite;
