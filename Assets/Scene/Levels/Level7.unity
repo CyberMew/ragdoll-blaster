@@ -205,6 +205,14 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 38
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
+      propertyPath: OverWriteNextLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
+      propertyPath: NextSceneNameToLoad
+      value: Level8a
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
   m_RootGameObject: {fileID: 286087652}
@@ -540,6 +548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47d862805d93eb4eafc97c2af3d8cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverWriteNextLevel: 1
+  NextSceneNameToLoad: Level8a
 --- !u!50 &286087654
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -3958,6 +3968,14 @@ Prefab:
       propertyPath: m_Name
       value: TargetBoardTOP
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
+      propertyPath: NextSceneNameToLoad
+      value: Level8b
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
+      propertyPath: OverWriteNextLevel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
   m_RootGameObject: {fileID: 2128498754}
@@ -4315,6 +4333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47d862805d93eb4eafc97c2af3d8cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverWriteNextLevel: 1
+  NextSceneNameToLoad: Level8b
 --- !u!50 &2128498756
 Rigidbody2D:
   m_ObjectHideFlags: 0

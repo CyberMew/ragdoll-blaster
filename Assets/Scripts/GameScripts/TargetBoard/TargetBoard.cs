@@ -4,6 +4,9 @@ using System.Collections;
 public class TargetBoard : MonoBehaviour {
 
 	private bool levelComplete;
+	
+	public bool OverWriteNextLevel = false;
+	public string NextSceneNameToLoad = "";
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +45,15 @@ public class TargetBoard : MonoBehaviour {
 			levelComplete = true;
 
 			GameManager.isGameWon = true;
-			GameManager.GoToNextLevel();
+			if(OverWriteNextLevel == false)
+			{
+				GameManager.GoToNextLevel();
+			}
+			else
+			{
+				//GameManager.OverWriteGoToNextLevel(sceneName);
+				GameManager.GoToNextLevel(NextSceneNameToLoad);
+			}
 
 			#if UNITY_IPHONE || UNITY_ANDROID
 			Handheld.Vibrate();
