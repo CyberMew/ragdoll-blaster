@@ -98,8 +98,8 @@ public class CannonFire : MonoBehaviour {
 			// Convert screen space to world space
 			Vector2 mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
 			// Set the cannon barrel as origin
-			mouseWorldPt.x += Mathf.Abs(gameObject.transform.position.x);	// hardcoded because we know gameobject in negative region
-			mouseWorldPt.y += Mathf.Abs(gameObject.transform.position.y);	// hardcoded because we know gameobject in negative region
+			mouseWorldPt.x -= gameObject.transform.position.x;	// hardcoded because we know gameobject in negative region
+			mouseWorldPt.y -= gameObject.transform.position.y;	// hardcoded because we know gameobject in negative region
 			// Determine the angle of the line.
 			float rawAngle = Mathf.Atan2(mouseWorldPt.y, mouseWorldPt.x) * Mathf.Rad2Deg;
 			// Restraint the MAX angle of the cannon angle
