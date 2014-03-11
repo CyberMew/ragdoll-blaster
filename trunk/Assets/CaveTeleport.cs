@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
 public class CaveTeleport : MonoBehaviour {
@@ -19,7 +20,26 @@ public class CaveTeleport : MonoBehaviour {
 	{
 		if(other.CompareTag("Bullet"))
 		{
-			other.transform.position = caveOut.transform.position;
+			Debug.Log("Bullet Triggered Cave: " + other.name);
+			Transform parent = GetParentRoot(other.transform);
+			parent.position = caveOut.transform.position;
+			//other.transform.root.position = caveOut.transform.position;
 		}
+	}
+
+	Transform GetParentRoot(Transform transform)
+	{
+		// Exit if we reach the topmost root
+		if(transform == transform.root)
+		{
+			return transform;
+		}
+		//if(transform.name.Contains("HumanCannonballPrefab"))
+		if(transform.name.Contains("torso"))
+		{
+			Debug.Log("Found parent's child!");
+			return transform;
+		}
+		return GetParentRoot(transform.parent);
 	}
 }
