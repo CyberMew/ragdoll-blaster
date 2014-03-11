@@ -195,7 +195,7 @@ EllipsoidParticleEmitter:
   rndRotation: 0
   Simulate in Worldspace?: 1
   m_OneShot: 0
-  m_Ellipsoid: {x: 1, y: 1, z: 1}
+  m_Ellipsoid: {x: 1, y: 1, z: 0}
   m_MinEmitterRange: 0
 --- !u!1002 &1500003
 EditorExtensionImpl:
@@ -225,7 +225,7 @@ EllipsoidParticleEmitter:
   rndRotation: 0
   Simulate in Worldspace?: 1
   m_OneShot: 0
-  m_Ellipsoid: {x: 1, y: 1, z: 1}
+  m_Ellipsoid: {x: 1, y: 1, z: 0}
   m_MinEmitterRange: 0
 --- !u!1002 &1500005
 EditorExtensionImpl:
