@@ -11,6 +11,8 @@ using System.Collections;
 	
 	// Update is called once per frame
 	void Update () {
+
+
 	
 	}
 
@@ -20,13 +22,19 @@ using System.Collections;
 		// If pointer to the menu/etc exists, then we enable it
 		if(MenuToOpen)
 		{
-			MainMenuManager.Instance.ActiveButtons(false);
-			MenuToOpen.SetActive(true);
-			LeanTween.moveLocalY(MenuToOpen, -0.1f, 0.5f)
-					 .setEase( LeanTweenType.easeInOutExpo);
-					 
+			//MainMenuManager.Instance.MM_STATES = MainMenuManager.MainMenuState.Options;
+			SetOptionsWindow();	 
 
 		}
+	}
+
+	public void SetOptionsWindow()
+	{
+		MainMenuManager.Instance.ActiveButtons(false);
+		MenuToOpen.SetActive(true);
+		LeanTween.moveLocalY(MenuToOpen, 1f, 0.5f)
+			.setEase( LeanTweenType.easeInOutExpo);
+
 	}
 
 

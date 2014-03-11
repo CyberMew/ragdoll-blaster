@@ -19,6 +19,7 @@ class OptionBack : Button {
 		
 		if(opWindow)
 		{
+			//MainMenuManager.Instance.MM_STATES = MainMenuManager.MainMenuState.GoBack;
 
 			LeanTween.moveLocalY(opWindow, 1f, 0.5f)
 				.setEase( LeanTweenType.easeInOutExpo);
@@ -31,9 +32,10 @@ class OptionBack : Button {
 
 	}
 
-	private void ShowMainMenu()
+	public void ShowMainMenu()
 	{
-		opWindow.SetActive(false);
+		if(opWindow)
+			opWindow.SetActive(false);
 		MainMenuManager.Instance.ActiveButtons(true);
 	}
 
