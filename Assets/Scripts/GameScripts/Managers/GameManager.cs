@@ -29,8 +29,8 @@ public static class GameManager {
 		{
 			#if !UNITY_EDITOR
 			// todo: restore this back!
-			currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
-			totalShots = PlayerPrefs.GetInt("TotalShots");
+		//	currLevel = PlayerPrefs.GetInt("LastPlayedLevel");
+		//	totalShots = PlayerPrefs.GetInt("TotalShots");
 			#endif
 		}
 		isPaused = false;
