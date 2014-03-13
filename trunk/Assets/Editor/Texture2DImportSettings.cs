@@ -22,7 +22,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 				return;
 			}*/
 		}
-		else if(assetPath.EndsWith(".png"))
+		else if(assetPath.EndsWith(".png") && assetPath.Contains("Assets/Sprites"))
 		{
 			assetImporter.userData += "loadedBefore|";
 
@@ -119,7 +119,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 	static void CreatePrefab(string fullPath)
 	{
 		// We do not want to process non png files
-		if(!fullPath.EndsWith(".png"))
+		if(!fullPath.EndsWith(".png") || fullPath.Contains("Assets/Sprites") == false)
 		{
 			return;
 		}

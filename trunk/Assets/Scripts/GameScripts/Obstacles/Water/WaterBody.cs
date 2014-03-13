@@ -180,6 +180,9 @@ public class WaterBody : MonoBehaviour {
 		}
 
 		MeshRenderer mr;
+		float leftUV = 0f, rightUV = 0f;
+		float incrementUV = EdgeWidth / WaterBodyWidth;
+		rightUV += incrementUV;
 		////////////////////////
 		/// WaterLine is done, now let's construct water body based on the water line
 		/// 
@@ -196,13 +199,12 @@ public class WaterBody : MonoBehaviour {
 			Vertices[3] = new Vector3(xpositions[i+1], bottomYPos, z);
 			// Assign UVs
 			Vector2[] UVs = new Vector2[4];
-			UVs[0] = new Vector2(0, 1);
-			float uvX = (xpositions[i + 1] - leftXPos)/ WaterBodyWidth;
-			//UVs[1] = new Vector2(1, 1);
-			UVs[1] = new Vector2(uvX, 1);
-			UVs[2] = new Vector2(0, 0);
-			//UVs[3] = new Vector2(1, 0);
-			UVs[3] = new Vector2(uvX, 0);
+			UVs[0] = new Vector2(leftUV, 1);
+			UVs[1] = new Vector2(rightUV, 1);
+			UVs[2] = new Vector2(leftUV, 0);
+			UVs[3] = new Vector2(rightUV, 0);
+			rightUV += incrementUV;
+			leftUV += incrementUV;
 			// Assign triangles
 			int[] tris = new int[6] { 0, 1, 3, 3, 2, 0 };
 
