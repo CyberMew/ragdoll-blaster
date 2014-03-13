@@ -205,6 +205,7 @@ public class Texture2DImportSettings : AssetPostprocessor  {
 			go.layer = LayerMask.NameToLayer("Obstacle");
 			go.AddComponent<PolygonCollider2D>();
 			sr.sortingLayerName = "GUI";
+			sr.sortingOrder = -2;
 		}
 
 		// Check if the object is obstacle

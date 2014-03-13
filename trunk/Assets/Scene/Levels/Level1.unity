@@ -508,6 +508,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &281862444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -575,6 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f47d862805d93eb4eafc97c2af3d8cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverWriteNextLevel: 0
+  NextSceneNameToLoad: 
 --- !u!50 &286087654
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -677,6 +680,10 @@ Prefab:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: de2a76956eb689246942b969554c773b, type: 2}
+    - target: {fileID: 21200000, guid: 0bc9a60dd532df4449794cdee6c8c5c0, type: 2}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0bc9a60dd532df4449794cdee6c8c5c0, type: 2}
   m_RootGameObject: {fileID: 1428507030}
@@ -831,6 +838,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &323593166
 SpriteRenderer:
@@ -956,6 +964,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &375754839
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1535,6 +1544,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &714154785
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1607,6 +1617,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &755406590
 SpriteRenderer:
@@ -1872,6 +1883,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &859435766
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2226,6 +2238,7 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &1098708605
 SpriteRenderer:
@@ -3082,7 +3095,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_SortingLayerID: 2296738421
   m_Sprite: {fileID: 21300000, guid: a5d29b2eb11fee941919efdc4a2205f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3407,6 +3420,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &1650439110
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3490,6 +3504,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
+  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &1736932324
 BoxCollider2D:
   m_ObjectHideFlags: 0
