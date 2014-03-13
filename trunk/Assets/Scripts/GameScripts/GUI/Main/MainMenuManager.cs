@@ -35,11 +35,13 @@ public class MainMenuManager : MonoBehaviour {
 	public GameObject m_Ttile 	   = null;
 
 	private float m_TweenInTime;
-
+	private Vector3 m_InitalPos; 
 
 	public enum MainMenuState
 	{
 		Idle,
+		ShowMenu,
+		Start,
 		GoBack,
 		Options,
 		Credites,
@@ -47,98 +49,50 @@ public class MainMenuManager : MonoBehaviour {
 
 	}
 	private MainMenuState m_MMState = MainMenuState.Idle;
-	public MainMenuState MM_STATES
+	public void SetMainMenuState(MainMenuState _s)
 	{
-		get{ return m_MMState;}
-		set{ m_MMState = value;}
+		m_MMState = _s;
 	}
 
 	// Use this for initialization
 	void Start () {
-		m_MMState = MainMenuState.Idle;
 
-
-		m_TweenInTime = 0.3f;
-
-		if(m_StartBtn && m_OptionsBtn && m_CreditBtn)
-		{
-			LeanTween.moveLocalY(this.gameObject, -1.2f, m_TweenInTime)
-									 .setEase( LeanTweenType.easeOutQuad)
-									 .setDelay(m_TweenInTime);
-		}
-
-//		if(m_StartBtn)
-//		{
-//			LeanTween.moveLocalX(m_StartBtn, 0.5f, m_TweenInTime).setEase( LeanTweenType.easeOutBounce);
-//		}
-//		if(m_OptionsBtn)
-//		{
-//			LeanTween.moveLocalX(m_OptionsBtn, 0.5f, m_TweenInTime)
-//					 .setEase( LeanTweenType.easeOutBounce)
-//					 .setDelay(m_TweenInTime);
-//		}
-//		if(m_CreditBtn)
-//		{
-//			LeanTween.moveLocalY(m_CreditBtn, 0.3f, m_TweenInTime)
-//					 .setEase( LeanTweenType.easeOutBounce)
-//					 .setDelay(m_TweenInTime*2);
-//		}
-//		if(m_Ttile)
-//		{
-//			LeanTween.moveLocalY(m_CreditBtn, 0.8f, m_TweenInTime)
-//				     .setEase( LeanTweenType.easeOutBounce)
-//					 .setDelay(m_TweenInTime*3);
-//		}
+		m_InitalPos = transform.position;
+		m_MMState = (GameManager.isInGame)? MainMenuState.Idle : MainMenuState.ShowMenu;
 
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-	//switch(m_MMState)
-	//{
-	//	case MainMenuState.Idle:
-	//	break;
-	//
-	//	case MainMenuState.GoBack:
-	//		ActiveButtons(true);
-	//		transform.FindChild("ButtonOptions").FindChild("OptionsWindow").gameObject.SetActive(false);
-	//		m_MMState = MainMenuState.Idle;
-	//	break;
-	//
-	//	case MainMenuState.Options:
-	//		transform.FindChild("ButtonOptions").GetComponent<ButtonOptions>().SetOptionsWindow();
-	//		m_MMState = MainMenuState.Idle;
-	//	break;
-	//
-	//	case MainMenuState.Credites:
-	//	break;
-	//
-	//	case MainMenuState.InGame:
-	//	break;
-	//
-	//}
-
-
-	}
-
-	//disable/ enable specific button.
-	public void SetButton(string _childName, bool _input)
-	{
-		GameObject btn = GameObject.Find(_childName);
-
-		if(btn)
-		{
-			btn.collider2D.enabled = _input;//.GetComponent<Button>().AcceptInputs(inputs);
-			btn.GetComponent<SpriteRenderer>().enabled = _input;
 	
-		}
+		Debug.Log("Current Menu State: " + m_MMState);
+	switch(m_MMState)
+	{
+			
+		case MainMenuState.Idle:
+		   	 break;
+		case MainMenuState.ShowMenu:
+			ShowMenuAction();
+			 break;
+
+		case MainMenuState.Start:
+			 StartAction();
+			 break;
+		case MainMenuState.Options:
+			//transform.FindChild("ButtonOptions").GetComponent<ButtonOptions>().SetOptionsWindow();
+			OptionsAction();
+			m_MMState = MainMenuState.Idle;
+		break;
+	
+	}
+	m_MMState = MainMenuState.Idle;
+
 	}
 
 
 	// set disable/enable children buttons.
-	public void ActiveButtons(bool inputs)
+	private void ActiveButtons(bool inputs)
 	{
 		GameObject go;
 		for(int i = 0; i < gameObject.transform.childCount; ++i)
@@ -152,6 +106,40 @@ public class MainMenuManager : MonoBehaviour {
 		
 		}
 	}
+
+
+	private void ShowMenuAction()
+	{
+		ActiveButtons(true);
+		transform.position = m_InitalPos;
+		if(m_StartBtn && m_OptionsBtn && m_CreditBtn)
+		{
+			LeanTween.moveLocalY(this.gameObject, -1.2f, 0.5f)
+					 .setEase( LeanTweenType.easeOutQuad);
+
+		}
+	}
+
+
+	private void StartAction()
+	{
+		GameManager.GoToNextLevel("Level1" );// + PlayerPrefs.GetInt("LastPlayedLevel").ToString());
+		GameManager.isInGame = true;
+	}
+
+	private void OptionsAction()
+	{
+		ActiveButtons(false);
+
+		GameObject _opWin = GameObject.Find("OptoinsWindow");
+		if(_opWin)
+		{
+			LeanTween.moveY(_opWin, 1f, 0.5f)
+				     .setEase( LeanTweenType.easeInOutExpo);
+
+		}
+	}
+
 
 
 }

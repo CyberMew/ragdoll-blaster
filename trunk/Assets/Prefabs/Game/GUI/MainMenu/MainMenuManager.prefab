@@ -65,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100008
 GameObject:
   m_ObjectHideFlags: 1
@@ -521,7 +521,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: .0285243392, g: .551470578, b: .159260899, a: .592156887}
+  HoverColor: {r: .0313725509, g: .603921592, b: .478431374, a: 1}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -557,7 +557,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: .936552525, g: .948529422, b: .134102419, a: .603921592}
+  HoverColor: {r: .0313725509, g: .603921592, b: .478431374, a: 1}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -593,7 +593,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: .937254906, g: .949019611, b: .13333334, a: .603921592}
+  HoverColor: {r: .0313725509, g: .603921592, b: .478431374, a: 1}
 --- !u!114 &11400016
 MonoBehaviour:
   m_ObjectHideFlags: 1
