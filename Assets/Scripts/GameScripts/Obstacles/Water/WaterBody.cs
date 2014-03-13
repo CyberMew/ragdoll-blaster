@@ -43,6 +43,8 @@ public class WaterBody : MonoBehaviour {
 
 	public PhysicsMaterial2D LiquidMaterial;
 
+	public Texture2D waterpng;
+
 	// Mesh for main body of water
 	//public GameObject watermesh;
 
@@ -195,9 +197,12 @@ public class WaterBody : MonoBehaviour {
 			// Assign UVs
 			Vector2[] UVs = new Vector2[4];
 			UVs[0] = new Vector2(0, 1);
-			UVs[1] = new Vector2(1, 1);
+			float uvX = (xpositions[i + 1] - leftXPos)/ WaterBodyWidth;
+			//UVs[1] = new Vector2(1, 1);
+			UVs[1] = new Vector2(uvX, 1);
 			UVs[2] = new Vector2(0, 0);
-			UVs[3] = new Vector2(1, 0);
+			//UVs[3] = new Vector2(1, 0);
+			UVs[3] = new Vector2(uvX, 0);
 			// Assign triangles
 			int[] tris = new int[6] { 0, 1, 3, 3, 2, 0 };
 
