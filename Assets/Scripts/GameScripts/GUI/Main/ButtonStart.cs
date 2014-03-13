@@ -17,7 +17,7 @@ using System.Collections;
 
 	internal override void ButtonAction()
 	{
-		GameManager.GoToNextLevel();
+		MainMenuManager.Instance.SetMainMenuState(MainMenuManager.MainMenuState.Start);
 	}
 
 

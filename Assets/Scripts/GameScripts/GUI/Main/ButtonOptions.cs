@@ -20,22 +20,12 @@ using System.Collections;
 	internal override void ButtonAction()
 	{
 		// If pointer to the menu/etc exists, then we enable it
-		if(MenuToOpen)
+		//if(MenuToOpen)
 		{
-			//MainMenuManager.Instance.MM_STATES = MainMenuManager.MainMenuState.Options;
-			SetOptionsWindow();	 
-
+			MainMenuManager.Instance.SetMainMenuState(MainMenuManager.MainMenuState.Options);
 		}
 	}
 
-	public void SetOptionsWindow()
-	{
-		MainMenuManager.Instance.ActiveButtons(false);
-		MenuToOpen.SetActive(true);
-		LeanTween.moveLocalY(MenuToOpen, 1f, 0.5f)
-			.setEase( LeanTweenType.easeInOutExpo);
-
-	}
 
 
 }

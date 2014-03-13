@@ -19,11 +19,12 @@ class OptionBack : Button {
 		
 		if(opWindow)
 		{
-			//MainMenuManager.Instance.MM_STATES = MainMenuManager.MainMenuState.GoBack;
-
-			LeanTween.moveLocalY(opWindow, 1f, 0.5f)
-				.setEase( LeanTweenType.easeInOutExpo);
-
+			if(opWindow)
+			{
+				LeanTween.moveLocalY(opWindow, 10f, 0.5f)
+					.setEase( LeanTweenType.easeInOutExpo);
+			}
+			
 			Invoke("ShowMainMenu", 0.5f);
 		}
 	
@@ -34,9 +35,10 @@ class OptionBack : Button {
 
 	public void ShowMainMenu()
 	{
-		if(opWindow)
-			opWindow.SetActive(false);
-		MainMenuManager.Instance.ActiveButtons(true);
+		if(!GameManager.isInGame)
+			MainMenuManager.Instance.SetMainMenuState(MainMenuManager.MainMenuState.ShowMenu);
+
+			
 	}
 
 
