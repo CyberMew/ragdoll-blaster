@@ -37,7 +37,8 @@ public class springboard : MonoBehaviour {
 	{
 		if(other.gameObject.CompareTag("Bullet") && isUp == false){
 			isUp = true;
-			other.gameObject.rigidbody2D.AddForce(new Vector2(0,9000));
+			other.gameObject.rigidbody2D.AddForce(transform.up.normalized * 9000);
+
 		}
 	}
 }
