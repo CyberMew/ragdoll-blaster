@@ -2391,7 +2391,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &796052195
 Transform:
   m_ObjectHideFlags: 0
@@ -4653,7 +4653,7 @@ MonoBehaviour:
   springconstant: .0199999996
   damping: .0399999991
   spread: .0500000007
-  splash: {fileID: 0}
+  splash: {fileID: 100000, guid: 10c1722dfa7dee5408f8bcf359421e18, type: 2}
   WaterLineMaterial: {fileID: 2100000, guid: 8420d245d74c7a64ebc6391c949f7226, type: 2}
   WaterBodyMaterial: {fileID: 2100000, guid: 0140cbc35a870dd42ace2d7ae93747dc, type: 2}
   LiquidMaterial: {fileID: 6200000, guid: 998801f4f3e7d2840b46d41027bc7797, type: 2}
@@ -4662,7 +4662,7 @@ MonoBehaviour:
   WaterBodyHeight: 180
   EdgeWidth: 5
   WaterLineThickness: 2
-  LetShitFloat: 1
+  LetShitFloat: 0
 --- !u!4 &1679220973
 Transform:
   m_ObjectHideFlags: 0
@@ -5318,7 +5318,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: af1eb81efc3eec646af6602c034f4169, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af1eb81efc3eec646af6602c034f4169, type: 2}
