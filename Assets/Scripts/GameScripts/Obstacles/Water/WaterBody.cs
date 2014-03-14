@@ -340,22 +340,22 @@ public class WaterBody : MonoBehaviour {
 			velocities[index] += velocity;
 			
 			//Set the lifetime of the particle system.
-		//	float lifetime = 0.93f + Mathf.Abs(velocity)*0.07f;
+			float lifetime = 0.93f + Mathf.Abs(velocity)*0.07f;
 			
 			//Set the splash to be between two values in Shuriken by setting it twice.
-//			splash.GetComponent<ParticleSystem>().startSpeed = 8+2*Mathf.Pow(Mathf.Abs(velocity),0.5f);
-	//		splash.GetComponent<ParticleSystem>().startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
-	//		splash.GetComponent<ParticleSystem>().startLifetime = lifetime;
+			splash.GetComponent<ParticleSystem>().startSpeed = 8+2*Mathf.Pow(Mathf.Abs(velocity),0.5f);
+			splash.GetComponent<ParticleSystem>().startSpeed = 9 + 2 * Mathf.Pow(Mathf.Abs(velocity), 0.5f);
+			splash.GetComponent<ParticleSystem>().startLifetime = lifetime;
 			
 			//Set the correct position of the particle system.
-	//		Vector3 position = new Vector3(xpositions[index],ypositions[index]-0.35f,5);
+			Vector3 position = new Vector3(xpositions[index],ypositions[index]-0.35f/72f,0.5f);
 			
 			//This line aims the splash towards the middle. Only use for small bodies of water:
-	//		Quaternion rotation = Quaternion.LookRotation(new Vector3(xpositions[Mathf.FloorToInt(xpositions.Length / 2)], baseheight + 8, 5) - position);
+			Quaternion rotation = Quaternion.LookRotation(new Vector3(xpositions[Mathf.FloorToInt(xpositions.Length / 2)], originalHeightYPos + 8, 5) - position);
 			
 			//Create the splash and tell it to destroy itself.
-		//	GameObject splish = Instantiate(splash,position,rotation) as GameObject;
-		//	Destroy(splish, lifetime+0.3f);
+			GameObject splish = Instantiate(splash,position,rotation) as GameObject;
+			Destroy(splish, lifetime+0.3f);
 		}
 	}
 }
