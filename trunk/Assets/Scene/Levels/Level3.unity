@@ -2051,7 +2051,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 4
-  m_SortingOrder: -1
+  m_SortingOrder: -3
   m_SortingLayerID: 2296738421
   m_Sprite: {fileID: 21300000, guid: b90351e708482434881218d2996e40b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3689,6 +3689,10 @@ Prefab:
       propertyPath: fireSmokeObj
       value: 
       objectReference: {fileID: 1288816765}
+    - target: {fileID: 21200000, guid: 758ea1edab6092848abdb788cc5fd5ab, type: 2}
+      propertyPath: m_SortingOrder
+      value: -3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 758ea1edab6092848abdb788cc5fd5ab, type: 2}
   m_RootGameObject: {fileID: 1094584894}
