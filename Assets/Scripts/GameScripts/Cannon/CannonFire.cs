@@ -164,7 +164,10 @@ public class CannonFire : MonoBehaviour {
 			++GameManager.tempShots;
 
 			// Show smoke animation
-			smokeScript.ResetAndPlay();
+			if(smokeScript)
+			{
+				smokeScript.ResetAndPlay();
+			}
 		}	
 	}
 
