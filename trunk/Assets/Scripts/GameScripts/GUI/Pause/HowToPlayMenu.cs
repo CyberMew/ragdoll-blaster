@@ -12,12 +12,12 @@ public class HowToPlayMenu : MonoBehaviour {
 	void Update () {
 	
 	}
-
+/* todo: Remove me!
 	void OnGUI()
 	{
 		GUI.Label(new Rect(Screen.width * 0.5f, 200f,100,100), "Some completed how to play code here.");
 	}
-	
+*/	
 	// Someone disabled/close my HowToPlay logic/menu
 	void OnDisable()
 	{
