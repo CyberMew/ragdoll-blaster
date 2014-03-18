@@ -25,6 +25,7 @@ abstract class Button : MonoBehaviour {
 	void Awake()
 	{
 		m_DefaultColor = new Color(1f,1f,1f,1f);
+		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
 		audioPlayer = Camera.main.audio;
 		if(hover == null)
 		{
@@ -66,7 +67,7 @@ abstract class Button : MonoBehaviour {
 		GetComponent<SpriteRenderer>().color = HoverColor;
 		//if(acceptInputs)
 		//{
-			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
+			GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		//}
 		audioPlayer.PlayOneShot(hover);
 	}	
@@ -77,7 +78,7 @@ abstract class Button : MonoBehaviour {
 		GetComponent<SpriteRenderer>().color = m_DefaultColor;
 		//if(acceptInputs)
 		{
-			//GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 		}
 	}
 	
@@ -86,7 +87,7 @@ abstract class Button : MonoBehaviour {
 	{
 		//if(acceptInputs == false)
 		{
-			//GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
 		}
 		audioPlayer.PlayOneShot(click);
