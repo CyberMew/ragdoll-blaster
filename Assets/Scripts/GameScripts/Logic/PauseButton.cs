@@ -86,7 +86,7 @@ public class PauseButton : MonoBehaviour {
 		{
 			isClickedBefore = false;
 			GameManager.isPaused = true;
-			Time.timeScale = 0f;
+		//	Time.timeScale = 0f;
 			// Bring up the pause menu object
 			//PauseMenuObject.GetComponent<PauseButtonsManager>().SetAllChildButtonsInput(true);
 			PauseMenuObject.SetActive(true);
