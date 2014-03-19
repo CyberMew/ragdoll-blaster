@@ -112,19 +112,39 @@ public class CannonFire : MonoBehaviour {
 
 					// we only actually have to calculate rotation + position ONCE if we clicked outside the angle
 					float tmpAngle = maxCannonAngleinDegrees; //todo: replace this with actual current cannon angle
-					Vector2 cannonToMouse = new Vector2(Mathf.Sin(tmpAngle), Mathf.Cos(angle));
-					newRelVec = cannonToMouse;
+
+					Vector2 cannonToMouse = Vector2.zero;
+					if(tmpAngle > 90f && tmpAngle <= 180f)
+					{
+						cannonToMouse = new Vector2( Mathf.Sin(tmpAngle),-Mathf.Cos(tmpAngle));
+					}
+					else if(tmpAngle > -90f && tmpAngle <= 0f)
+					{
+						cannonToMouse = new Vector2(-Mathf.Sin(tmpAngle), Mathf.Cos(tmpAngle));
+					}
+					else if(tmpAngle > -180f && tmpAngle <= -90f)
+					{
+						cannonToMouse = new Vector2(-Mathf.Sin(tmpAngle),-Mathf.Cos(tmpAngle));
+					}
+					else
+					{						
+						cannonToMouse = new Vector2(Mathf.Sin(tmpAngle), Mathf.Cos(angle));
+					}
+
+					// We still need to update the global vars for others to use! (i.e. force etc)
+					newRelVec = cannonToMouse.normalized;
 					angle = tmpAngle;
 
+					Debug.Log(cannonToMouse);
 					GameObject oldestBullet = bullets.Peek();
 
-					oldestBullet.transform.position = gameObject.transform.position + new Vector3(cannonToMouse.x * spawnRadius, cannonToMouse.y * spawnRadius, 0f);
+					oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
 					oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle - 90f);	// value is hardcoded here to fit the human sprite
 
 					// Rotate about the z axis by angle degrees
 					gameObject.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
 
-					smokeObj.transform.position = gameObject.transform.position + new Vector3(cannonToMouse.x * 1.5f, cannonToMouse.y * 1.5f, 0f);
+					smokeObj.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * 1.5f, newRelVec.y * 1.5f, 0f);
 					smokeObj.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
 
 					Debug.Log("this should only run once when we first click outside");
