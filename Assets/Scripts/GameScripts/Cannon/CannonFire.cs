@@ -61,12 +61,9 @@ public class CannonFire : MonoBehaviour {
 		currDistance = 0f;
 
 		smokeScript = smokeObj.GetComponent<SmokeController>();
-
-		// set initial robot+pos first	
-		//ResetEverything();
-		//CalculatePositionRotation(0f);
 	}
 
+	bool firstCheckOutsideDone = false;
 	bool exceedAngle = false;
 	bool isFirstTriggered = false;	// This var keep track of whether we have followed the sequence (if not I could dismiss the pause menu and IMMEDIATELY triggered the Pressed
 	float angle = 0f;
@@ -86,9 +83,7 @@ public class CannonFire : MonoBehaviour {
 		// Rotate the sprite to face the mouse when input depressed
 		if(isFirstTriggered && InputManager.GetIsInputPressed())
 		{
-	//		Debug.Log("thisshouldappearMORE");
 			// Convert screen space to world space
-
 			Vector2 mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
 			// Set the cannon barrel as origin
 			mouseWorldPt.x -= gameObject.transform.position.x;	// hardcoded because we know gameobject in negative region
@@ -97,78 +92,47 @@ public class CannonFire : MonoBehaviour {
 			float rawAngle = Mathf.Atan2(mouseWorldPt.y, mouseWorldPt.x) * Mathf.Rad2Deg;
 			if(rawAngle < maxCannonAngleinDegrees && rawAngle > minCannonAngleinDegrees)
 			{
-				//exceedAngle = false;
-
 				// Re-get the world point again
 				mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
 				// Reset position of whole object only, not torso (the rest will follow!)
 				Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
 				newRelVec = cannonToMouse;
 
+				// Store last used angle (for other functions)
 				angle = CalculatePositionRotation(rawAngle);
-				Debug.Log("within angle");
+
+				firstCheckOutsideDone = true;
 			}
-			else //if(exceedAngle)
+			else // if we exceed angle
 			{
-				// Re-get the world point again
-				mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
-				// Reset position of whole object only, not torso (the rest will follow!)
-				Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
-
+				// Check if we click outside for the first time, if so, we calculate the extreme values needed
+				if(firstCheckOutsideDone == false)
 				{
-					exceedAngle = true;
-					//Debug.Break();
-					
+					firstCheckOutsideDone = true;
+
+					// Re-get the world point again
+					mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
+					Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
+
 					// we only actually have to calculate rotation + position ONCE if we clicked outside the angle
-					float angle = maxCannonAngleinDegrees; //todo: replace this with actual current angle
-					//cannonToMouse = transform.forward
-
+					float tmpAngle = maxCannonAngleinDegrees; //todo: replace this with actual current cannon angle
+					
 					GameObject oldestBullet = bullets.Peek();
-					Vector3 aa = new Vector3();
-					oldestBullet.transform.rotation.ToAngleAxis(out angle, out aa);
-					Debug.Log(aa);
-					cannonToMouse = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-					oldestBullet.transform.position = gameObject.transform.position + new Vector3(cannonToMouse.x * spawnRadius, cannonToMouse.y * spawnRadius, 0f);
-					oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);	// value is hardcoded here to fit the human sprite
-				}
-				//	exceedAngle = true;
-				// if we are dealing with negative numbers, let's make it a circle
-				//	if(rawAngle < 0)
-				{
-					//		rawAngle += 360f;
-				}
-				// attempt to find the "middle ground" for the outofrange angles
-				//Mathf.Abs(minCannonAngleinDegrees-maxCannonAngleinDegrees) * 0.5f;
-			//	exceedAngle = true;
-				//float tmpAngle = (maxCannonAngleinDegrees + minCannonAngleinDegrees) * 0.5f;
-				//CalculatePositionRotation((maxCannonAngleinDegrees + minCannonAngleinDegrees) * 0.5f);
-				//angle =maxCannonAngleinDegrees;
-			//	Debug.Log("outside angle");
-			  				// WE HAVE TO RECALCUATE IN CASE HE CLICK OUTSIDE AND NOT INSIDE
+					cannonToMouse = new Vector2(Mathf.Sin(tmpAngle), Mathf.Cos(angle));
 
-				// Re-get the world point again
-				/*mouseWorldPt = Camera.main.ScreenToWorldPoint(InputManager.GetCurrentPositionScreenSpace());
-				// Reset position of whole object only, not torso (the rest will follow!)
-				Vector2 cannonToMouse = (mouseWorldPt - new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)).normalized;
-				// Recalculate the supposed angle again if we exceed the angle using the expensive operations
-				if(exceedAngle)
-				{
-					float radians = 0f;
-					if(rawAngle >= maxCannonAngleinDegrees)
-					{
-						radians = maxCannonAngleinDegrees * (Mathf.Deg2Rad);
-						newRelVec = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized * spawnRadius;
-					}
-					else if(rawAngle <= minCannonAngleinDegrees)
-					{
-						radians = minCannonAngleinDegrees * (Mathf.Deg2Rad);
-						newRelVec = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians)).normalized * spawnRadius;
-					}
-				}*/
+					oldestBullet.transform.position = gameObject.transform.position + new Vector3(cannonToMouse.x * spawnRadius, cannonToMouse.y * spawnRadius, 0f);
+					oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle - 90f);	// value is hardcoded here to fit the human sprite
+
+					// Rotate about the z axis by angle degrees
+					gameObject.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
+
+					smokeObj.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * 1.5f, newRelVec.y * 1.5f, 0f);
+					smokeObj.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
+				}
 			}
 
-				currPowerForce = CalculatePowerForce();
-//			Debug.Log("currPowerForce:" + currPowerForce.ToString());
+			// No matter what we need to calculate force
+			currPowerForce = CalculatePowerForce();
 		}
 
 		// Release it according to drag power
@@ -201,6 +165,9 @@ public class CannonFire : MonoBehaviour {
 			{
 				smokeScript.ResetAndPlay();
 			}
+
+			// Reset the bool check when we release the mouse
+			firstCheckOutsideDone = false;
 		}	
 	}
 
@@ -213,7 +180,7 @@ public class CannonFire : MonoBehaviour {
 		SetStill(oldestBullet.transform);
 		// Copy transform data from Prefab (reset it's body parts correctly)
 		ResetFromPrefab(oldestBullet.transform);
-		//			Debug.Log("thisshouldappear2BEFORE PRESSED AFTER PAUSE MENU IS STOPPPED");
+
 		isFirstTriggered = true;
 		
 		
@@ -226,42 +193,18 @@ public class CannonFire : MonoBehaviour {
 	{
 		// Restraint the MAX angle of the cannon angle
 		float tmpAngle = Mathf.Min(maxCannonAngleinDegrees, rawAngle);
-		//if()
-		//Debug.Log("RAW:" + rawAngle.ToString() + ", min():" + angle.ToString());
 		// Restraint the MIN angle of the cannon angle
 		tmpAngle = Mathf.Max(minCannonAngleinDegrees, tmpAngle);
-		Debug.Log("RAW:" + rawAngle.ToString() + ", min():" + tmpAngle.ToString());
+			
+		// Rotate about the z axis by angle degrees
+		gameObject.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
 		
-		//exceedAngle = false;
-		//bool isThisFrameOK = false;
-		//exceedAngle = false;
-		// If we are outside, we use back the last angle
-		if(rawAngle >= maxCannonAngleinDegrees && rawAngle <= minCannonAngleinDegrees)
-		{
-		//	exceedAngle = true;
-		}
-		else
-		{
-			
-		}
+		GameObject oldestBullet = bullets.Peek();
+		oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
+		oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle - 90f);	// value is hardcoded here to fit the human sprite
 		
-
-
-		//else
-		{
-		//	newRelVec = cannonToMouse;
-			
-			// Rotate about the z axis by angle degrees
-			gameObject.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
-			
-			GameObject oldestBullet = bullets.Peek();
-			oldestBullet.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * spawnRadius, newRelVec.y * spawnRadius, 0f);
-			oldestBullet.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle - 90f);	// value is hardcoded here to fit the human sprite
-			
-			smokeObj.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * 1.5f, newRelVec.y * 1.5f, 0f);
-			smokeObj.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
-
-		}
+		smokeObj.transform.position = gameObject.transform.position + new Vector3(newRelVec.x * 1.5f, newRelVec.y * 1.5f, 0f);
+		smokeObj.transform.rotation = Quaternion.Euler(0f, 0f, tmpAngle);
 
 		return tmpAngle;
 	}
