@@ -94,12 +94,16 @@ public class PlaneController : MonoBehaviour {
 
 	}
 
+	float privateTimer = 0f;
+
 	void FixedUpdate()
 	{
+		privateTimer += Time.deltaTime;
 		//if(rigidbody2D.isKinematic)
 		{
 			float pixelsToUnits = GameManager.height * 0.5f / Camera.main.orthographicSize;
-			float yPos = Mathf.Sin(Time.timeSinceLevelLoad) / pixelsToUnits;
+			float yPos = Mathf.Sin(privateTimer) / pixelsToUnits * 100f;	// todo: some hard code scaling
+			Debug.Log(yPos);
 			float yDir = originalPosition.y + yPos;
 			if(isHit)
 			{
@@ -131,7 +135,7 @@ public class PlaneController : MonoBehaviour {
 
 		float pixelsToUnits = GameManager.height * 0.5f / Camera.main.orthographicSize;
 		// Randomise the y starting point again
-		float spawnYPos = transform.position.y + Random.Range(-maxRange, maxRange) / pixelsToUnits * 5f; //todo remove hardcode
+		float spawnYPos = originalPosition.y + Random.Range(-maxRange, maxRange) / pixelsToUnits * 50f; //todo remove hardcode
 		transform.position = new Vector3(transform.position.x, spawnYPos, transform.position.z);
 	
 		collider2D.enabled = true;
