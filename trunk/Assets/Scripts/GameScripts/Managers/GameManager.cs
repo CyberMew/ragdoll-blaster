@@ -71,10 +71,14 @@ public static class GameManager {
 		if(currLevel == totalLevels)
 		{
 			//Application.LoadLevel("Credits");
-			//Load("Credits");
+			Load("Credits");
 			
-			Debug.Log ("todo: change to mainmenu credits screen");
+			Debug.Log ("Loading credits screen - if it didn't work, give Target script a specific level name");
 		}
+		/*else if(nextLevelOverride == "Credits")
+		{
+			Load("Credits");
+		}*/
 		else
 		{
 			// todo: shift this line of code to the place where we actually set it (probably in options), when Unity fix their cache bug
