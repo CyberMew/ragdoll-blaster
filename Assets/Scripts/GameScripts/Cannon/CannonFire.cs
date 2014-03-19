@@ -114,21 +114,21 @@ public class CannonFire : MonoBehaviour {
 					float tmpAngle = maxCannonAngleinDegrees; //todo: replace this with actual current cannon angle
 
 					Vector2 cannonToMouse = Vector2.zero;
-					if(tmpAngle > 90f && tmpAngle <= 180f)
+					/*if(tmpAngle > 90f && tmpAngle <= 180f)
 					{
-						cannonToMouse = new Vector2( Mathf.Sin(tmpAngle),-Mathf.Cos(tmpAngle));
+						cannonToMouse = new Vector2( Mathf.Cos(tmpAngle),-Mathf.Sin(tmpAngle));
 					}
 					else if(tmpAngle > -90f && tmpAngle <= 0f)
 					{
-						cannonToMouse = new Vector2(-Mathf.Sin(tmpAngle), Mathf.Cos(tmpAngle));
+						cannonToMouse = new Vector2(-Mathf.Cos(tmpAngle), Mathf.Sin(tmpAngle));
 					}
 					else if(tmpAngle > -180f && tmpAngle <= -90f)
 					{
-						cannonToMouse = new Vector2(-Mathf.Sin(tmpAngle),-Mathf.Cos(tmpAngle));
+						cannonToMouse = new Vector2(-Mathf.Cos(tmpAngle),-Mathf.Sin(tmpAngle));
 					}
-					else
+					else*/
 					{						
-						cannonToMouse = new Vector2(Mathf.Sin(tmpAngle), Mathf.Cos(angle));
+						cannonToMouse = new Vector2(Mathf.Cos(tmpAngle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 					}
 
 					// We still need to update the global vars for others to use! (i.e. force etc)
