@@ -279,7 +279,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: NextSceneNameToLoad
-      value: Level8a
+      value: Credits
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverWriteNextLevel: 1
-  NextSceneNameToLoad: Level8a
+  NextSceneNameToLoad: Credits
 --- !u!50 &286087654
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -4579,7 +4579,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: NextSceneNameToLoad
-      value: Level8b
+      value: Credits
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4cf5f221d711fa641bc7a4a404543098, type: 2}
       propertyPath: OverWriteNextLevel
@@ -5367,7 +5367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverWriteNextLevel: 1
-  NextSceneNameToLoad: Level8b
+  NextSceneNameToLoad: Credits
 --- !u!50 &2128498756
 Rigidbody2D:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ abstract class Button : MonoBehaviour {
 
 	void Awake()
 	{
-		m_DefaultColor = new Color(1f,1f,1f,1f);
+		//m_DefaultColor = new Color(1f,1f,1f,1f);
 		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
 		audioPlayer = Camera.main.audio;
 		if(hover == null)
@@ -64,7 +64,7 @@ abstract class Button : MonoBehaviour {
 	void OnMouseEnter()
 	{
 
-		GetComponent<SpriteRenderer>().color = HoverColor;
+		//GetComponent<SpriteRenderer>().color = HoverColor;
 		//if(acceptInputs)
 		//{
 			GetComponent<SpriteRenderer>().sprite = HoverSprite;
@@ -75,7 +75,7 @@ abstract class Button : MonoBehaviour {
 	// OnLeaving
 	void OnMouseExit()
 	{
-		GetComponent<SpriteRenderer>().color = m_DefaultColor;
+		//GetComponent<SpriteRenderer>().color = m_DefaultColor;
 		//if(acceptInputs)
 		{
 			GetComponent<SpriteRenderer>().sprite = DefaultSprite;

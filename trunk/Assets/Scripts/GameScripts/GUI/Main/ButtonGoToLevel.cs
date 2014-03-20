@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
- class ButtonMainCredits : Button {
+class ButtonGoToLevel : Button {
+
+	public string LevelToLoad = "Credits";
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +18,7 @@ using System.Collections;
 
 	internal override void ButtonAction()
 	{
+		Application.LoadLevel(LevelToLoad);
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
 		if(MenuToOpen)
 		{
@@ -23,10 +26,4 @@ using System.Collections;
 		//	MenuToOpen.SetActive(true);
 		}
 	}
-
-
-
-
-
-
 }
