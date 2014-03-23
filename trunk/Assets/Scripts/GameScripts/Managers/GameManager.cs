@@ -54,6 +54,66 @@ public static class GameManager {
 		#elif UNITY_ANDROID
 		Handheld.SetActivityIndicatorStyle(AndroidActivityIndicatorStyle.Small);
 		#endif
+
+		//InitializeFacebook();
+	}
+
+	public static void InitializeFacebook()
+	{
+		FBUtils.InitializeFacebook(OnFacebookInitComplete);
+		
+#if UNITY_WEBPLAYER
+		//"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
+		string injection =
+			"var headerElement = document.createElement('div');" +
+				"headerElement.textContent = ('Check out our other great games: ...');" +
+				"var body = document.getElementsByTagName(\"body\")[0];" +
+				"var insertionPoint = body.children[0]; " +
+				"body.insertBefore(headerElement, insertionPoint);";
+		Application.ExternalEval(injection);
+		//Application.ExternalEval("alert(navigator.appName);");
+
+		// Execute javascript in iframe to keep the player centred		
+		string javaScript = @"
+            window.onresize = function() {
+
+              var unity = UnityObject2.instances[0].getUnity();
+              var unityDiv = document.getElementById(""unityPlayerEmbed"");
+
+              var width =  window.innerWidth;
+              var height = window.innerHeight;
+
+              var appWidth = " + GameManager.width + @";
+              var appHeight = " + GameManager.height + @";
+
+              unity.style.width = appWidth + ""px"";
+              unity.style.height = appHeight + ""px"";
+
+              unityDiv.style.marginLeft = (width - appWidth)/2 + ""px"";
+              unityDiv.style.marginTop = (height - appHeight)/2 + ""px"";
+              unityDiv.style.marginRight = (width - appWidth)/2 + ""px"";
+              unityDiv.style.marginBottom = (height - appHeight)/2 + ""px"";
+            }
+            window.onresize(); // force it to resize now";
+		
+		Application.ExternalCall(javaScript);	
+		// Alternatively we could call this in WEBPLAYER only
+		//FB.Canvas.SetResolution(GameManager.width, GameManager.height, false, 0, FBScreen.CenterVertical(), FBScreen.CenterHorizontal());
+		
+		// Get browser name (http://answers.unity3d.com/questions/26550/browser-version-inside-unity3d.html)
+		javaScript = @"
+		    window.onresize = function() {
+			{
+				console.log(navigator.appName);
+
+			}
+			window.onresize(); // not suppose to do this!;";
+		//Application.ExternalCall(javaScript);
+#endif
+	}
+	static void OnFacebookInitComplete()
+	{
+		// be happy
 	}
 	
 	static public void GoToNextLevel(string nextLevelOverride = "")
