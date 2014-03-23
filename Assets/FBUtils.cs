@@ -166,11 +166,11 @@ public class FBUtils : ScriptableObject {
 
 	static void DefaultCallback(FBResult result)
 	{
-		Debug.Log("Cleared isJobPending to false");
+	//	Debug.Log("Cleared isJobPending to false");
 		isJobPending = false;
 
 		
-		Debug.Log("Default Callback called");
+	//	Debug.Log("Default Callback called");
 		lastResponseTexture = null;
 		//string lastResponse = "";
 		// Some platforms return the empty string instead of null.
@@ -197,12 +197,12 @@ public class FBUtils : ScriptableObject {
 
 	static void PostCallback(FBResult result)
 	{
-		Debug.Log("Performing PostCallback: removing delegates");
+		//Debug.Log("Performing PostCallback: removing delegates");
 		myLogger -= prevCB;
 		myLogger -= PostCallback;
 		prevCB = null;
 	}
-
+	/*
 	public static void Test()
 	{
 		Debug.Log("Testing remainder of myLogger");
@@ -212,5 +212,5 @@ public class FBUtils : ScriptableObject {
 		//FB.API(apiQuery, Facebook.HttpMethod.GET, myLogger);		
 		Facebook.FacebookDelegate userCallback = null;
 		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.GET);
-	}
+	}*/
 }

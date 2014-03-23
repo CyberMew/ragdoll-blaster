@@ -9,12 +9,12 @@ public class facebookuse : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Make sure it's ok to initialize facebook first
-		Invoke("Step1", 1f);
+		Invoke("GetUrlAndInitFB", 1f);
 
 		profilePicture = new Texture2D(1,1);
 	}
 
-	void Step1()
+	void GetUrlAndInitFB()
 	{
 		/*Application.ExternalEval(
 			"var u = UnityObject2.instances[0].getUnity();" +
@@ -22,16 +22,21 @@ public class facebookuse : MonoBehaviour {
 			"console.log('testing console log anyway'); " +
 			"u.SendMessage('" + gameObject.name + "', 'InitializeForFacebook', document.URL);"
 			);*/
-		Application.ExternalEval(
-			"UnityObject2.instances[0].getUnity().SendMessage('" + gameObject.name + "', 'InitializeForFacebook', window.top.location.href);"
-			);
-		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);");
+	//	Application.ExternalEval(
+		//	"UnityObject2.instances[0].getUnity().SendMessage('" + gameObject.name + "', 'InitializeForFacebook', window.top.location.href);"
+		//	);
+		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"InitializeForFacebook\", document.URL);");
 	}
 
 	void InitializeForFacebook(string url)
 	{
 		Debug.Log("Finally gotten the url, can proceed to init: "  + url);
-		//GameManager.InitializeFacebook();
+
+		// Processing for the url
+		//todo: verify if we are in facebook!
+		FBUtils.currentURL = url;
+
+		GameManager.InitializeFacebook();
 	}
 	
 	// Update is called once per frame
@@ -51,7 +56,7 @@ public class facebookuse : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.C))
 		{
-			FBUtils.Test();
+//			FBUtils.Test();
 		}
 		if(Input.GetKeyDown(KeyCode.D))
 		{
