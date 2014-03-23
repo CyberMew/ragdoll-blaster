@@ -128,9 +128,15 @@ public static class GameManager {
 		if(Application.absoluteURL.Equals("https://ragclone.parseapp.com/ragclone.unity3d") == false)
 		{
 			FBUtils.isFBAvailable = false;
-			Debug.Log("This game file could be running locally! Please run it on facebook instead!");
+			Debug.Log("This game file could be running locally! Please run it on Facebook instead! Disabling Facebook features.");
 			// Facebook is only available 
 		}
+		if(FBUtils.currentURL.Contains("https://ragclone.parseapp.com"))
+		{
+			FBUtils.isFBAvailable = false;
+			Debug.Log("This game file could be running directly on where it is hosted! Please run it on Facebook instead! Disabling Facebook features.");
+		}
+
 		//string name = "FacebookURL";
 		//Application.ExternalEval("u.getUnity().SendMessage(<string name of your GameObject>, <string name of your method in the GameObject>, location.href);");
 //		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);");
@@ -144,14 +150,14 @@ public static class GameManager {
 		//	);
 		// Get URL after 3 secs
 		//	Invoke(GetWebURL, 3f);
-		FBUtils.isFBAvailable = false;
 		if(FBUtils.isFBAvailable)
 		{
+			Debug.Log("Facebook access is available. Init-ing now.");
 			FBUtils.InitializeFacebook(OnFacebookInitComplete);
 		}
 	}
 
-	static void GetWebURL()
+	/*static void GetWebURL()
 	{
 		Application.ExternalEval(
 			"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
@@ -163,7 +169,7 @@ public static class GameManager {
 		// this will include the full URL, including url parameters etc.
 		Debug.Log("Master URL:" + url);
 		// Check if it contains app id or app namespace
-	}
+	}*/
 
 	static void OnFacebookInitComplete()
 	{
