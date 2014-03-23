@@ -14,15 +14,35 @@ public class FBUtils : ScriptableObject {
 	static Facebook.FacebookDelegate myLogger = new Facebook.FacebookDelegate(DefaultCallback);
 	static Facebook.FacebookDelegate prevCB = null;
 	
-	static bool isFBAvailable = true;
+	public static bool isFBAvailable = true;	// Use this to check if the game has enabled Facebook or if Facebook is enabled on the platform
+	static bool isFBInit = false;
 
-	public static void InitializeFacebook(Facebook.InitDelegate callback)
+	public static string currentURL = ""; // Master URL. If we were hosting on parseapp but inside Facebook canvas, this would be the FB's url
+
+	public static void InitializeFacebook(Facebook.InitDelegate userCallback)
 	{
-		FB.Init(callback);
+		if(isFBInit)
+		{
+			Debug.LogWarning("Facebook's Init() has already been called before!");
+			return;
+		}
+		userCallback += OnFBInit;
+		FB.Init(userCallback);
+	}
+	static void OnFBInit()
+	{
+		isFBInit = true;
+		Debug.Log("FB Init() is successful.");
 	}
 
 	public static void PromptLogin(string accessesRequired = "", Facebook.FacebookDelegate userCallback = null)
 	{
+		if(isFBInit == false)
+		{
+			Debug.Log("Facebook Init() has not been called.");
+			return;
+		}
+
 		if(isJobPending)
 		{
 			Debug.Log("Still waiting for response from previous Facebook call. Skipping command.");

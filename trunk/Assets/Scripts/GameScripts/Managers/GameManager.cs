@@ -60,60 +60,115 @@ public static class GameManager {
 
 	public static void InitializeFacebook()
 	{
-		FBUtils.InitializeFacebook(OnFacebookInitComplete);
-		
-#if UNITY_WEBPLAYER
-		//"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
-		string injection =
-			"var headerElement = document.createElement('div');" +
-				"headerElement.textContent = ('Check out our other great games: ...');" +
-				"var body = document.getElementsByTagName(\"body\")[0];" +
-				"var insertionPoint = body.children[0]; " +
-				"body.insertBefore(headerElement, insertionPoint);";
-		Application.ExternalEval(injection);
-		//Application.ExternalEval("alert(navigator.appName);");
+		// Do a check to make sure user can use Facebook first!
+		//if (Application.isWebPlayer)
+		{
+		//	if(Application.srcValue != "ragclone.unity3d")
+		//	FBUtils.isFBAvailable = false;
+			
+			//if(string.Compare(Application.absoluteURL, "apps.facebook.com/418897008246300/game.unity3d", true) != 0)
+				//isPirated = true;
+			
+			//if (isPirated)
+				//print("Pirated web player");
+			
+		}
+		Debug.Log("absoluteURL:" + Application.absoluteURL);
+		Debug.Log("srcValue:" + Application.srcValue);
 
-		// Execute javascript in iframe to keep the player centred		
-		string javaScript = @"
-            window.onresize = function() {
+	#if UNITY_WEBPLAYER
+			//"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
+			string injection =
+				"var headerElement = document.createElement('div');" +
+					"headerElement.textContent = ('Check out our other great games: ...');" +
+					"var body = document.getElementsByTagName(\"body\")[0];" +
+					"var insertionPoint = body.children[0]; " +
+					"body.insertBefore(headerElement, insertionPoint);";
+			Application.ExternalEval(injection);
+			//Application.ExternalEval("alert(navigator.appName);");
 
-              var unity = UnityObject2.instances[0].getUnity();
-              var unityDiv = document.getElementById(""unityPlayerEmbed"");
+			// Execute javascript in iframe to keep the player centred		
+			string javaScript = @"
+	            window.onresize = function() {
 
-              var width =  window.innerWidth;
-              var height = window.innerHeight;
+	              var unity = UnityObject2.instances[0].getUnity();
+	              var unityDiv = document.getElementById(""unityPlayerEmbed"");
 
-              var appWidth = " + GameManager.width + @";
-              var appHeight = " + GameManager.height + @";
+	              var width =  window.innerWidth;
+	              var height = window.innerHeight;
 
-              unity.style.width = appWidth + ""px"";
-              unity.style.height = appHeight + ""px"";
+	              var appWidth = " + GameManager.width + @";
+	              var appHeight = " + GameManager.height + @";
 
-              unityDiv.style.marginLeft = (width - appWidth)/2 + ""px"";
-              unityDiv.style.marginTop = (height - appHeight)/2 + ""px"";
-              unityDiv.style.marginRight = (width - appWidth)/2 + ""px"";
-              unityDiv.style.marginBottom = (height - appHeight)/2 + ""px"";
-            }
-            window.onresize(); // force it to resize now";
-		
-		Application.ExternalCall(javaScript);	
-		// Alternatively we could call this in WEBPLAYER only
-		//FB.Canvas.SetResolution(GameManager.width, GameManager.height, false, 0, FBScreen.CenterVertical(), FBScreen.CenterHorizontal());
-		
-		// Get browser name (http://answers.unity3d.com/questions/26550/browser-version-inside-unity3d.html)
-		javaScript = @"
-		    window.onresize = function() {
-			{
-				console.log(navigator.appName);
+	              unity.style.width = appWidth + ""px"";
+	              unity.style.height = appHeight + ""px"";
 
-			}
-			window.onresize(); // not suppose to do this!;";
-		//Application.ExternalCall(javaScript);
-#endif
+	              unityDiv.style.marginLeft = (width - appWidth)/2 + ""px"";
+	              unityDiv.style.marginTop = (height - appHeight)/2 + ""px"";
+	              unityDiv.style.marginRight = (width - appWidth)/2 + ""px"";
+	              unityDiv.style.marginBottom = (height - appHeight)/2 + ""px"";
+	            }
+	            window.onresize(); // force it to resize now";
+			
+			Application.ExternalCall(javaScript);	
+			// Alternatively we could call this in WEBPLAYER only
+			//FB.Canvas.SetResolution(GameManager.width, GameManager.height, false, 0, FBScreen.CenterVertical(), FBScreen.CenterHorizontal());
+			
+			// Get browser name (http://answers.unity3d.com/questions/26550/browser-version-inside-unity3d.html)
+			javaScript = @"
+			    window.onresize = function() {
+				{
+					console.log(navigator.appName);
+
+				}
+				window.onresize(); // not suppose to do this!;";
+			//Application.ExternalCall(javaScript);
+
+		// Do some checks for web version for deciding whether or not to enable Facebook
+		if(Application.absoluteURL.Equals("https://ragclone.parseapp.com/ragclone.unity3d") == false)
+		{
+			FBUtils.isFBAvailable = false;
+			Debug.Log("This game file could be running locally! Please run it on facebook instead!");
+			// Facebook is only available 
+		}
+		//string name = "FacebookURL";
+		//Application.ExternalEval("u.getUnity().SendMessage(<string name of your GameObject>, <string name of your method in the GameObject>, location.href);");
+//		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);");
+	//	string url = "UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"ReceiveURL\", document.URL);";
+		//Debug.Log("Calling:" + url);
+
+		//FB.AppId;
+	#endif
+		//Application.ExternalCall(
+		//	"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
+		//	);
+		// Get URL after 3 secs
+		//	Invoke(GetWebURL, 3f);
+		FBUtils.isFBAvailable = false;
+		if(FBUtils.isFBAvailable)
+		{
+			FBUtils.InitializeFacebook(OnFacebookInitComplete);
+		}
 	}
+
+	static void GetWebURL()
+	{
+		Application.ExternalEval(
+			"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
+			);
+
+	}
+
+	static void ReceiveURL(string url) {
+		// this will include the full URL, including url parameters etc.
+		Debug.Log("Master URL:" + url);
+		// Check if it contains app id or app namespace
+	}
+
 	static void OnFacebookInitComplete()
 	{
 		// be happy
+		Debug.Log("GameManager has init facebook successfully.");
 	}
 	
 	static public void GoToNextLevel(string nextLevelOverride = "")
