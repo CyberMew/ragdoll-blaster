@@ -29,7 +29,7 @@ abstract class Button : MonoBehaviour {
 		audioPlayer = Camera.main.audio;
 		if(audioPlayer == null)
 		{
-			Camera.main.gameObject.AddComponent<AudioSource>();
+			audioPlayer = Camera.main.gameObject.AddComponent<AudioSource>();
 			Debug.Log("Camera does not have audio source, adding one now.");
 		}
 		if(hover == null)
