@@ -76,7 +76,7 @@ public static class GameManager {
 		Debug.Log("absoluteURL:" + Application.absoluteURL);
 		Debug.Log("srcValue:" + Application.srcValue);
 
-	#if UNITY_WEBPLAYER
+	#if UNITY_WEBPLAYER && !UNITY_EDITOR
 			//"UnityObject2.instances[0].getUnity().SendMessage('FacebookCallbackGO', 'InitializeForFacebook', window.location.href);"
 			string injection =
 				"var headerElement = document.createElement('div');" +

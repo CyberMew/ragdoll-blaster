@@ -27,6 +27,11 @@ abstract class Button : MonoBehaviour {
 		//m_DefaultColor = new Color(1f,1f,1f,1f);
 		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
 		audioPlayer = Camera.main.audio;
+		if(audioPlayer == null)
+		{
+			Camera.main.gameObject.AddComponent<AudioSource>();
+			Debug.Log("Camera does not have audio source, adding one now.");
+		}
 		if(hover == null)
 		{
 			Debug.Log("(" + gameObject.name + ") hover not supplied: loading defaults");

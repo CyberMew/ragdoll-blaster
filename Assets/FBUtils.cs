@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 //Notice that we're using the Facebook implementation of MiniJSON:
 using Facebook.MiniJSON;
@@ -15,12 +15,18 @@ public class FBUtils : ScriptableObject {
 	static Facebook.FacebookDelegate prevCB = null;
 	
 	public static bool isFBAvailable = true;	// Use this to check if the game has enabled Facebook or if Facebook is enabled on the platform
-	static bool isFBInit = false;
+	public static bool isFBInit = false; // Check if Facebook features are ready to go (can be used to show button only if facebook is available AND ready)
 
 	public static string currentURL = ""; // Master URL. If we were hosting on parseapp but inside Facebook canvas, this would be the FB's url
 
 	public static void InitializeFacebook(Facebook.InitDelegate userCallback)
 	{
+		// Another safety check
+		if(isFBAvailable == false)
+		{
+			Debug.Log("Something went wrong, Facebook should be available for use before calling Init()");
+			return;
+		}
 		if(isFBInit)
 		{
 			Debug.LogWarning("Facebook's Init() has already been called before!");
@@ -96,6 +102,18 @@ public class FBUtils : ScriptableObject {
 
 		apiQuery = "me/picture?width=" + width.ToString() + "&height=" + height.ToString() + "&redirect=false";
 
+		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.GET);
+	}
+	public static void GetProfileFullName(Facebook.FacebookDelegate userCallback = null)
+	{
+		if(isJobPending)
+		{
+			Debug.Log("Still waiting for response from another Facebook call. Skipping command.");
+			return;
+		}
+		
+		apiQuery = "me?fields=id,name,name_format,first_name,last_name";
+		
 		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.GET);
 	}
 
