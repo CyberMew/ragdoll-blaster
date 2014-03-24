@@ -114,8 +114,8 @@ public class MainMenuManager : MonoBehaviour {
 		transform.position = m_InitalPos;
 		if(m_StartBtn && m_OptionsBtn && m_CreditBtn)
 		{
-			LeanTween.moveLocalY(this.gameObject, -1.2f, 0.5f)
-					 .setEase( LeanTweenType.easeOutQuad);
+			LeanTween.moveLocalY(this.gameObject, -1.2f, 0.9f)
+					 .setEase( LeanTweenType.easeOutBounce);
 
 		}
 	}

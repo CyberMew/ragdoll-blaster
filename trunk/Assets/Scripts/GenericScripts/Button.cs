@@ -4,8 +4,8 @@ using System.Collections;
 abstract class Button : MonoBehaviour {
 	
 	Sprite DefaultSprite;
-	public Sprite HoverSprite = null;
-	public Sprite PushedSprite = null;
+	//public Sprite HoverSprite = null;
+	//public Sprite PushedSprite = null;
 
 	public GameObject MenuToOpen = null;
 		
@@ -24,7 +24,7 @@ abstract class Button : MonoBehaviour {
 
 	void Awake()
 	{
-		//m_DefaultColor = new Color(1f,1f,1f,1f);
+		m_DefaultColor = new Color(1f,1f,1f,1f);
 		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
 		audioPlayer = Camera.main.audio;
 		if(audioPlayer == null)
@@ -69,21 +69,23 @@ abstract class Button : MonoBehaviour {
 	void OnMouseEnter()
 	{
 
-		//GetComponent<SpriteRenderer>().color = HoverColor;
+
 		//if(acceptInputs)
-		//{
-			GetComponent<SpriteRenderer>().sprite = HoverSprite;
-		//}
+		{
+			GetComponent<SpriteRenderer>().color = HoverColor;
+			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
+		}
 		audioPlayer.PlayOneShot(hover);
+
 	}	
 	
 	// OnLeaving
 	void OnMouseExit()
 	{
-		//GetComponent<SpriteRenderer>().color = m_DefaultColor;
+		GetComponent<SpriteRenderer>().color = m_DefaultColor;
 		//if(acceptInputs)
 		{
-			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			//GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 		}
 	}
 	
@@ -92,7 +94,7 @@ abstract class Button : MonoBehaviour {
 	{
 		//if(acceptInputs == false)
 		{
-			GetComponent<SpriteRenderer>().sprite = PushedSprite;
+		//	GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
 		}
 		audioPlayer.PlayOneShot(click);
@@ -126,5 +128,7 @@ abstract class Button : MonoBehaviour {
 
 	// Force them to implement behaviour of the button behavior when clicked
 	internal abstract void ButtonAction();
-	
+
+
+
 }
