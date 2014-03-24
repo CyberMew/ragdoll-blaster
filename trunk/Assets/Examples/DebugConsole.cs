@@ -63,7 +63,7 @@ public class DebugConsole : MonoBehaviour
 
 	void Start()
 	{
-		windowRect = new Rect(margin, margin, Screen.width - (2 * margin), Screen.height - (2 * margin));
+		windowRect = new Rect(margin, margin, Screen.width - (2 * margin), Screen.height - (2 * margin) - Screen.height * 0.5f);
 	}
 	
 	void Update ()
@@ -71,7 +71,7 @@ public class DebugConsole : MonoBehaviour
 		if (Input.GetKeyDown(toggleKey))
 		{
 			show = !show;
-			windowRect = new Rect(margin, margin, Screen.width - (2 * margin), Screen.height - (2 * margin));
+			windowRect = new Rect(margin, margin, Screen.width - (2 * margin), Screen.height - (2 * margin) - Screen.height * 0.5f);
 			// Game logic needs to check if this BlockInput is true, so that gamedevconsole input wont trigger ingame logic
 			//if(show)
 			//{

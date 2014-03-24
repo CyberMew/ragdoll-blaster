@@ -25,7 +25,11 @@ public class facebookuse : MonoBehaviour {
 	//	Application.ExternalEval(
 		//	"UnityObject2.instances[0].getUnity().SendMessage('" + gameObject.name + "', 'InitializeForFacebook', window.top.location.href);"
 		//	);
+		#if UNITY_WEBPLAYER && !UNITY_EDITOR
 		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"InitializeForFacebook\", document.URL);");
+#else
+		InitializeForFacebook("");
+#endif
 	}
 
 	void InitializeForFacebook(string url)
@@ -57,6 +61,7 @@ public class facebookuse : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.C))
 		{
 //			FBUtils.Test();
+			FBUtils.GetProfileFullName(HandleNameResponse);
 		}
 		if(Input.GetKeyDown(KeyCode.D))
 		{
@@ -103,10 +108,10 @@ public class facebookuse : MonoBehaviour {
 		}
 		else
 		{
-			/*var dict = Json.Deserialize(result.Text) as Dictionary<string,object>;
+			var dict = Json.Deserialize(result.Text) as Dictionary<string,object>;
 			Dictionary<string,object> dataDict = dict["data"] as Dictionary<string,object>;
-			string url = ((string) dataDict["url"]).Trim();*/
-			string url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/p130x130/1538949_10151808558707493_1942918915_n.jpg";
+			string url = ((string) dataDict["url"]).Trim();
+			//string url = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/t1.0-1/p130x130/1538949_10151808558707493_1942918915_n.jpg";
 			Debug.Log(url);
 			if(url.EndsWith(".png") || url.EndsWith(".jpg"))
 			{
@@ -117,6 +122,37 @@ public class facebookuse : MonoBehaviour {
 				Debug.Log("Picture download requires .png or .jpg file!");
 			}
 		}
+	}
+	//string fullname="";
+	void HandleNameResponse(FBResult result)
+	{
+		if(!string.IsNullOrEmpty(result.Error))
+		{
+			string lastResponse = "Error Response:\n" + result.Error;
+			Debug.Log(lastResponse);
+			return;
+		}
+
+		Debug.Log(result.Text);
+		/*profile = Util.DeserializeJSONProfile(result.Text);
+		GameStateManager.Username = profile["first_name"];
+		///
+		/// 
+		var responseObject = Json.Deserialize(response) as Dictionary<string, object>;
+		object nameH;
+		var profile = new Dictionary<string, string>();
+		if (responseObject.TryGetValue("first_name", out nameH))
+		{
+			profile["first_name"] = (string)nameH;
+		}
+		return profile;
+		///
+		GameStateManager.Username = profile["first_name"];
+		//Debug.Log(Util.DeserializeJSONProfile)*/
+		var responseObject = Json.Deserialize(result.Text) as Dictionary<string, object>;
+		var dict = Json.Deserialize(result.Text) as Dictionary<string,string>;
+		string fullname = (string)responseObject["name"];
+		Debug.Log(fullname);
 	}
 
 	private Texture2D profilePicture;
