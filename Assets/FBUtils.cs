@@ -45,7 +45,7 @@ public class FBUtils : ScriptableObject {
 	{
 		if(isFBInit == false)
 		{
-			Debug.Log("Facebook Init() has not been called.");
+			Debug.Log("Facebook Init() has not been called yet!");
 			return;
 		}
 
