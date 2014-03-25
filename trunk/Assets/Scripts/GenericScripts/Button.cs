@@ -2,20 +2,16 @@
 using System.Collections;
 
 abstract class Button : MonoBehaviour {
-	
-	Sprite DefaultSprite;
-	//public Sprite HoverSprite = null;
-	//public Sprite PushedSprite = null;
+
+	protected Sprite DefaultSprite;
+	public Sprite HoverSprite = null;
+	public Sprite PushedSprite = null;
 
 	public GameObject MenuToOpen = null;
 		
 	public AudioClip hover;
 	public AudioClip click;
 	public AudioClip release;
-
-	private Color m_DefaultColor;
-
-	public Color HoverColor = new Color(1f,1f,1f,1f);
 
 	protected bool isClickedBefore = false;
 	//protected bool acceptInputs = false;
@@ -24,7 +20,6 @@ abstract class Button : MonoBehaviour {
 
 	void Awake()
 	{
-		m_DefaultColor = new Color(1f,1f,1f,1f);
 		DefaultSprite = GetComponent<SpriteRenderer>().sprite;
 		audioPlayer = Camera.main.audio;
 		if(audioPlayer == null)
@@ -46,6 +41,14 @@ abstract class Button : MonoBehaviour {
 		{
 			Debug.Log("(" + gameObject.name + ") release not supplied: loading defaults");
 			release = Resources.Load("/Audio/mouserelease1") as AudioClip;
+		}
+		if(HoverSprite == null)
+		{
+			HoverSprite = DefaultSprite;
+		}
+		if(PushedSprite == null)
+		{
+			PushedSprite = DefaultSprite;
 		}
 	}
 
@@ -72,8 +75,7 @@ abstract class Button : MonoBehaviour {
 
 		//if(acceptInputs)
 		{
-			GetComponent<SpriteRenderer>().color = HoverColor;
-			//GetComponent<SpriteRenderer>().sprite = HoverSprite;
+			GetComponent<SpriteRenderer>().sprite = HoverSprite;
 		}
 		audioPlayer.PlayOneShot(hover);
 
@@ -82,10 +84,9 @@ abstract class Button : MonoBehaviour {
 	// OnLeaving
 	void OnMouseExit()
 	{
-		GetComponent<SpriteRenderer>().color = m_DefaultColor;
 		//if(acceptInputs)
 		{
-			//GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 		}
 	}
 	
@@ -94,7 +95,7 @@ abstract class Button : MonoBehaviour {
 	{
 		//if(acceptInputs == false)
 		{
-		//	GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			isClickedBefore = true;
 		}
 		audioPlayer.PlayOneShot(click);
