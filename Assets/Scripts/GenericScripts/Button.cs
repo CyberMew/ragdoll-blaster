@@ -57,8 +57,13 @@ abstract class Button : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	protected void Update () {
+		if(InputManager.GetIsInputReleased() && isClickedBefore)
+		{
+			// reset back to default sprite
+			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			isClickedBefore = false;
+		}
 	}
 	/*
 	public void AcceptInputs(bool inputs)
@@ -76,6 +81,10 @@ abstract class Button : MonoBehaviour {
 		//if(acceptInputs)
 		{
 			GetComponent<SpriteRenderer>().sprite = HoverSprite;
+			if(isClickedBefore)
+			{
+				GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			}
 		}
 		audioPlayer.PlayOneShot(hover);
 
@@ -87,6 +96,11 @@ abstract class Button : MonoBehaviour {
 		//if(acceptInputs)
 		{
 			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
+			if(isClickedBefore)
+			{
+				// remain as depressed
+				GetComponent<SpriteRenderer>().sprite = PushedSprite;
+			}
 		}
 	}
 	
@@ -99,6 +113,8 @@ abstract class Button : MonoBehaviour {
 			isClickedBefore = true;
 		}
 		audioPlayer.PlayOneShot(click);
+		//Debug.Log("down");
+
 	}
 	
 	// Clicked and released
@@ -107,6 +123,7 @@ abstract class Button : MonoBehaviour {
 		if(isClickedBefore)
 		{
 			isClickedBefore = false;
+			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 			
 			audioPlayer.PlayOneShot(release);
 			Debug.Log("Disabling all buttons inputs");
@@ -119,6 +136,7 @@ abstract class Button : MonoBehaviour {
 			}*/
 
 			ButtonAction();
+			//Debug.Log("up");
 		}
 	}
 

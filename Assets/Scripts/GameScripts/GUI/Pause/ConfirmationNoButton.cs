@@ -5,11 +5,13 @@ class ConfirmationNoButton : Button {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log(name + ":" + isClickedBefore);
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		base.Update();
 	}
 
 	

@@ -10,7 +10,7 @@ class ConfirmationYesButton : Button {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		base.Update();
 	}
 	
 	internal override void ButtonAction()
