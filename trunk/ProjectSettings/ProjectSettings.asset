@@ -107,7 +107,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   AndroidKeystoreName: C:/Users/Charles/Desktop/ragdoll-blaster/private.keystore
-  AndroidKeyaliasName: 
+  AndroidKeyaliasName: ahchao
   resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
   - m_BuildTarget: 

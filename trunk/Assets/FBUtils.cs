@@ -99,7 +99,15 @@ public class FBUtils : ScriptableObject {
 			myLogger += userCallback;
 		}
 		myLogger += PostCallback;
+
+		if(accessesRequired.Trim().Length == 0)
+		{
+			// There was previously some bug in 5.0.3 that if it was empty it would not login
+			accessesRequired = "basic_info";
+		}
+
 		Debug.Log("Attempting login/acquiring " + accessesRequired + " permission.");
+		isJobPending = true;
 		FB.Login(accessesRequired, myLogger);
 	}
 	//public delegate void FacebookDelegate (FBResult result);
