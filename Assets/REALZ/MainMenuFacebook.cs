@@ -171,7 +171,8 @@ public class MainMenuFacebook : MonoBehaviour {
 		{
 			text = @"Login to Facebook to get a Facebook face for your ragdoll!
 
-					We will not access or post to Facebook without your permission!";
+					We will not access or post to Facebook without your permission!
+					Only the lowest permissions are granted to us.";
 		}
 		else
 		{
