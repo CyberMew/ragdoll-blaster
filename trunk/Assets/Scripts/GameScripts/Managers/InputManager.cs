@@ -35,7 +35,7 @@ public static class InputManager {
 #elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
 		if(Input.GetMouseButtonDown(0))
 		{
-			Debug.Log("Input down - Mouse");
+			//Debug.Log("Input down - Mouse");
 			InputManager.SetOffset(Vector2.zero);
 			return true;
 		}

@@ -5,6 +5,8 @@ using Facebook.MiniJSON;
 using System.Collections.Generic;
 
 public class FBUtils : ScriptableObject {
+	public static bool IsLoggedIn = false;
+
 
 	public static bool isJobPending = false;
 	public static string lastResult = "";
@@ -51,14 +53,23 @@ public class FBUtils : ScriptableObject {
 
 		if(isJobPending)
 		{
-			Debug.Log("Still waiting for response from previous Facebook call. Skipping command.");
+			Debug.Log("Still waiting for response from previous Facebook call. Skipping PromptLogin command.");
 			return;
 		}
 
 		if(FB.IsLoggedIn)
 		{
-			Debug.Log("User is already logged in. Log out first if you want to switch user.");
-			return;
+			if(IsLoggedIn)
+			{
+				Debug.Log("User is already logged in. Log out first if you want to switch user.");
+				return;
+			}
+			else
+			{
+				Debug.Log("User is already logged in, but permissions not granted at all (i.e. not even basic permissions granted. Requesting for basic permissions via Login again.");
+				//todo: request permissions again
+
+			}
 		}
 
 		/*if(postCallback == null)
@@ -68,7 +79,7 @@ public class FBUtils : ScriptableObject {
 			return;
 		}*/
 
-		isJobPending = true;
+		//****isJobPending = true;
 		// Cleanup from previous call
 		/*if(prevCB != null)
 		{
@@ -86,9 +97,9 @@ public class FBUtils : ScriptableObject {
 		{
 			prevCB = userCallback;
 			myLogger += userCallback;
-			myLogger += PostCallback;
 		}
-
+		myLogger += PostCallback;
+		Debug.Log("Attempting login/acquiring " + accessesRequired + " permission.");
 		FB.Login(accessesRequired, myLogger);
 	}
 	//public delegate void FacebookDelegate (FBResult result);
@@ -96,7 +107,7 @@ public class FBUtils : ScriptableObject {
 	{
 		if(isJobPending)
 		{
-			Debug.Log("Still waiting for response from another Facebook call. Skipping command.");
+			Debug.Log("Still waiting for response from another Facebook call. Skipping GetProfilePicture command.");
 			return;
 		}
 
@@ -108,7 +119,7 @@ public class FBUtils : ScriptableObject {
 	{
 		if(isJobPending)
 		{
-			Debug.Log("Still waiting for response from another Facebook call. Skipping command.");
+			Debug.Log("Still waiting for response from another Facebook call. Skipping GetProfileFullName command.");
 			return;
 		}
 		
@@ -121,7 +132,7 @@ public class FBUtils : ScriptableObject {
 	{
 		if(isJobPending)
 		{
-			Debug.Log("Still waiting for response from another Facebook call. Skipping command.");
+			Debug.Log("Still waiting for response from another Facebook call. Skipping PostScore command.");
 			return;
 		}
 
@@ -130,10 +141,44 @@ public class FBUtils : ScriptableObject {
 		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.POST);
 	}
 
+	public static void LogOut()
+	{
+		if(isJobPending)
+		{
+			Debug.Log("Still waiting for response from another Facebook call. Skipping LogOut command.");
+			return;
+		}
+		Debug.Log("todo: logout and remove basic permissions are the same thing for us");
+		FB.Logout();
+		IsLoggedIn = FB.IsLoggedIn;
+		if(IsLoggedIn == true)
+		{
+			Debug.Log("Shit is happening");
+		}
+	}
+
+	public static void RemoveAllPermissions(Facebook.FacebookDelegate userCallback = null)
+	{
+		if(isJobPending)
+		{
+			Debug.Log("Still waiting for response from another Facebook call. Skipping RemoveAllPermissions command.");
+			return;
+		}
+		Debug.Log("Deleting permissions");
+		if(userCallback == null)
+		{
+			Debug.Log("You must provide a user call back!");
+			return;
+		}
+		apiQuery = "me/permissions";
+		
+		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.DELETE);
+	}
+
 	/**************private**************/
 	static void FBAPIQuery(string query, Facebook.FacebookDelegate userCallback, Facebook.HttpMethod httpMethod)
 	{		
-		isJobPending = true;
+		//****isJobPending = true;
 
 		/*Facebook.FacebookDelegate myLogger = null;
 		myLogger += new Facebook.FacebookDelegate(CompletedCallback);
@@ -163,14 +208,14 @@ public class FBUtils : ScriptableObject {
 		{
 			prevCB = userCallback;
 			myLogger += userCallback;
-			myLogger += PostCallback;
 		}
+		myLogger += PostCallback;
 
 		FB.API(query, httpMethod, myLogger);
 	}
 	/*static void FBAPIPost(string query, Facebook.FacebookDelegate postCallback)
 	{		
-		isJobPending = true;
+		;
 		Facebook.FacebookDelegate myLogger = null;
 		myLogger += new Facebook.FacebookDelegate(DefaultCallback);
 		if(postCallback != null)
@@ -184,10 +229,6 @@ public class FBUtils : ScriptableObject {
 
 	static void DefaultCallback(FBResult result)
 	{
-	//	Debug.Log("Cleared isJobPending to false");
-		isJobPending = false;
-
-		
 	//	Debug.Log("Default Callback called");
 		lastResponseTexture = null;
 		//string lastResponse = "";
@@ -195,7 +236,8 @@ public class FBUtils : ScriptableObject {
 		if(!string.IsNullOrEmpty(result.Error))
 		{
 			string lastResponse = "Error Response:\n" + result.Error;
-			Debug.Log(lastResponse);
+			//Debug.Log(lastResponse);
+			//ProcessError(result.Error);
 		}
 		else if(!apiQuery.Contains("/picture"))	// Normal query
 		{
@@ -216,9 +258,15 @@ public class FBUtils : ScriptableObject {
 	static void PostCallback(FBResult result)
 	{
 		//Debug.Log("Performing PostCallback: removing delegates");
-		myLogger -= prevCB;
+		if(prevCB != null)
+		{
+			myLogger -= prevCB;
+			prevCB = null;
+		}
 		myLogger -= PostCallback;
-		prevCB = null;
+		
+		//	Debug.Log("Cleared isJobPending to false");
+		isJobPending = false;		
 	}
 	/*
 	public static void Test()
@@ -231,4 +279,18 @@ public class FBUtils : ScriptableObject {
 		Facebook.FacebookDelegate userCallback = null;
 		FBAPIQuery(apiQuery, userCallback, Facebook.HttpMethod.GET);
 	}*/
+
+
+	public static void ProcessError(string error)
+	{		
+		var responseObject = Json.Deserialize(error) as Dictionary<string, object>;
+		//var dict = Json.Deserialize(result.Text) as Dictionary<string,string>;
+//		User.fullname = (string)responseObject["name"];
+		object errorObject;
+		if (responseObject.TryGetValue ("error", out errorObject)) 
+		{
+			var errorDetails = (Dictionary<string, string>) errorObject;
+			Debug.Log("Error Message:" + (string)errorDetails["message"] + "\nType:" + (string)errorDetails["type"] + "\nCode:" + (string)errorDetails["code"]);
+		}
+	}
 }

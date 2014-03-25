@@ -4,48 +4,19 @@ using System.Collections.Generic;
 using Facebook.MiniJSON;
 using System;
 
-public class facebookuse : MonoBehaviour {
+public class MainMenuFacebook : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
 		// Make sure it's ok to initialize facebook first
-		Invoke("GetUrlAndInitFB", 1f);
+		//Invoke("GetUrlAndInitFB", 0.1f); this will not be called while it is still disabled
 
-		profilePicture = new Texture2D(1,1);
+//		profilePicture = new Texture2D(1,1);
 	}
 
-	void GetUrlAndInitFB()
-	{
-		/*Application.ExternalEval(
-			"var u = UnityObject2.instances[0].getUnity();" +
-			"if(u == null) { console.log('Unity is not yet loaded'); } " +
-			"console.log('testing console log anyway'); " +
-			"u.SendMessage('" + gameObject.name + "', 'InitializeForFacebook', document.URL);"
-			);*/
-	//	Application.ExternalEval(
-		//	"UnityObject2.instances[0].getUnity().SendMessage('" + gameObject.name + "', 'InitializeForFacebook', window.top.location.href);"
-		//	);
-		#if UNITY_WEBPLAYER && !UNITY_EDITOR
-		Application.ExternalEval("UnityObject2.instances[0].getUnity().SendMessage(\"" + name + "\", \"InitializeForFacebook\", document.URL);");
-#else
-		InitializeForFacebook("");
-#endif
-	}
-
-	void InitializeForFacebook(string url)
-	{
-		Debug.Log("Finally gotten the url, can proceed to init: "  + url);
-
-		// Processing for the url
-		//todo: verify if we are in facebook!
-		FBUtils.currentURL = url;
-
-		GameManager.InitializeFacebook();
-	}
-	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.A))
+		/*if(Input.GetKeyDown(KeyCode.A))
 		{
 			Debug.Log(GC.GetTotalMemory(true));
 			FBUtils.PromptLogin("", HandleLoginResponse);
@@ -72,12 +43,12 @@ public class facebookuse : MonoBehaviour {
 			Application.ExternalEval(
 				@"UnityObject2.instances[0].getUnity().SendMessage(""Facebook"", ""InitializeForFacebook"", window.location.href);"
 				);
-		}
+		}*/
 	}
 
 
 	// Handle response from Facebook regarding the login prompt
-	void HandleLoginResponse(FBResult result)
+	/*void HandleLoginResponse(FBResult result)
 	{
 		// We can handle the result here ourselves, or leave it to the default callback in FBUtils.cs to do it for us
 
@@ -93,10 +64,11 @@ public class facebookuse : MonoBehaviour {
 		else
 		{
 			lastResponse = "Login was successful by " + FB.UserId + "!";
+
 		}
 		Debug.Log(lastResponse);
-	}
-	void HandlePictureResponse(FBResult result)
+	}*/
+	/*void HandlePictureResponse(FBResult result)
 	{
 		// We can handle the result here ourselves, or leave it to the default callback in FBUtils.cs to do it for us
 
@@ -122,7 +94,7 @@ public class facebookuse : MonoBehaviour {
 				Debug.Log("Picture download requires .png or .jpg file!");
 			}
 		}
-	}
+	}*/
 	//string fullname="";
 	void HandleNameResponse(FBResult result)
 	{
@@ -149,13 +121,13 @@ public class facebookuse : MonoBehaviour {
 		///
 		GameStateManager.Username = profile["first_name"];
 		//Debug.Log(Util.DeserializeJSONProfile)*/
-		var responseObject = Json.Deserialize(result.Text) as Dictionary<string, object>;
-		var dict = Json.Deserialize(result.Text) as Dictionary<string,string>;
-		string fullname = (string)responseObject["name"];
-		Debug.Log(fullname);
+	//	var responseObject = Json.Deserialize(result.Text) as Dictionary<string, object>;
+	//	var dict = Json.Deserialize(result.Text) as Dictionary<string,string>;
+	//	User.fullname = (string)responseObject["name"];
+	//	Debug.Log(User.fullname );
 	}
 
-	private Texture2D profilePicture;
+	/*private Texture2D profilePicture;
 
 	// Download from the web
 	IEnumerator DownloadProfilePicture(string url)
@@ -173,20 +145,39 @@ public class facebookuse : MonoBehaviour {
 
 		Debug.Log ("Picture download successfully.");
 		// Some post action to notify picture download is a success.
-	}
+	}*/
+
+	public GUIStyle customStyle;
 	
 	void OnGUI()
 	{
 		
-		if (profilePicture != null)
+		if (User.profilePicture != null && FBUtils.IsLoggedIn)
 		{
 			float texHeight = 200;
-			if (Screen.height - profilePicture.height < texHeight)
+			if (Screen.height - User.profilePicture.height < texHeight)
 			{
-				texHeight = Screen.height - profilePicture.height;
+				texHeight = Screen.height - User.profilePicture.height;
 			}
-			GUI.Label(new Rect(Screen.width * 0.5f - profilePicture.width * 0.5f, (Screen.height - profilePicture.height) * 0.5f, profilePicture.width, profilePicture.height), profilePicture);
+			GUI.Label(new Rect(Screen.width * 0.5f - User.profilePicture.width * 0.5f, (Screen.height - User.profilePicture.height) * 0.5f, User.profilePicture.width, User.profilePicture.height), User.profilePicture);
 		}
 		GUI.TextField(new Rect(5, 0, 500, 50), FB.AccessToken);
+
+		
+		// todo: super unoptimize
+		string text = "You should not be able to see this";
+		// Center text on screen
+		if(FBUtils.IsLoggedIn == false)
+		{
+			text = @"Login to Facebook to get a Facebook face for your ragdoll!
+
+					We will not access or post to Facebook without your permission!";
+		}
+		else
+		{
+			text = "Hello! You are currently logged in as\n<b>" + User.fullname + "</b>.";
+		}
+		Rect centralise = new Rect((Screen.width - customStyle.fixedWidth) * 0.5f, (Screen.height - customStyle.fixedHeight) * 0.5f - 30f, customStyle.fixedWidth, customStyle.fixedHeight);
+		GUI.Label(centralise, text, customStyle);
 	}
 }

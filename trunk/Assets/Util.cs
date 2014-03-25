@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Facebook.MiniJSON;
 
 public class Util : ScriptableObject
