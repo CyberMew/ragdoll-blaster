@@ -11,6 +11,7 @@ class MediumButton : Button {
 	
 	// Update is called once per frame
 	void Update () {
+		base.Update();
 	
 	}
 

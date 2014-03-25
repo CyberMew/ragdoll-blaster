@@ -10,6 +10,7 @@ class ButtonConfirmation: Button {
 	
 	// Update is called once per frame
 	void Update () {
+		base.Update();
 
 	}
 

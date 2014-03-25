@@ -12,6 +12,7 @@ class CloseMenuButton : Button {
 	
 	// Update is called once per frame
 	void Update () {
+		base.Update();
 		if(TapAnywhereToClose && InputManager.GetIsInputDown())
 		{
 			ButtonAction();
