@@ -65,6 +65,7 @@ GameObject:
   - 50: {fileID: 5000004}
   - 233: {fileID: 23300004}
   - 61: {fileID: 6100004}
+  - 114: {fileID: 11400000}
   m_Layer: 10
   m_Name: head
   m_TagString: Bullet
@@ -595,6 +596,17 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: .555555582, y: 1.45833337}
   m_Center: {x: 5.96046448e-08, y: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e28cb5ed93a534f814488155d79c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
