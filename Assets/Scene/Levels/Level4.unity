@@ -541,7 +541,6 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &281862444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -823,7 +822,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &323593166
 SpriteRenderer:
@@ -948,7 +946,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &375754839
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -984,7 +981,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Size: {x: 5.55555534, y: 1}
-  m_Center: {x: 0, y: 0}
+  m_Center: {x: 0, y: .5}
 --- !u!114 &375754841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,16 +991,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 375754836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a76fe8ab3cc76428188d81f0492261, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cee936db670e9f4784284f43df1252e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   HoverSprite: {fileID: 21300000, guid: 3da04485cb397a4469f52fb160ac9047, type: 3}
   PushedSprite: {fileID: 21300000, guid: 3da04485cb397a4469f52fb160ac9047, type: 3}
   MenuToOpen: {fileID: 0}
-  hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
-  click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
-  release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
+  hover: {fileID: 0}
+  click: {fileID: 0}
+  release: {fileID: 0}
+  LevelToLoad: 
 --- !u!1 &440624292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,7 +1798,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &714154785
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1837,7 +1833,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Size: {x: 5.55555534, y: 1}
-  m_Center: {x: 0, y: 0}
+  m_Center: {x: 0, y: .5}
 --- !u!1 &755406588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,7 +1870,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &755406590
 SpriteRenderer:
@@ -2140,7 +2135,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &859435766
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2417,7 +2411,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &1001294694
 SpriteRenderer:
@@ -2658,7 +2651,6 @@ MonoBehaviour:
   hover: {fileID: 8300000, guid: 029f6d3048d1fd341982166c632f2fe2, type: 3}
   click: {fileID: 8300000, guid: 083a429befacf3145ab5edbc11c5eaaf, type: 3}
   release: {fileID: 8300000, guid: 6b52383acac57e04081f6d9694cd458b, type: 3}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
   TapAnywhereToClose: 0
 --- !u!212 &1098708605
 SpriteRenderer:
@@ -4083,7 +4075,6 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &1650439110
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4119,7 +4110,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Size: {x: 5.55555534, y: 1}
-  m_Center: {x: 0, y: 0}
+  m_Center: {x: 0, y: .5}
 --- !u!1001 &1686022006
 Prefab:
   m_ObjectHideFlags: 0
@@ -4290,7 +4281,6 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  HoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &1736932324
 BoxCollider2D:
   m_ObjectHideFlags: 0

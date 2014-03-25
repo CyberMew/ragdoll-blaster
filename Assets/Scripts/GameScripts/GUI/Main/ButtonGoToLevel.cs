@@ -18,7 +18,14 @@ class ButtonGoToLevel : Button {
 
 	internal override void ButtonAction()
 	{
-		Application.LoadLevel(LevelToLoad);
+		if(LevelToLoad.Length == 0)
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
+		else
+		{
+			Application.LoadLevel(LevelToLoad);
+		}
 		//transform.GetChild(0).gameObject.SetActive(true);	// Suppose this should be slower, albeit more dynamic
 		if(MenuToOpen)
 		{
