@@ -87,7 +87,7 @@ abstract class Button : MonoBehaviour {
 			}
 		}
 		audioPlayer.PlayOneShot(hover);
-
+		Debug.Log("entered:"+name);
 	}	
 	
 	// OnLeaving
@@ -102,6 +102,7 @@ abstract class Button : MonoBehaviour {
 				GetComponent<SpriteRenderer>().sprite = PushedSprite;
 			}
 		}
+		Debug.Log("exited:"+name);
 	}
 	
 	// Being pushed
@@ -114,7 +115,8 @@ abstract class Button : MonoBehaviour {
 		}
 		audioPlayer.PlayOneShot(click);
 		//Debug.Log("down");
-
+		
+		Debug.Log("clicked:"+name);
 	}
 	
 	// Clicked and released
@@ -126,7 +128,7 @@ abstract class Button : MonoBehaviour {
 			GetComponent<SpriteRenderer>().sprite = DefaultSprite;
 			
 			audioPlayer.PlayOneShot(release);
-			Debug.Log("Disabling all buttons inputs");
+//			Debug.Log("Disabling all buttons inputs");
 
 			// MainMenu scene is also using this base class - do a check
 			/*if(GameManager.isInGame)
@@ -138,6 +140,7 @@ abstract class Button : MonoBehaviour {
 			ButtonAction();
 			//Debug.Log("up");
 		}
+		Debug.Log("release:"+name);
 	}
 
 	public void EnableAllPauseButtonsInputs(bool inputs, bool isVisible)
