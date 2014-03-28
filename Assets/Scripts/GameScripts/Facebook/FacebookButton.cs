@@ -62,7 +62,7 @@ class FacebookButton : Button {
 	string lastResponse;
 	void HandleLoginResponse(FBResult result)
 	{
-		if (result.Error != null)
+		if (!string.IsNullOrEmpty(result.Error))
 		{
 			lastResponse = "Error Response:\n" + result.Error;
 			//collider2D.enabled = true;
