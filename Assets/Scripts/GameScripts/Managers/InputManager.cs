@@ -133,7 +133,7 @@ public static class InputManager {
 	// Screen space/Pixel coordinates (bottom left is Origin, upper right is Screen)
 	static public Vector2 GetCurrentPositionScreenSpace()
 	{
-		#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+		#if (UNITY_ANDROID || UNITY_IPHONE)
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -181,6 +181,17 @@ public static class InputManager {
 		#endif
 	}
 
+	static private bool isMoving;
+	public static void SetIsMoving(bool move)
+	{
+		isMoving = move;
+	}
+
+	public static bool GetIsInputMoving()
+	{
+		return isMoving;
+	}
+
 
 	static public void PrintFingersDetected()
 	{
@@ -203,7 +214,5 @@ public static class InputManager {
 		{
 			Debug.Log("User has 1 finger (mouse down) touching the screen");
 		}
-
-
 	}
 }
