@@ -92,16 +92,11 @@ public class ScoreScreen : MonoBehaviour {
 
 		// todo:Check
 	}*/
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	private float sliderValue = 1.0f;
-	private float maxSliderValue = 10.0f;
 
-	Vector2 scrollPosition = new Vector2(50,50);
+	//private float sliderValue = 1.0f;
+	//private float maxSliderValue = 10.0f;
+
+	Vector2 scrollPosition = Vector2.zero;
 
 	void GetPermissions()
 	{
@@ -236,21 +231,116 @@ public class ScoreScreen : MonoBehaviour {
 			}
 		);
 	}
+	static float aaa,bbb;
+	// Update is called once per frame
+	void Update () {
 
-	void DisplayScores()
-	{
+		//		Debug.Log(scrollPosition.y);
+		if(Input.touchCount > 0)
+		{
+			Touch touch = Input.GetTouch(0);
+			
+			if(touch.phase == TouchPhase.Moved)
+			{
+				// Convert screen space to world space
+				/*Vector2 screenPoint = GUIUtility.ScreenToGUIPoint(InputManager.GetCurrentPositionScreenSpace());
+				Debug.Log(scrollArea  + "\n" + InputManager.GetCurrentPositionScreenSpace());
+				// Only move if we are inside, otherwise don't even bother!
+				if(scrollArea.Contains(screenPoint))
+				{
+					Vector2 newDeltaPosition = new Vector2(touch.deltaPosition.x / Screen.width, touch.deltaPosition.y / Screen.height);
+					newDeltaPosition = new Vector2(newDeltaPosition.x * GameManager.width, newDeltaPosition.y * GameManager.height);
 
+					Debug.Log(newDeltaPosition.y);
+					// dragging
+					scrollPosition.y += touch.deltaPosition.y ;// * (Time.deltaTime / touch.deltaTime);
+					//scrollPosition
+				}*/
+				//Vector2 EndPos = Camera.main.ScreenToWorldPoint(touch.position);
+				//Debug.Log(EndPos);
+				Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
+				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect
+				if(scrollViewRect.Contains(tmp))
+				{
+					float dt = Time.deltaTime / touch.deltaTime;
+					//if (float.IsNaN(dt) || float.IsInfinity(dt))
+						dt = 1.0f;
+					scrollPosition.y += touch.deltaPosition.y * dt * 8.5f;
+				}
+				aaa += Mathf.Abs(touch.deltaPosition.y);
+				bbb += Mathf.Abs(touch.deltaPosition.x);
+				Debug.Log (aaa + " " + bbb + " " + touch.position + " " + Screen.dpi);
+
+			}
+		}
 	}
 
+	public GUISkin ScoreSkin;
+	Rect scrollViewRect;
+
+	public GUIStyle test;
+	public GUISkin test2;
+	void DisplayScores()
+	{
+		//float areaWidth = 500f * Screen.width / GameManager.width;
+		//float areaHeight = 700f * Screen.height / GameManager.height;
+
+		
+		#if (UNITY_IOS || UNITY_ANDROID || UNITY_WP8) && !UNITY_EDITOR
+		// Remove scrollbars textures
+		scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, false, GUIStyle.none, GUIStyle.none);//, GUILayout.Width(areaWidth), GUILayout.Height(areaHeight * 0.7f));
+		#else
+		scrollPosition = GUILayout.BeginScrollView(scrollPosition);//, GUILayout.Width(areaWidth), GUILayout.Height(areaHeight * 0.7f));
+		#endif
+
+		GUILayout.BeginVertical();
+		int count = 1;
+		//foreach(object item in scoresList)
+		for(int i = 0; i < 50; ++i)
+		{
+			GUILayout.BeginHorizontal();
+			GUILayout.Label(count++.ToString());
+			//GUILayout.Label(new Texture2D(65,65));
+			GUILayout.Label("TEXT");
+			GUILayout.Label("somenamehere");
+			GUILayout.Label("21");
+			GUILayout.EndHorizontal();
+		}
+		GUILayout.EndVertical();
+		GUILayout.EndScrollView();
+		
+		if(Event.current.type == EventType.Repaint /*&& 
+		   scrollArea.Contains(Event.current.mousePosition)*/)
+		{
+			// Get the rect of the scrollview relative to the area
+			Rect scrollArea = GUILayoutUtility.GetLastRect();
+			
+			// Convert relative GUI point to the area
+			Vector2 topLeftCorner = GUIUtility.GUIToScreenPoint(new Vector2(scrollArea.x,scrollArea.y));
+
+			// Construct a rect in terms of screen space (not UnityGUI space) where Origin is TopLeft
+			scrollViewRect = new Rect(topLeftCorner.x, topLeftCorner.y, scrollArea.width, scrollArea.height);
+
+			//Debug.Log(topLeftCorner);// + "\nScreen: " + screenPos + " GUI: " + convertedGUIPos);
+			//Debug.Log(((Screen.width - areaWidth) * 0.5f).ToString() + ((Screen.height - areaHeight) * 0.5f).ToString());
+			
+		}
+	}
+
+	static float areaWidth = 700f * Screen.width / GameManager.width;
+	static float areaHeight = 600f * Screen.height / GameManager.height;
+	
 	void OnGUI()
 	{
-		float areaWidth = 500f * Screen.width / GameManager.width;
-		float areaHeight = 400f * Screen.height / GameManager.height;
+		GUI.skin = ScoreSkin;
+		
+		GUILayout.BeginArea(new Rect((Screen.width - areaWidth) * 0.5f, (Screen.height - areaHeight) * 0.5f, areaWidth, areaHeight));
+		GUILayout.Box("test", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+		//GUI.Box(GUILayoutUtility.GetLastRect(), "TEST");
+		GUILayout.EndArea();
+
 		// Wrap everything in the designated GUI Area
 		GUILayout.BeginArea(new Rect((Screen.width - areaWidth) * 0.5f, (Screen.height - areaHeight) * 0.5f, areaWidth, areaHeight));
-
-		GUILayout.Box("test", GUILayout.ExpandHeight(true));
-		//GUI.Box(GUILayoutUtility.GetLastRect(), "TEST");
 
 		// Text for leaderboard
 		GUILayout.BeginHorizontal();
@@ -277,29 +367,33 @@ public class ScoreScreen : MonoBehaviour {
 		{
 			if(GUILayout.Button("Post my scores and compare my scores against friends!"))
 			{
-				// FB cmd to request and get latest scores after
-				GetPermissions();
-				// delegate to post scores and get scores
+				// Get permissions, and if successful, get latest scores after
+				//GetPermissions();
+				hasPublishPermissions = true;
 			}
 		}
 		else
 		{
-			// Post scores
-			// Display scores
+			GUILayout.BeginHorizontal();
+			GUILayout.Label("Ranking");		
+			GUILayout.Label("Name");
+			GUILayout.Label("Shots");
+			GUILayout.EndHorizontal();
+			
+			// Adds some spacing
+			GUILayout.Space(20f);
+
+			// Display scores (inside scrollable area)
 			DisplayScores();
+			
+			// Adds some spacing
+			GUILayout.Space(20f);
+
+			// Display Share/Challenge button
+			GUILayout.Button("Share/Challenge");
 		}
-
-		// Begin the singular Horizontal Group
-		GUILayout.BeginHorizontal();
-
-		// Arrange two more Controls vertically beside the Button
-		GUILayout.BeginVertical();
-
-		// End the Groups and Area
-		GUILayout.EndVertical();
-		GUILayout.EndHorizontal();
 		GUILayout.EndArea();
-		
+		/*
 		
 		GUILayout.BeginArea (new Rect (100, 150, Screen.width-200, Screen.height-100));
 		GUILayout.Button ("I am a regular Automatic Layout Button");
@@ -353,6 +447,15 @@ public class ScoreScreen : MonoBehaviour {
 		GUILayout.BeginHorizontal();
 		GUILayout.Button("Short Button", GUILayout.ExpandWidth(false));
 		GUILayout.Button("Very very long long long ass Button");
-		GUILayout.EndHorizontal();
+		GUILayout.EndHorizontal();*/
+
+		
+		Vector2 screenPos = Event.current.mousePosition;
+		GUI.BeginGroup(new Rect(123, 10, 100, 100));
+		GUI.Box(new Rect(110,0,100,100), "");
+		Vector2 convertedGUIPos = GUIUtility.ScreenToGUIPoint(screenPos);
+		GUI.EndGroup();
+		Vector2 convertedGUIPos2 = GUIUtility.GUIToScreenPoint(new Vector2(0,0));
+		//Debug.Log(convertedGUIPos2 + "\nScreen: " + screenPos + " GUI: " + convertedGUIPos);
 	}
 }

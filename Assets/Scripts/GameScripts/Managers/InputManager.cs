@@ -130,10 +130,10 @@ public static class InputManager {
 		return result;
 	}
 
-	// Screen space/Pixel coordinates
+	// Screen space/Pixel coordinates (bottom left is Origin, upper right is Screen)
 	static public Vector2 GetCurrentPositionScreenSpace()
 	{
-		#if UNITY_ANDROID || UNITY_IPHONE
+		#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -141,13 +141,14 @@ public static class InputManager {
 	//		Debug.Log("NON:" + touch.position);
 			return touch.position;
 		}
-		return new Vector2(-1,-1);
+		return new Vector2(-1337,-1337);
 		#elif UNITY_STANDALONE || UNITY_EDITOR || UNITY_WEBPLAYER
+		// Origin is lower right corner in pixels
 //		Debug.Log("MOUSE:" + Input.mousePosition);
 		return Input.mousePosition;
 		#else
-		Debug.LogError("Something is wrong! Platform on " + Application.platform.ToString());
-		return new Vector2(-1,-1);
+		Debug.LogWarning("Something is wrong! Platform on " + Application.platform.ToString());
+		return Input.mousePosition;
 		#endif		
 	}
 
