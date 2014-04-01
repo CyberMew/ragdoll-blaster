@@ -8,6 +8,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Examples/InteractiveConsole.unity
   - enabled: 1
+    path: Assets/winscores.unity
+  - enabled: 1
     path: Assets/Scene/Menus/MainMenu.unity
   - enabled: 1
     path: Assets/Scene/Levels/Level0.unity
@@ -27,5 +29,3 @@ EditorBuildSettings:
     path: Assets/Scene/Levels/Level7.unity
   - enabled: 1
     path: Assets/Scene/Menus/Credits.unity
-  - enabled: 1
-    path: Assets/winscores.unity
