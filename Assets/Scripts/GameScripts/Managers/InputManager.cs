@@ -15,6 +15,18 @@ public static class InputManager {
 		Debug.Log("Input - Mouse");
 #endif
 	}
+	
+	#if UNITY_ANDROID || UNITY_IPHONE
+	static Vector2 lastKnowDeltaPosition;
+	public static Vector2 GetTouchDelta()
+	{
+		return lastKnowDeltaPosition;
+	}
+	public static void SetTouchDelta(Vector2 pos)
+	{
+		lastKnowDeltaPosition = pos;
+	}
+#endif
 
 	// Check if finger touched the device
 	static public bool GetIsInputDown()

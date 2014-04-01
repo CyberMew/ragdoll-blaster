@@ -27,7 +27,7 @@ public class InputLogic : MonoBehaviour {
 		GetDistance();
 		GetPinch();
 		#if UNITY_ANDROID || UNITY_IPHONE
-		//GetTouchDelta();
+		GetTouchDelta();
 		#endif
 		GetIsMoving();
 	}
@@ -95,6 +95,8 @@ public class InputLogic : MonoBehaviour {
 		InputManager.SetIsMoving(isMoving);
 	}
 
+	
+	#if UNITY_ANDROID || UNITY_IPHONE
 	void GetTouchDelta()
 	{
 		// Track a single touch as a direction control.
@@ -104,29 +106,16 @@ public class InputLogic : MonoBehaviour {
 			
 			// Handle finger movements based on touch phase.
 			switch (touch.phase) {
-				// Record initial touch position.
-			case TouchPhase.Began:
-				startPos = touch.position;
-				directionChosen = false;
-				Debug.Log("InputLogic - Touched begin");
-				direction = Vector2.zero;
-				break;
-				
 				// Determine direction by comparing the current touch
 				// position with the initial one.
 			case TouchPhase.Moved:
-				direction = touch.position - startPos;
-				Debug.Log("InputLogic - Touched Moved");
+				InputManager.SetTouchDelta(touch.deltaPosition);
 				break;
-				
-				// Report that a direction has been chosen when the finger is lifted.
-			case TouchPhase.Ended:
-				directionChosen = true;
-				Debug.Log("InputLogic - Touched Ended");
-				break;
+
 			}
 		}
 	}
+	#endif
 
 	void GetPinch ()
 	{

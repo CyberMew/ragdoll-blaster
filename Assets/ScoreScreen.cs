@@ -231,12 +231,16 @@ public class ScoreScreen : MonoBehaviour {
 			}
 		);
 	}
-	static float aaa,bbb;
+	static float scrollVelocity = 0f;
+	float time = 0f;
+	const float maxTime = 3f;
 	Vector2 beginPos;
 	float offset = 0f;
+	float lastDeltaPosY = 0f;
 	// Update is called once per frame
 	void Update ()
 	{
+		// For quick testing purposes
 		/*if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
@@ -250,16 +254,37 @@ public class ScoreScreen : MonoBehaviour {
 				if(scrollViewRect.Contains(tmp))
 				{
 					scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
+					lastDeltaPosY = touch.deltaPosition.y;
 				}
 			}
 			else if(touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
 			{
 				offset = scrollPosition.y;
+
+				// Was it a tap, or a drag-release?
+				// Calculate if there is any inertia
+				//if (Mathf.Abs(touch.deltaPosition.y) >= 10)
+				{
+					float distPerTime = lastDeltaPosY / touch.deltaTime;
+					if (float.IsNaN(distPerTime) || float.IsInfinity(distPerTime))
+					{
+						distPerTime = 0.0f;
+					}
+					// No choice have to use it's build in frame based deltaPos to check
+					scrollVelocity = (int)(distPerTime);
+				}
+					//timeTouchPhaseEnded = Time.time;
+				scrollVelocity = lastDeltaPosY;
+				time = 0f;
 			}
 		}*/
-		//Debug.Log(InputManager.GetIsInputMoving());
-		//Debug.Log(scrollPosition.y);
-		if(InputManager.GetIsInputMoving())
+		if(InputManager.GetIsInputDown())
+		{
+			// Stop the inertia
+			time = maxTime;
+			scrollVelocity = 0f;
+		}
+		else if(InputManager.GetIsInputMoving())
 		{
 			Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
 			tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect coordinate system
@@ -268,12 +293,28 @@ public class ScoreScreen : MonoBehaviour {
 			if(scrollViewRect.Contains(tmp))
 			{
 				scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
+
+				lastDeltaPosY = InputManager.GetTouchDelta().y;
 			}
 		}
 		else if(InputManager.GetIsInputReleased())
 		{
 			offset = scrollPosition.y;
+			scrollVelocity = lastDeltaPosY;
+			time = 0f;
 		}
+
+
+		// Continue scrolling (controlled via timer)
+		if(time <= maxTime)
+		{
+			scrollVelocity = Mathf.Lerp(scrollVelocity, 0, time / maxTime);
+			time += Time.deltaTime;
+
+			scrollPosition.y += scrollVelocity;
+			offset = scrollPosition.y;
+		}
+
 	}
 
 	public GUISkin ScoreSkin;
