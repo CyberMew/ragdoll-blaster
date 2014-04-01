@@ -9,7 +9,7 @@ class ButtonResume : Button {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
 		base.Update();
 		#if UNITYSTANDALONE_WIN || UNITY_EDITOR
 		if(Input.GetKeyDown(KeyCode.Escape))
