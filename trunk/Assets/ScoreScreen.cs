@@ -235,65 +235,45 @@ public class ScoreScreen : MonoBehaviour {
 	Vector2 beginPos;
 	float offset = 0f;
 	// Update is called once per frame
-	void Update () {
-
-			//	Debug.Log("What space is this?"+scrollPosition.y);
-		if(Input.touchCount > 0)
+	void Update ()
+	{
+		/*if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
 
-			if(touch.phase == TouchPhase.Began)
+			if(touch.phase == TouchPhase.Moved)
 			{
 				Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
-				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect
+				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect coordinate system
 
-				beginPos = tmp;
-				Debug.Log("beginpos: " + beginPos);
-			}
-			else if(touch.phase == TouchPhase.Moved)
-			{
-				// Convert screen space to world space
-				/*Vector2 screenPoint = GUIUtility.ScreenToGUIPoint(InputManager.GetCurrentPositionScreenSpace());
-				Debug.Log(scrollArea  + "\n" + InputManager.GetCurrentPositionScreenSpace());
-				// Only move if we are inside, otherwise don't even bother!
-				if(scrollArea.Contains(screenPoint))
-				{
-					Vector2 newDeltaPosition = new Vector2(touch.deltaPosition.x / Screen.width, touch.deltaPosition.y / Screen.height);
-					newDeltaPosition = new Vector2(newDeltaPosition.x * GameManager.width, newDeltaPosition.y * GameManager.height);
-
-					Debug.Log(newDeltaPosition.y);
-					// dragging
-					scrollPosition.y += touch.deltaPosition.y ;// * (Time.deltaTime / touch.deltaTime);
-					//scrollPosition
-				}*/
-				//Vector2 EndPos = Camera.main.ScreenToWorldPoint(touch.position);
-				//Debug.Log(EndPos);
-				Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
-				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect
-			//	Debug.Log(tmp);
+				// Move only when inside the scroll rect area
 				if(scrollViewRect.Contains(tmp))
 				{
-					float dt = Time.deltaTime / touch.deltaTime;
-					if (float.IsNaN(dt) || float.IsInfinity(dt))
-						dt = 1.0f;
-					//scrollPosition.y += touch.deltaPosition.y * dt;
-					scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;//(beginPos - tmp).y;
-					//scrollPosition.y += InputManager.GetCurrentDragOffset().y;//(beginPos - tmp).y;
-					Debug.Log(scrollPosition.y);
+					scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
 				}
-				aaa += Mathf.Abs(touch.deltaPosition.y);
-				bbb += Mathf.Abs(touch.deltaPosition.x);
-				//Debug.Log (aaa + " " + bbb + " " + touch.position + " " + Screen.dpi);
-				Debug.Log(InputManager.GetCurrentDragOffset());
-
 			}
 			else if(touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
 			{
-				//beginPos
 				offset = scrollPosition.y;
 			}
+		}*/
+		//Debug.Log(InputManager.GetIsInputMoving());
+		//Debug.Log(scrollPosition.y);
+		if(InputManager.GetIsInputMoving())
+		{
+			Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
+			tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect coordinate system
+			
+			// Move only when inside the scroll rect area
+			if(scrollViewRect.Contains(tmp))
+			{
+				scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
+			}
 		}
-
+		else if(InputManager.GetIsInputReleased())
+		{
+			offset = scrollPosition.y;
+		}
 	}
 
 	public GUISkin ScoreSkin;
