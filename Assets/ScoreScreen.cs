@@ -232,15 +232,25 @@ public class ScoreScreen : MonoBehaviour {
 		);
 	}
 	static float aaa,bbb;
+	Vector2 beginPos;
+	float offset = 0f;
 	// Update is called once per frame
 	void Update () {
 
-		//		Debug.Log(scrollPosition.y);
+			//	Debug.Log("What space is this?"+scrollPosition.y);
 		if(Input.touchCount > 0)
 		{
 			Touch touch = Input.GetTouch(0);
-			
-			if(touch.phase == TouchPhase.Moved)
+
+			if(touch.phase == TouchPhase.Began)
+			{
+				Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
+				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect
+
+				beginPos = tmp;
+				Debug.Log("beginpos: " + beginPos);
+			}
+			else if(touch.phase == TouchPhase.Moved)
 			{
 				// Convert screen space to world space
 				/*Vector2 screenPoint = GUIUtility.ScreenToGUIPoint(InputManager.GetCurrentPositionScreenSpace());
@@ -260,19 +270,30 @@ public class ScoreScreen : MonoBehaviour {
 				//Debug.Log(EndPos);
 				Vector2 tmp = InputManager.GetCurrentPositionScreenSpace();
 				tmp.y = Screen.height - tmp.y; // Convert bottom origin to top origin to match the scrollViewRect
+			//	Debug.Log(tmp);
 				if(scrollViewRect.Contains(tmp))
 				{
 					float dt = Time.deltaTime / touch.deltaTime;
-					//if (float.IsNaN(dt) || float.IsInfinity(dt))
+					if (float.IsNaN(dt) || float.IsInfinity(dt))
 						dt = 1.0f;
-					scrollPosition.y += touch.deltaPosition.y * dt * 8.5f;
+					//scrollPosition.y += touch.deltaPosition.y * dt;
+					scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;//(beginPos - tmp).y;
+					//scrollPosition.y += InputManager.GetCurrentDragOffset().y;//(beginPos - tmp).y;
+					Debug.Log(scrollPosition.y);
 				}
 				aaa += Mathf.Abs(touch.deltaPosition.y);
 				bbb += Mathf.Abs(touch.deltaPosition.x);
-				Debug.Log (aaa + " " + bbb + " " + touch.position + " " + Screen.dpi);
+				//Debug.Log (aaa + " " + bbb + " " + touch.position + " " + Screen.dpi);
+				Debug.Log(InputManager.GetCurrentDragOffset());
 
 			}
+			else if(touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+			{
+				//beginPos
+				offset = scrollPosition.y;
+			}
 		}
+
 	}
 
 	public GUISkin ScoreSkin;
