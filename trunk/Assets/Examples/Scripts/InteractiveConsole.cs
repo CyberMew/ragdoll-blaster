@@ -98,13 +98,14 @@ public sealed class InteractiveConsole : MonoBehaviour
         string[] excludeIds = (FriendSelectorExcludeIds == "") ? null : FriendSelectorExcludeIds.Split(',');
 
         FB.AppRequest(
-            message: FriendSelectorMessage,
-            filters: FriendSelectorFilters,
-            excludeIds: excludeIds,
-            maxRecipients: maxRecipients,
-            data: FriendSelectorData,
-            title: FriendSelectorTitle,
-            callback: Callback
+            FriendSelectorMessage,
+            null,
+            FriendSelectorFilters,
+            excludeIds,
+            maxRecipients,
+            FriendSelectorData,
+            FriendSelectorTitle,
+            Callback
         );
     }
     #endregion
@@ -122,10 +123,14 @@ public sealed class InteractiveConsole : MonoBehaviour
             throw new ArgumentException("\"To Comma Ids\" must be specificed", "to");
         }
         FB.AppRequest(
-            message: DirectRequestMessage,
-            to: DirectRequestTo.Split(','),
-            title: DirectRequestTitle,
-            callback: Callback
+            DirectRequestMessage,
+            DirectRequestTo.Split(','),
+            "",
+            null,
+            null,
+            "",
+            DirectRequestTitle,
+            Callback
         );
     }
 

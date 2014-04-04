@@ -7,8 +7,7 @@ public class EditorFacebookAccessToken : MonoBehaviour
 {
     private const float windowWidth = 592;
     private float windowHeight = 200;
-	//todo: remove me when committing
-	private string accessToken = "CAAF8ZCA9fvhwBAIsGUoXFXXAcLIhtZCUbZAZBsCKHxTZA14q8hvoasJexyZAoQImqfUYoUzm4WrK98ChM6ZB1ZAclYpDRwGkZC5jGBS6ki0vz4w1aWSisnaifjxgQ8ZC6vZBUxMi6T3knjbkHO5IcMtgMilCdMFmGiPvhHZBC2ZCcjt3cIU17lZA4PWEdOsQ95YoDnHkcZD";
+    private string accessToken = "";
 
     private bool isLoggingIn = false;
 
