@@ -407,6 +407,8 @@ void iosSetShareDialogMode(NativeDialogModes::eModes mode) {
 
 void iosAppRequest(int requestId,
                    const char *message,
+                   const char *actionType,
+                   const char *objectId,
                    const char **to,
                    int toLength,
                    const char *filters,
@@ -418,6 +420,10 @@ void iosAppRequest(int requestId,
                    const char *title) {
   NSMutableDictionary *params = [NSMutableDictionary dictionary];
   addCStrToNsDict(params, "message", message);
+  if (actionType != nil && objectId != nil) {
+    addCStrToNsDict(params, "action_type", actionType);
+    addCStrToNsDict(params, "object_id", objectId);
+  }
   addCStrToNsDict(params, "filters", filters);
   addCStrToNsDict(params, "data", data);
   addCStrToNsDict(params, "title", title);

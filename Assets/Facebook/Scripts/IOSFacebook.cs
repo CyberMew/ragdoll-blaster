@@ -1,9 +1,6 @@
-using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using NativeDialogModes;
 
 namespace Facebook
 {
@@ -34,7 +31,9 @@ namespace Facebook
         [DllImport ("__Internal")] 
         private static extern void iosAppRequest(
             int requestId,
-            string message, 
+            string message,
+            string actionType,
+            string objectId, 
             string[] to = null,
             int toLength = 0,
             string filters = "", 
@@ -92,6 +91,8 @@ namespace Facebook
         void iosAppRequest(
             int requestId,
             string message,
+            string actionType,
+            string objectId,
             string[] to = null,
             int toLength = 0,
             string filters = "",
@@ -206,6 +207,8 @@ namespace Facebook
 
         public override void AppRequest(
             string message,
+            OGActionType actionType,
+            string objectId,
             string[] to = null,
             string filters = "",
             string[] excludeIds = null,
@@ -214,7 +217,35 @@ namespace Facebook
             string title = "",
             FacebookDelegate callback = null)
         {
-            iosAppRequest(System.Convert.ToInt32(AddFacebookDelegate(callback)), message, to, to != null ? to.Length : 0, filters, excludeIds, excludeIds != null ? excludeIds.Length : 0, maxRecipients.HasValue, maxRecipients.HasValue ? maxRecipients.Value : 0, data, title);
+            if (string.IsNullOrEmpty(message))
+            {
+                throw new ArgumentNullException("message", "message cannot be null or empty!");
+            }
+
+            if (actionType != null && string.IsNullOrEmpty(objectId))
+            {
+                throw new ArgumentNullException("objectId", "You cannot provide an actionType without an objectId");
+            }
+
+            if (actionType == null && !string.IsNullOrEmpty(objectId))
+            {
+                throw new ArgumentNullException("actionType", "You cannot provide an objectId without an actionType");
+            }
+
+            iosAppRequest(
+                Convert.ToInt32(AddFacebookDelegate(callback)), 
+                message, 
+                (actionType != null) ? actionType.ToString() : null,
+                objectId,
+                to, 
+                to != null ? to.Length : 0, 
+                filters, 
+                excludeIds, 
+                excludeIds != null ? excludeIds.Length : 0, 
+                maxRecipients.HasValue, 
+                maxRecipients.HasValue ? maxRecipients.Value : 0, 
+                data, 
+                title);
         }
 
         public override void FeedRequest(
