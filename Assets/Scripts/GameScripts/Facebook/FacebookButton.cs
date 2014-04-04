@@ -17,6 +17,10 @@ class FacebookButton : Button {
 		sr = GetComponent<SpriteRenderer>();
 		LogInSprite = sr.sprite;
 
+		if(FBUtils.IsLoggedIn)
+		{
+			GetInformation();
+		}
 		UpdateButtonSprite();
 	}
 	
@@ -138,6 +142,7 @@ class FacebookButton : Button {
 	// Download from the web
 	IEnumerator DownloadProfilePicture(string url)
 	{
+		Debug.Log("Still dling profile picture...");
 		// Start a download of the given URL
 		WWW www = new WWW(url);
 		// Wait until the download is done
@@ -151,6 +156,14 @@ class FacebookButton : Button {
 		
 		Debug.Log ("Picture download successfully.");
 		// Some post action to notify picture download is a success.
+	}
+	void OnDestroy()
+	{
+		// Stop coroutine
+		//MissingReferenceException: The object of type 'FacebookButton' has been destroyed but you are still trying to access it.
+		//		Your script should either check if it is null or you should not destroy the object.
+		//			FacebookButton.HandlePictureResponse (.FBResult result) (at Assets/Scripts/GameScripts/Facebook/FacebookButton.cs:130)
+		StopCoroutine("DownloadProfilePicture"); //fixme: shit doesn't fully work - still sometimes crash if coroutine already running
 	}
 
 	void OnGUI()
@@ -181,6 +194,65 @@ class FacebookButton : Button {
 		//FBUtils.GetProfilePicture(HandlePictureResponse);
 		apiQuery = "me/picture?width=128&height=128&redirect=false";
 		FB.API(apiQuery, Facebook.HttpMethod.GET, HandlePictureResponse);
+
+		// Get and remove any notifications for the app, if any
+		apiQuery = "me/apprequests?fields=id,application";
+		FB.API(apiQuery, Facebook.HttpMethod.GET, HandleAppRequests);
+	}
+	void HandleAppRequests(FBResult result)
+	{
+		if(!string.IsNullOrEmpty(result.Error))
+		{
+			string lastResponse = "Error Response:\n" + result.Error;
+			Debug.Log(lastResponse);
+			//FBUtils.ProcessError(result.Error);
+			return;
+		}
+		// Loop through and delete all requests sent to me, if any
+		var dict = Json.Deserialize(result.Text) as Dictionary<string,object>;
+		//Dictionary<string,object> dataDict = dict["data"] as Dictionary<string,object>;
+		List<object> notifications = (List<object>) dict["data"];
+		foreach(object evt in notifications)
+		{
+			var appEvent = (Dictionary<string, object>) evt;
+			//Debug.Log(appEvent["id"] + " " + appEvent["created_time"]);
+
+			var appInfoObj = appEvent["application"];
+			var appInfo = (Dictionary<string, object>) appInfoObj;
+
+			// Check if the app is came from our game app
+			if(((string)appInfo["id"]) == FB.AppId)
+			{
+				// Delete all the requests
+				Debug.Log("Deleting request id: " + appEvent["id"]);
+				FB.API((string)appEvent["id"], Facebook.HttpMethod.DELETE, null);
+			}
+		}
+		/*
+		object friendsH;
+		Debug.Log(result.Text);
+		var friends = new List<object>();
+		if (dataDict.TryGetValue("friends", out friendsH))
+		{
+			friends = (List<object>)(((Dictionary<string, object>)friendsH)["data"]);
+
+			foreach(object evt in friends)
+			{
+				var eventDict = (Dictionary<string, object>)evt;
+				Debug.Log((string)eventDict["id"]);
+				var appDict = (Dictionary<string, object>)eventDict["application"];
+				Debug.Log((string)appDict["name"]);
+
+			}
+		}*/
+			// todo when game over do this
+		/*if (FB.IsLoggedIn && !string.IsNullOrEmpty(GameStateManager.FriendID))
+		{
+			var querySmash = new Dictionary<string, string>();
+			querySmash["profile"] = GameStateManager.FriendID;
+			FB.API ("/me/" + FB.AppId + ":smash", Facebook.HttpMethod.POST, 
+			        delegate(FBResult r) { Util.Log("Result: " + r.Text); }, querySmash);
+		}*/
 	}
 
 	void UpdateButtonSprite()

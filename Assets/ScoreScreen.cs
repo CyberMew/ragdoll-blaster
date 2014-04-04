@@ -21,6 +21,11 @@ public class ScoreScreen : MonoBehaviour {
 
 		// Check if permissions for user_games_activity and friends_games_activity for scores, as well as extended permission, publish_actions, to post scores
 		//VerifyPermissionsAndGetScores();
+
+		
+		time = 0f;
+		offset = 0f;
+		lastDeltaPosY = 0f;
 	}
 
 	void VerifyPermissionsAndGetScores()
@@ -61,7 +66,7 @@ public class ScoreScreen : MonoBehaviour {
 								Debug.Log("Permissions 'publish_actions' is validated!");
 								
 								// Post Scores
-								PostScore();
+								//PostScore(); // do not post scores until we confirm user score is the BETTER ONE!!
 							}
 						}
 					}
@@ -77,7 +82,8 @@ public class ScoreScreen : MonoBehaviour {
 	{
 		isFBLoading = true;
 		//FB.API("me/scores?score=" + GameManager.totalShots, Facebook.HttpMethod.POST);
-		FB.API("me/scores?score=1", Facebook.HttpMethod.POST);
+		FB.API("me/scores?score=" + GameManager.totalShots, Facebook.HttpMethod.POST);
+		Debug.Log("Submitting player \"better\" scores to Facebook!");
 	}
 
 	/*void PermissionsCallback(FBResult result)
@@ -124,8 +130,9 @@ public class ScoreScreen : MonoBehaviour {
 	{
 		isFBLoading = true;
 		// Get the scores for the 20 guys
-		FB.API("app/scores?fields=score,user.limit(20)", Facebook.HttpMethod.GET, ScoresCallback);
+		FB.API("app/scores?fields=score,user.limit(50)", Facebook.HttpMethod.GET, ScoresCallback);
 	}
+	private static Dictionary<string, Texture2D>  friendImages    = new Dictionary<string, Texture2D>();
 	List<object> scoresList;
 	void ScoresCallback(FBResult result)
 	{
@@ -169,52 +176,80 @@ public class ScoreScreen : MonoBehaviour {
 			if(Convert.ToInt32(entry["score"]) <= 0)
 			{
 				// Impossible to have 0 in our game - probably never played the game before
-				continue;
+				//continue;
 			}
 
 			// user holds "name" and "id"
 			var user = (Dictionary<string,object>) entry["user"];
 			
 			string userId = (string)user["id"];
-			Debug.Log((string)user["name"] + ": " + Convert.ToInt32(entry["score"]));
+			Debug.LogWarning((string)user["name"] + ": " + Convert.ToInt32(entry["score"]));
 			
 			// This entry is the current player
 			if(string.Equals(userId,FB.UserId))
 			{
 				int playerHighScore = Convert.ToInt32(entry["score"]);
 				Debug.Log("Local player's score on server is " + playerHighScore);
-				if(playerHighScore > GameManager.totalShots)
+				if(playerHighScore > GameManager.totalShots && GameManager.totalShots != 0)
 				{
 					Debug.Log("Locally overriding with just acquired score: " + GameManager.totalShots);
 					playerHighScore = GameManager.totalShots;
+					entry["score"] = playerHighScore.ToString();
+					
+					// Post Scores since the one on FB is lousier
+					PostScore();
 				}
-				
-				entry["score"] = playerHighScore.ToString();
-				//GameStateManager.HighScore = playerHighScore;
+				else if(GameManager.totalShots != 0)
+				{
+					GameManager.totalShots = playerHighScore;
+				}
 			}
 
 			// Store all the user's information
 			scoresList.Add(entry);
+			Debug.Log("Storing user information locally");
 
-			// Getting images
-			//private static Dictionary<string, Texture>  friendImages    = new Dictionary<string, Texture>();
-			/*if(!friendImages.ContainsKey(userId))
+			// Getting images (except for the logged in user!)
+			if(!friendImages.ContainsKey(userId) && userId != FB.UserId)
 			{
+				Debug.Log("Attempting to retrieve user photo");
 				// We don't have this players image yet, request it now
-				FB.API(Util.GetPictureURL(userId, 128, 128), Facebook.HttpMethod.GET, pictureResult =>
+				FB.API(userId + "/picture?width=128&height=128&redirect=false", Facebook.HttpMethod.GET, pictureResult =>
 				       {
 							if (pictureResult.Error != null)
 							{
+								Debug.Log("tio error while downloading the user picture!");
 								FbDebug.Error(pictureResult.Error);
 							}
 							else
 							{
-								friendImages.Add(userId, pictureResult.Texture);
+								Debug.Log("Saving friend's photos.." + pictureResult.Text);
+								// Initiate photo saving (code from FacebookButton.cs)
+								var dict = Json.Deserialize(pictureResult.Text) as Dictionary<string,object>;
+								Dictionary<string,object> dataDict = dict["data"] as Dictionary<string,object>;
+								string url = ((string) dataDict["url"]).Trim();
+								if(url.EndsWith(".png") || url.EndsWith(".jpg"))
+								{
+									StartCoroutine("DownloadProfilePicture", new string[]{url, userId});
+								}
+								else
+								{
+									Debug.Log("Picture download requires .png or .jpg file!");
+								}
+						bool isPictureSet = Convert.ToBoolean(dataDict["is_silhouette"]);
+						if(isPictureSet)
+						{
+							//http://stackoverflow.com/questions/5555199/how-to-determine-if-a-facebook-user-has-uploaded-a-profile-picture-or-its-defaul
+							Debug.Log("We might want to cache this male/female photo");
+						}
+
+								//friendImages.Add(userId, pictureResult.Texture);
 							}
 						}
 				);
-			}*/
-		}
+			}
+		}//GUIStyle.CalcHeight
+
 		
 		// Now sort the entries based on score (lowest = top ranking)
 		scoresList.Sort(delegate(object firstObj,
@@ -226,17 +261,40 @@ public class ScoreScreen : MonoBehaviour {
 					}
 		);
 
-		scoresList.ForEach( item => {
+		/*scoresList.ForEach( item => {
 			Debug.Log(	(string)	((Dictionary<string,object>)item)	["score"]	);
 			}
-		);
+		);*/
 	}
+	
+	// Download from the web
+	IEnumerator DownloadProfilePicture(string[] userIdAndURL/*string url, string userId*/)
+	{
+		string url = (string)userIdAndURL[0];
+		string userId = (string)userIdAndURL[1];
+		Debug.Log(url + " " + userId);
+		// Start a download of the given URL
+		WWW www = new WWW(url);
+		// Wait until the download is done
+		yield return www;
+		
+		Texture2D profilePicture = new Texture2D(1,1);
+		
+		www.LoadImageIntoTexture(profilePicture);
+		friendImages.Add(userId, profilePicture);
+		//profilePicture = www.texture;	// Creates new texture in memory each time
+		www.Dispose();
+		
+		Debug.Log ("Picture download successfully: " + profilePicture.width + "x" + profilePicture.height);
+		// Some post action to notify picture download is a success.
+	}
+
 	static float scrollVelocity = 0f;
-	float time = 0f;
+	float time;
 	const float maxTime = 3f;
-	Vector2 beginPos;
-	float offset = 0f;
-	float lastDeltaPosY = 0f;
+	Vector2 beginPos = Vector2.zero;
+	float offset;
+	float lastDeltaPosY;
 	// Update is called once per frame
 	void Update ()
 	{
@@ -306,7 +364,7 @@ public class ScoreScreen : MonoBehaviour {
 
 
 		// Continue scrolling (controlled via timer)
-		if(time <= maxTime)
+		if(time < maxTime)
 		{
 			scrollVelocity = Mathf.Lerp(scrollVelocity, 0, time / maxTime);
 			time += Time.deltaTime;
@@ -320,8 +378,6 @@ public class ScoreScreen : MonoBehaviour {
 	public GUISkin ScoreSkin;
 	Rect scrollViewRect;
 
-	public GUIStyle test;
-	public GUISkin test2;
 	void DisplayScores()
 	{
 		//float areaWidth = 500f * Screen.width / GameManager.width;
@@ -337,17 +393,53 @@ public class ScoreScreen : MonoBehaviour {
 
 		GUILayout.BeginVertical();
 		int count = 1;
-		//foreach(object item in scoresList)
-		for(int i = 0; i < 50; ++i)
+		/*for(int i = 0; i < scoresList.Count; ++i)
 		{
+			var obj = scoresList[i];
+		}*/
+		foreach(object item in scoresList)
+		{
+			// Display rank, photo, id, score
 			GUILayout.BeginHorizontal();
-			GUILayout.Label(count++.ToString());
-			//GUILayout.Label(new Texture2D(65,65));
-			GUILayout.Label("TEXT");
-			GUILayout.Label("somenamehere");
-			GUILayout.Label("21");
+			GUILayout.Label(count++.ToString() + ".", GUILayout.MaxWidth(35f));
+
+
+
+			// entry holds "score" and "user" information
+			var entry = (Dictionary<string,object>) item;
+			// user holds "name" and user's "id"
+			var user = (Dictionary<string,object>) entry["user"];
+
+			Texture2D texture;
+			if(friendImages.TryGetValue(((string)user["id"]), out texture))
+			{
+				GUILayout.Label(texture, GUILayout.Width(128f), GUILayout.Height(128f));
+			}
+			else if((string)user["id"] == FB.UserId)
+			{
+				GUILayout.Label(User.profilePicture, GUILayout.Width(128f), GUILayout.Height(128f));
+			}
+			else
+			{
+				GUILayout.Label("Downloading...", GUILayout.MinWidth(128f));
+			}
+
+			GUILayout.Label(((string)user["name"]));
+			//Debug.Log(((string)user["name"]));
+			GUILayout.Label(Convert.ToInt32(entry["score"]).ToString(), GUILayout.MaxWidth(30f));
+
 			GUILayout.EndHorizontal();
 		}
+		/*while(count < 51)
+		{
+			GUILayout.BeginHorizontal();
+			GUILayout.Label(count++.ToString() + ".", GUILayout.MaxWidth(35f));
+			//GUILayout.Label(new Texture2D(65,65));
+			GUILayout.Label("PIC", GUILayout.Width(128), GUILayout.Height(128));
+			GUILayout.Label("FILLER NAME");
+			GUILayout.Label("212", GUILayout.MaxWidth(35f));
+			GUILayout.EndHorizontal();
+		}*/
 		GUILayout.EndVertical();
 		GUILayout.EndScrollView();
 		
@@ -407,11 +499,11 @@ public class ScoreScreen : MonoBehaviour {
 		// Check scores against friends, if we haven't authorize yet
 		else if(hasPublishPermissions == false)
 		{
-			if(GUILayout.Button("Post my scores and compare my scores against friends!"))
+			if(GUILayout.Button("Post my scores and compare\nmy scores against friends!"))
 			{
 				// Get permissions, and if successful, get latest scores after
-				//GetPermissions();
-				hasPublishPermissions = true;
+				GetPermissions();
+				//hasPublishPermissions = true;
 			}
 		}
 		else
@@ -430,9 +522,16 @@ public class ScoreScreen : MonoBehaviour {
 			
 			// Adds some spacing
 			GUILayout.Space(20f);
-
+			
+			GUILayout.BeginHorizontal();
+			GUILayout.FlexibleSpace();
 			// Display Share/Challenge button
-			GUILayout.Button("Share/Challenge");
+			if(GUILayout.Button("Share/Challenge", GUILayout.ExpandWidth(false)))
+			{
+				FB.AppRequest("I just completed RagClone with only " + GameManager.totalShots + " shots :)\nTry and see if you can beat me!",title: "RagClone Challenge!");
+			}
+			GUILayout.FlexibleSpace();
+			GUILayout.EndHorizontal();
 		}
 		GUILayout.EndArea();
 		/*
