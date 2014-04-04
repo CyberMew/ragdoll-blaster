@@ -23,9 +23,11 @@ public class ScoreScreen : MonoBehaviour {
 		//VerifyPermissionsAndGetScores();
 
 		
+		#if UNITY_ANDROID || UNITY_IPHONE
 		time = 0f;
-		offset = 0f;
 		lastDeltaPosY = 0f;
+#endif
+		offset = 0f;
 	}
 
 	void VerifyPermissionsAndGetScores()
@@ -288,13 +290,15 @@ public class ScoreScreen : MonoBehaviour {
 		Debug.Log ("Picture download successfully: " + profilePicture.width + "x" + profilePicture.height);
 		// Some post action to notify picture download is a success.
 	}
-
+	
+	#if UNITY_ANDROID || UNITY_IPHONE
 	static float scrollVelocity = 0f;
 	float time;
+	float lastDeltaPosY;
+#endif
 	const float maxTime = 3f;
 	Vector2 beginPos = Vector2.zero;
 	float offset;
-	float lastDeltaPosY;
 	// Update is called once per frame
 	void Update ()
 	{
@@ -338,9 +342,11 @@ public class ScoreScreen : MonoBehaviour {
 		}*/
 		if(InputManager.GetIsInputDown())
 		{
+			#if UNITY_ANDROID || UNITY_IPHONE
 			// Stop the inertia
 			time = maxTime;
 			scrollVelocity = 0f;
+#endif
 		}
 		else if(InputManager.GetIsInputMoving())
 		{
@@ -351,18 +357,23 @@ public class ScoreScreen : MonoBehaviour {
 			if(scrollViewRect.Contains(tmp))
 			{
 				scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
-
+				
+				#if UNITY_ANDROID || UNITY_IPHONE
 				lastDeltaPosY = InputManager.GetTouchDelta().y;
+#endif
 			}
 		}
 		else if(InputManager.GetIsInputReleased())
 		{
 			offset = scrollPosition.y;
+			#if UNITY_ANDROID || UNITY_IPHONE
 			scrollVelocity = lastDeltaPosY;
 			time = 0f;
+#endif
 		}
 
-
+		
+		#if UNITY_ANDROID || UNITY_IPHONE
 		// Continue scrolling (controlled via timer)
 		if(time < maxTime)
 		{
@@ -372,7 +383,7 @@ public class ScoreScreen : MonoBehaviour {
 			scrollPosition.y += scrollVelocity;
 			offset = scrollPosition.y;
 		}
-
+#endif
 	}
 
 	public GUISkin ScoreSkin;
@@ -528,6 +539,7 @@ public class ScoreScreen : MonoBehaviour {
 			// Display Share/Challenge button
 			if(GUILayout.Button("Share/Challenge", GUILayout.ExpandWidth(false)))
 			{
+				//Facebook.OGActionType at = new Facebook.OGActionType();
 				FB.AppRequest("I just completed RagClone with only " + GameManager.totalShots + " shots :)\nTry and see if you can beat me!",title: "RagClone Challenge!");
 			}
 			GUILayout.FlexibleSpace();
