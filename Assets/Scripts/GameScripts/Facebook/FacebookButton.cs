@@ -45,8 +45,8 @@ class FacebookButton : Button {
 		{
 			// We treat this as logging out
 			FBUtils.RemoveAllPermissions(RemoveAllPermissions);
-			// Treat user as logged out
-			//FBUtils.IsLoggedIn = false;
+			// Treat user as logged out first
+			FBUtils.IsLoggedIn = false;
 		}
 		else
 		{

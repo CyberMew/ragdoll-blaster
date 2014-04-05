@@ -8,6 +8,43 @@ public class InputLogic : MonoBehaviour {
 
 	static bool alreadyExists = false;
 
+	// note: assume this class will always be present, which it should!
+	void OnApplicationPause(bool pause)
+	{
+		// todo: should we check if logged in first?
+		if(pause == false && FBUtils.isFBInit/* && FBUtils.IsLoggedIn*/)
+		{
+			// todo: this should allow us to see if people came in from facebook app's request, what request is it, and also to remove request 1 by 1 instead of in bulk
+			FB.GetDeepLink( response => {
+				// Some platforms return the empty string instead of null.
+				if (!string.IsNullOrEmpty(response.Error))
+				{
+					FbDebug.Error(response.Error);
+				}
+				else
+				{
+					try
+					{
+						Debug.Log(response.Text);
+						var index = (new System.Uri(response.Text)).Query.IndexOf("request_ids");
+						if(index != -1)
+						{
+							// ...have the user interact with the friend who sent the request,
+							// perhaps by showing them the gift they were given, taking them
+							// to their turn in the game with that friend, etc.
+							Debug.Log(index.ToString() + " or " + response.Text);
+						}
+					}
+					catch(System.Exception e)
+					{
+						Debug.Log(response.Text);
+					}
+				}
+			}
+			);
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		if(alreadyExists == false)
