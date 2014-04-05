@@ -6,18 +6,45 @@ using System;
 
 public class ScoreScreen : MonoBehaviour {
 
-	bool hasPublishPermissions;
+	bool hasVerifiedPublishPermissions;
 	bool isFBLoading; //todo: delete this variable
+
+	public Texture2D defaultProfilePicture = null;
+
+	public bool isPostScoreCapable = true;
+
+	const float width = 700f;
+	const float height = 600f;
+
+	void OnEnable()
+	{
+		Time.timeScale = 0f;
+	}
+
+	void OnDisable()
+	{
+		Time.timeScale = 1f;
+	}
 
 	void Awake()
 	{
 		//FBUtils.InitializeFacebook(GetPermissions);
+		enabled = false;
+
+		areaWidth = width * Screen.width / GameManager.width;
+		areaHeight = height * Screen.height / GameManager.height;
 	}
 
 	// Use this for initialization
 	void Start () {
+		if(isPostScoreCapable == false)
+		{
+			// Fake it to be true, don't really submit scores, but retrieve them only
+			hasVerifiedPublishPermissions = true;
+		}
+
 		isFBLoading = false;
-		hasPublishPermissions = false;
+		hasVerifiedPublishPermissions = false;
 		scoresList = new List<object>();
 
 		// Check if permissions for user_games_activity and friends_games_activity for scores, as well as extended permission, publish_actions, to post scores
@@ -70,7 +97,7 @@ public class ScoreScreen : MonoBehaviour {
 							// Logged in with neccessary permissions
 							if(Convert.ToInt32(result) == 1)
 							{
-								hasPublishPermissions = true;
+								hasVerifiedPublishPermissions = true;
 								Debug.Log("Permissions 'publish_actions' is validated!");
 								
 								// Post Scores
@@ -80,9 +107,12 @@ public class ScoreScreen : MonoBehaviour {
 					}
 				}
 
-				if(hasPublishPermissions == false)
+				if(hasVerifiedPublishPermissions == false)
 				{
-					GetPermissions();
+					if(isPostScoreCapable == true)
+					{
+						GetPermissions();
+					}
 				}
 			}
 		});
@@ -111,6 +141,41 @@ public class ScoreScreen : MonoBehaviour {
 
 	//private float sliderValue = 1.0f;
 	//private float maxSliderValue = 10.0f;
+
+	void HandleLoginResponseAndScores(FBResult result)
+	{
+			string lastResponse;
+		if (!string.IsNullOrEmpty(result.Error))
+		{
+			lastResponse = "Error Response:\n" + result.Error;
+			//collider2D.enabled = true;
+			//FBUtils.ProcessError(result.Error);
+		}
+		else if (!FB.IsLoggedIn)
+		{
+			lastResponse = "Login cancelled by Player";
+			//collider2D.enabled = true;
+		}
+		else
+		{
+			lastResponse = "Login was successful by " + FB.UserId + "!";
+			// Get user fullname
+			//FBUtils.GetProfileFullName(HandleNameResponse);
+			if(FBUtils.IsLoggedIn == false)
+			{
+				Debug.Log("Logged-in status from FBUtils changed from false to true.");
+			}
+			FBUtils.IsLoggedIn = true;
+			
+			// Fake it to be true, don't really submit scores, but retrieve them only
+			hasVerifiedPublishPermissions = true;
+			//GetInformation();
+			GetLatestScores();
+			// Disable (now change) button
+			//UpdateButtonSprite();
+		}
+		Debug.Log(lastResponse);
+	}
 
 	Vector2 scrollPosition = Vector2.zero;
 
@@ -190,7 +255,7 @@ public class ScoreScreen : MonoBehaviour {
 
 			// user holds "name" and "id"
 			var user = (Dictionary<string,object>) entry["user"];
-			
+
 			string userId = (string)user["id"];
 			Debug.LogWarning((string)user["name"] + ": " + Convert.ToInt32(entry["score"]));
 			
@@ -219,9 +284,9 @@ public class ScoreScreen : MonoBehaviour {
 			Debug.Log("Storing user information locally");
 
 			// Getting images (except for the logged in user, if it isn't already downloaded!)
-			if((userId == FB.UserId && User.profilePicture.width > 1) || !friendImages.ContainsKey(userId))
+			if((userId == FB.UserId && User.profilePicture.width < 64) || (!friendImages.ContainsKey(userId) && userId != FB.UserId))
 			{
-				Debug.Log("Attempting to retrieve user photo");
+				Debug.Log("Attempting to retrieve photo of " + (string)user["name"]);
 				// We don't have this players image yet, request it now
 				FB.API(userId + "/picture?width=128&height=128&redirect=false", Facebook.HttpMethod.GET, pictureResult =>
 				       {
@@ -290,6 +355,9 @@ public class ScoreScreen : MonoBehaviour {
 		Texture2D profilePicture = new Texture2D(1,1);
 		
 		www.LoadImageIntoTexture(profilePicture);
+
+		// todo: if smaller than 128 width/height, do an bilinear interpolation here
+
 		friendImages.Add(userId, profilePicture);
 		//profilePicture = www.texture;	// Creates new texture in memory each time
 		www.Dispose();
@@ -309,6 +377,9 @@ public class ScoreScreen : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		// A bit inefficient, but no choice when player is using web player?
+		areaWidth = width * Screen.width / GameManager.width;
+		areaHeight = height * Screen.height / GameManager.height;
 		// For quick testing purposes
 		/*if(Input.touchCount > 0)
 		{
@@ -397,7 +468,7 @@ public class ScoreScreen : MonoBehaviour {
 		//float areaWidth = 500f * Screen.width / GameManager.width;
 		//float areaHeight = 700f * Screen.height / GameManager.height;
 		
-		Debug.Log("-1");
+//		Debug.Log("-1");
 		
 		#if (UNITY_IOS || UNITY_ANDROID || UNITY_WP8) && !UNITY_EDITOR
 		// Remove scrollbars textures
@@ -412,13 +483,15 @@ public class ScoreScreen : MonoBehaviour {
 		{
 			var obj = scoresList[i];
 		}*/
-		Debug.Log("0");
+	//	Debug.Log("0");
 		foreach(object item in scoresList)
 		{
+			GUILayout.Space(5f);
+			
 		//	Debug.Log("1");
 			// Display rank, photo, id, score
 			GUILayout.BeginHorizontal();
-			GUILayout.Label(count++.ToString() + ".", GUILayout.MaxWidth(35f));
+			GUILayout.Label(" " + count++.ToString() + ".", GUILayout.MaxWidth(35f));
 			
 		//	Debug.Log("2");
 
@@ -428,7 +501,14 @@ public class ScoreScreen : MonoBehaviour {
 			// user holds "name" and user's "id"
 			var user = (Dictionary<string,object>) entry["user"];
 			
-		//	Debug.Log("3");
+			GUIStyle style = new GUIStyle();
+			style.fixedWidth = 0f;
+			style.fixedHeight = 0f;
+			style.stretchWidth = true;
+			style.stretchHeight = true;
+
+			//	Debug.Log("3");
+			GUILayoutOption[] param = {GUILayout.Width(64f), GUILayout.Height(64f)};
 			Texture2D texture = null;
 			if(friendImages.TryGetValue(((string)user["id"]), out texture))
 			{
@@ -439,23 +519,28 @@ public class ScoreScreen : MonoBehaviour {
 				}
 				else
 				{
-				 GUILayout.Label(texture, GUILayout.Width(128f), GUILayout.Height(128f));
+					GUILayout.Label(texture, style, param);
 				}
 		//		Debug.Log("5");
 			}
 			else if((string)user["id"] == FB.UserId)
 			{
 		//		Debug.Log("6");
-				GUILayout.Label(User.profilePicture, GUILayout.Width(128f), GUILayout.Height(128f));
+				GUILayout.Label(User.profilePicture, style, param);
 			}
 			else
 			{
 		//		Debug.Log("7");
-				GUILayout.Label("Retrieving..", GUILayout.MinWidth(128f), GUILayout.Height(128f));
+				//GUILayout.Label("Retrieving..", GUILayout.Width(64f), GUILayout.Height(64f));
+
+				GUILayout.Label(defaultProfilePicture, style, param);
 			}
 		//	Debug.Log("8");
+			//RectOffset rctOff = style.overflow;//GUI.skin.label.overflow;
+			//	Debug.Log("Left: " + rctOff.left + " Right: " + rctOff.right);
+			//	Debug.Log("Top: " + rctOff.top + " Bottom: " + rctOff.bottom);
 
-			GUILayout.Label(((string)user["name"]));
+				GUILayout.Label(((string)user["name"]));
 		//	Debug.Log("9");
 			//Debug.Log(((string)user["name"]));
 			GUILayout.Label(Convert.ToInt32(entry["score"]).ToString(), GUILayout.MaxWidth(30f));
@@ -499,60 +584,104 @@ public class ScoreScreen : MonoBehaviour {
 //		Debug.Log("15");
 	}
 
-	static float areaWidth = 700f * Screen.width / GameManager.width;
-	static float areaHeight = 600f * Screen.height / GameManager.height;
+	float areaWidth;
+	float areaHeight;
 	
 	void OnGUI()
 	{
 		GUI.skin = ScoreSkin;
 		
 		GUILayout.BeginArea(new Rect((Screen.width - areaWidth) * 0.5f, (Screen.height - areaHeight) * 0.5f, areaWidth, areaHeight));
-		GUILayout.Box("test", GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
+		GUILayout.Box("", ScoreSkin.box, GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
 		//GUI.Box(GUILayoutUtility.GetLastRect(), "TEST");
 		GUILayout.EndArea();
 
 		// Wrap everything in the designated GUI Area
 		GUILayout.BeginArea(new Rect((Screen.width - areaWidth) * 0.5f, (Screen.height - areaHeight) * 0.5f, areaWidth, areaHeight));
+		
+		// Adds some spacing
+		GUILayout.Space(10f);
 
 		// Text for leaderboard
 		GUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
-		GUILayout.Label("Leaderboards");
+		GUILayout.Label("Leaderboards - Top 50 (Friends)");
 		GUILayout.FlexibleSpace();
+
+		if(GUILayout.Button("X"))
+		{
+			// Close the window
+			enabled = false;
+		}
+		// Adds some spacing
+		GUILayout.Space(10f);
 		GUILayout.EndHorizontal();
 
 		// Adds some spacing
-		GUILayout.Space(20f);
+		GUILayout.Space(10f);
 
 		if(isFBLoading)
 		{
 			// todo: display some spinning logo while stuff are loading
 			//GUILayout.Label("Please wait, loading...");
+			GUILayout.BeginVertical();
+			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			GUILayout.Label("Please wait, loading...");
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
+			GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
 		}
 		// Check scores against friends, if we haven't authorize yet
-		else if(hasPublishPermissions == false)
+		else if(hasVerifiedPublishPermissions == false)
 		{
-			if(GUILayout.Button("Post my scores and compare\nmy scores against friends!"))
+			// Only show the button if we come from end game
+			if(isPostScoreCapable)
 			{
-
-				// Check if we are logged in first
-				if(FBUtils.IsLoggedIn)
+				if(GUILayout.Button("Post my scores and compare\nmy scores against friends!"))
 				{
-				// Check if we have the permissions first, and if we don't, THEN we GetPermissions();
-				VerifyPermissionsAndGetScores();
-				//hasPublishPermissions = true;
-				}
-				else
-				{
-					// Get permissions, and if successful, get latest scores after
-					GetPermissions();
+					// Check if we are logged in first
+					if(FBUtils.IsLoggedIn)
+					{
+					// Check if we have the permissions first, and if we don't, THEN we GetPermissions();
+					VerifyPermissionsAndGetScores();
+					//hasPublishPermissions = true;
+					}
+					else
+					{
+						// Get permissions, and if successful, get latest scores after
+						GetPermissions();
+					}
 				}
 			}
+			else
+			{
+				GUILayout.BeginVertical();
+				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+				GUILayout.FlexibleSpace();
+				if(GUILayout.Button("Check scores against friends!"))
+				{
+					//hasVerifiedPublishPermissions = true;
+					if(FBUtils.IsLoggedIn == false)
+					{
+						FBUtils.PromptLogin("", HandleLoginResponseAndScores);
+					}
+					else
+					{
+						// Fake it to be true, don't really submit scores, but retrieve them only
+						hasVerifiedPublishPermissions = true;
+						GetLatestScores();
+					}
+				}
+				GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+				GUILayout.EndVertical();
+			}
+
 		}
 		else
 		{
@@ -563,19 +692,19 @@ public class ScoreScreen : MonoBehaviour {
 			GUILayout.EndHorizontal();
 			
 			// Adds some spacing
-			GUILayout.Space(20f);
+			GUILayout.Space(10f);
 			
 			Debug.Log("looking good");
 			// Display scores (inside scrollable area)
 			DisplayScores();
 			
 			// Adds some spacing
-			GUILayout.Space(20f);
+			GUILayout.Space(10f);
 			
 			GUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			// Display Share/Challenge button
-			if(GUILayout.Button("Share/Challenge", GUILayout.ExpandWidth(false)))
+			if(GUILayout.Button("Challenge a Friend!", GUILayout.ExpandWidth(false), GUILayout.Height(35f)))
 			{
 				//if(hasPublishPermissions)
 				//GetPermissions();
@@ -585,6 +714,9 @@ public class ScoreScreen : MonoBehaviour {
 			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
+			
+			// Adds some spacing
+			GUILayout.Space(20f);
 		}
 		GUILayout.EndArea();
 		/*

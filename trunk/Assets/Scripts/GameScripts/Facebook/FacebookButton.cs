@@ -10,6 +10,8 @@ class FacebookButton : Button {
 
 	private SpriteRenderer sr;
 
+	public GameObject ScoreButton = null;
+
 	// Use this for initialization
 	void Start () {
 		// The button starts out as we are not logged in
@@ -19,7 +21,12 @@ class FacebookButton : Button {
 
 		if(FBUtils.IsLoggedIn)
 		{
+			ScoreButton.SetActive(true);
 			GetInformation();
+		}
+		else
+		{
+			ScoreButton.SetActive(false);
 		}
 		UpdateButtonSprite();
 	}
@@ -47,6 +54,7 @@ class FacebookButton : Button {
 			FBUtils.RemoveAllPermissions(RemoveAllPermissions);
 			// Treat user as logged out first
 			FBUtils.IsLoggedIn = false;
+			ScoreButton.SetActive(false);
 		}
 		else
 		{
@@ -63,9 +71,9 @@ class FacebookButton : Button {
 		Debug.Log("Permissions Removed. This should only appear once!");
 	}
 	
-	string lastResponse;
 	void HandleLoginResponse(FBResult result)
 	{
+		string lastResponse;
 		if (!string.IsNullOrEmpty(result.Error))
 		{
 			lastResponse = "Error Response:\n" + result.Error;
@@ -92,6 +100,8 @@ class FacebookButton : Button {
 
 			// Disable (now change) button
 			UpdateButtonSprite();
+			// Show score button
+			ScoreButton.SetActive(true);
 		}
 		Debug.Log(lastResponse);
 	}
@@ -168,7 +178,7 @@ class FacebookButton : Button {
 
 	void OnGUI()
 	{
-		GUI.Label(new Rect(0,Screen.height - 50,100,100), lastResponse);
+		//GUI.Label(new Rect(0,Screen.height - 50,100,100), lastResponse);
 	}
 	
 	void OnEnable()

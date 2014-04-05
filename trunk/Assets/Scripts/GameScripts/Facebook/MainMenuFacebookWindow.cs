@@ -15,6 +15,7 @@ public class MainMenuFacebookWindow : MonoBehaviour {
 
 	void OnDisable()
 	{
-		transform.parent.collider2D.enabled = true;
+		//transform.parent.collider2D.enabled = true;
+		transform.parent.GetComponent<EnableFacebookButton>().Reset();
 	}
 }

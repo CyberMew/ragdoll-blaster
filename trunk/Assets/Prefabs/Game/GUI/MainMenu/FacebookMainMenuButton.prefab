@@ -35,7 +35,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.23739767, y: 1.28514242, z: 0}
+  m_LocalPosition: {x: 7.71780014, y: -.742017031, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400006}
@@ -103,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.15870237, y: -4.4315958, z: 0}
+  m_LocalPosition: {x: -7.84381199, y: -2.37275767, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -139,8 +139,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 5.55555534, y: 1.54166663}
-  m_Center: {x: 0, y: .770833313}
+  m_Size: {x: 1.29166663, y: 1.29166663}
+  m_Center: {x: 0, y: 0}
 --- !u!61 &6100004
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 350
+    m_FixedWidth: 400
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
@@ -269,7 +269,8 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  menu: {fileID: 100002}
+  menuToEnable: {fileID: 100002}
+  menuToDisable: {fileID: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,7 +356,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_SortingLayerID: 2296738421
-  m_Sprite: {fileID: 21300000, guid: 411b502a7b4d410409204fbcb4cabd20, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 866dd2acd197bf84db52fb40ccbaa93d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21200006
 SpriteRenderer:
