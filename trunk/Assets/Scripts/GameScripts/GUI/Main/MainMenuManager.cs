@@ -66,7 +66,7 @@ public class MainMenuManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		Debug.Log("Current Menu State: " + m_MMState);
+		//Debug.Log("Current Menu State: " + m_MMState);
 	switch(m_MMState)
 	{
 			

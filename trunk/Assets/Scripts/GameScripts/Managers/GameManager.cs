@@ -110,6 +110,7 @@ public static class GameManager {
 	{
 		// be happy
 		Debug.Log("GameManager has init facebook successfully.");
+		FBUtils.isFBInit = true;
 		if (FB.IsLoggedIn)
 		{
 			FBUtils.IsLoggedIn = true;

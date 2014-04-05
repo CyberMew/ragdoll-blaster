@@ -7,7 +7,7 @@ using System;
 public class ScoreScreen : MonoBehaviour {
 
 	bool hasPublishPermissions;
-	bool isFBLoading;
+	bool isFBLoading; //todo: delete this variable
 
 	void Awake()
 	{
@@ -18,6 +18,7 @@ public class ScoreScreen : MonoBehaviour {
 	void Start () {
 		isFBLoading = false;
 		hasPublishPermissions = false;
+		scoresList = new List<object>();
 
 		// Check if permissions for user_games_activity and friends_games_activity for scores, as well as extended permission, publish_actions, to post scores
 		//VerifyPermissionsAndGetScores();
@@ -32,12 +33,17 @@ public class ScoreScreen : MonoBehaviour {
 
 	void VerifyPermissionsAndGetScores()
 	{
-		// Checking for permissions
 		isFBLoading = true;
+		
+		// Get scores since we are able to do it no matter what
+		GetLatestScores();
+
+		// Checking for permissions
 		FB.API("me/permissions", Facebook.HttpMethod.GET, /*PermissionsCallback*/ delegate (FBResult response) {
 			// inspect the response and adapt your UI as appropriate
 			// check response.Text and response.Error
 			isFBLoading = false;
+
 			if(!string.IsNullOrEmpty(response.Error))
 			{
 				FbDebug.Error(response.Error);
@@ -74,8 +80,10 @@ public class ScoreScreen : MonoBehaviour {
 					}
 				}
 
-				// Get scores since we are able to do it no matter what
-				GetLatestScores();
+				if(hasPublishPermissions == false)
+				{
+					GetPermissions();
+				}
 			}
 		});
 	}
@@ -154,8 +162,7 @@ public class ScoreScreen : MonoBehaviour {
 			FbDebug.Error(result.Error);
 			return;
 		}
-		
-		scoresList = new List<object>();
+
 
 		List<object> scoreListTemp = new List<object>();
 		var responseObject = Json.Deserialize(result.Text) as Dictionary<string, object>;
@@ -211,8 +218,8 @@ public class ScoreScreen : MonoBehaviour {
 			scoresList.Add(entry);
 			Debug.Log("Storing user information locally");
 
-			// Getting images (except for the logged in user!)
-			if(!friendImages.ContainsKey(userId) && userId != FB.UserId)
+			// Getting images (except for the logged in user, if it isn't already downloaded!)
+			if((userId == FB.UserId && User.profilePicture.width > 1) || !friendImages.ContainsKey(userId))
 			{
 				Debug.Log("Attempting to retrieve user photo");
 				// We don't have this players image yet, request it now
@@ -340,13 +347,12 @@ public class ScoreScreen : MonoBehaviour {
 				time = 0f;
 			}
 		}*/
+#if UNITY_ANDROID || UNITY_IPHONE
 		if(InputManager.GetIsInputDown())
 		{
-			#if UNITY_ANDROID || UNITY_IPHONE
 			// Stop the inertia
 			time = maxTime;
 			scrollVelocity = 0f;
-#endif
 		}
 		else if(InputManager.GetIsInputMoving())
 		{
@@ -358,19 +364,16 @@ public class ScoreScreen : MonoBehaviour {
 			{
 				scrollPosition.y = offset + InputManager.GetCurrentDragOffset().y;
 				
-				#if UNITY_ANDROID || UNITY_IPHONE
 				lastDeltaPosY = InputManager.GetTouchDelta().y;
-#endif
 			}
 		}
 		else if(InputManager.GetIsInputReleased())
 		{
 			offset = scrollPosition.y;
-			#if UNITY_ANDROID || UNITY_IPHONE
 			scrollVelocity = lastDeltaPosY;
 			time = 0f;
-#endif
 		}
+#endif
 
 		
 		#if UNITY_ANDROID || UNITY_IPHONE
@@ -393,7 +396,8 @@ public class ScoreScreen : MonoBehaviour {
 	{
 		//float areaWidth = 500f * Screen.width / GameManager.width;
 		//float areaHeight = 700f * Screen.height / GameManager.height;
-
+		
+		Debug.Log("-1");
 		
 		#if (UNITY_IOS || UNITY_ANDROID || UNITY_WP8) && !UNITY_EDITOR
 		// Remove scrollbars textures
@@ -408,37 +412,55 @@ public class ScoreScreen : MonoBehaviour {
 		{
 			var obj = scoresList[i];
 		}*/
+		Debug.Log("0");
 		foreach(object item in scoresList)
 		{
+		//	Debug.Log("1");
 			// Display rank, photo, id, score
 			GUILayout.BeginHorizontal();
 			GUILayout.Label(count++.ToString() + ".", GUILayout.MaxWidth(35f));
-
+			
+		//	Debug.Log("2");
 
 
 			// entry holds "score" and "user" information
 			var entry = (Dictionary<string,object>) item;
 			// user holds "name" and user's "id"
 			var user = (Dictionary<string,object>) entry["user"];
-
-			Texture2D texture;
+			
+		//	Debug.Log("3");
+			Texture2D texture = null;
 			if(friendImages.TryGetValue(((string)user["id"]), out texture))
 			{
-				GUILayout.Label(texture, GUILayout.Width(128f), GUILayout.Height(128f));
+		//		Debug.Log("4");
+				if(texture == null)
+				{
+					Debug.Log("texture is null! shouldn't be!");
+				}
+				else
+				{
+				 GUILayout.Label(texture, GUILayout.Width(128f), GUILayout.Height(128f));
+				}
+		//		Debug.Log("5");
 			}
 			else if((string)user["id"] == FB.UserId)
 			{
+		//		Debug.Log("6");
 				GUILayout.Label(User.profilePicture, GUILayout.Width(128f), GUILayout.Height(128f));
 			}
 			else
 			{
-				GUILayout.Label("Downloading...", GUILayout.MinWidth(128f));
+		//		Debug.Log("7");
+				GUILayout.Label("Retrieving..", GUILayout.MinWidth(128f), GUILayout.Height(128f));
 			}
+		//	Debug.Log("8");
 
 			GUILayout.Label(((string)user["name"]));
+		//	Debug.Log("9");
 			//Debug.Log(((string)user["name"]));
 			GUILayout.Label(Convert.ToInt32(entry["score"]).ToString(), GUILayout.MaxWidth(30f));
-
+			
+		//	Debug.Log("10");
 			GUILayout.EndHorizontal();
 		}
 		/*while(count < 51)
@@ -454,22 +476,27 @@ public class ScoreScreen : MonoBehaviour {
 		GUILayout.EndVertical();
 		GUILayout.EndScrollView();
 		
+		//Debug.Log("11");
 		if(Event.current.type == EventType.Repaint /*&& 
 		   scrollArea.Contains(Event.current.mousePosition)*/)
 		{
 			// Get the rect of the scrollview relative to the area
 			Rect scrollArea = GUILayoutUtility.GetLastRect();
-			
+
+			//Debug.Log("12");
 			// Convert relative GUI point to the area
 			Vector2 topLeftCorner = GUIUtility.GUIToScreenPoint(new Vector2(scrollArea.x,scrollArea.y));
-
+			
+			//Debug.Log("13");
 			// Construct a rect in terms of screen space (not UnityGUI space) where Origin is TopLeft
 			scrollViewRect = new Rect(topLeftCorner.x, topLeftCorner.y, scrollArea.width, scrollArea.height);
-
+			
+			//Debug.Log("14");
 			//Debug.Log(topLeftCorner);// + "\nScreen: " + screenPos + " GUI: " + convertedGUIPos);
 			//Debug.Log(((Screen.width - areaWidth) * 0.5f).ToString() + ((Screen.height - areaHeight) * 0.5f).ToString());
 			
 		}
+//		Debug.Log("15");
 	}
 
 	static float areaWidth = 700f * Screen.width / GameManager.width;
@@ -512,9 +539,19 @@ public class ScoreScreen : MonoBehaviour {
 		{
 			if(GUILayout.Button("Post my scores and compare\nmy scores against friends!"))
 			{
-				// Get permissions, and if successful, get latest scores after
-				GetPermissions();
+
+				// Check if we are logged in first
+				if(FBUtils.IsLoggedIn)
+				{
+				// Check if we have the permissions first, and if we don't, THEN we GetPermissions();
+				VerifyPermissionsAndGetScores();
 				//hasPublishPermissions = true;
+				}
+				else
+				{
+					// Get permissions, and if successful, get latest scores after
+					GetPermissions();
+				}
 			}
 		}
 		else
@@ -527,7 +564,8 @@ public class ScoreScreen : MonoBehaviour {
 			
 			// Adds some spacing
 			GUILayout.Space(20f);
-
+			
+			Debug.Log("looking good");
 			// Display scores (inside scrollable area)
 			DisplayScores();
 			
@@ -539,8 +577,11 @@ public class ScoreScreen : MonoBehaviour {
 			// Display Share/Challenge button
 			if(GUILayout.Button("Share/Challenge", GUILayout.ExpandWidth(false)))
 			{
+				//if(hasPublishPermissions)
+				//GetPermissions();
+
 				//Facebook.OGActionType at = new Facebook.OGActionType();
-				FB.AppRequest("I just completed RagClone with only " + GameManager.totalShots + " shots :)\nTry and see if you can beat me!",title: "RagClone Challenge!");
+				FB.AppRequest("I just completed RagClone with only " + GameManager.totalShots + " shots :)\nTry and see if you can beat me!",null,null, "[\"app_users\",\"app_non_users\"]",null,null,null,"RagClone Challenge!",null);
 			}
 			GUILayout.FlexibleSpace();
 			GUILayout.EndHorizontal();
