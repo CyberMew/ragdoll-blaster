@@ -189,6 +189,14 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 1c42a55d441895940b5e342cd41ee916, type: 2}
+      propertyPath: isLoadedFromMainMenu
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 1c42a55d441895940b5e342cd41ee916, type: 2}
+      propertyPath: isPostScoreCapable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c42a55d441895940b5e342cd41ee916, type: 2}
   m_RootGameObject: {fileID: 1873312178}
@@ -301,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 968349b18501ffa468330f12f609abf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPostScoreCapable: 0
   ScoreSkin: {fileID: 11400000, guid: 349a5087f8ff12e4795ddb213fdb152d, type: 2}
 --- !u!4 &1873312180
 Transform:

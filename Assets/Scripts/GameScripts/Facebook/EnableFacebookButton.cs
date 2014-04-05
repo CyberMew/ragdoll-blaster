@@ -3,7 +3,8 @@ using System.Collections;
 
 class EnableFacebookButton : Button {
 
-	public GameObject menu;
+	public GameObject menuToEnable;
+	public GameObject menuToDisable;
 
 	// Use this for initialization
 	void Start () {
@@ -21,10 +22,20 @@ class EnableFacebookButton : Button {
 	
 	internal override void ButtonAction()
 	{
-		menu.SetActive(true);
+		menuToEnable.SetActive(true);
 		collider2D.enabled = false;
+		menuToDisable.SetActive(false);
 	}
 
+	public void Reset()
+	{
+		if(this != null)
+		{
+		menuToEnable.SetActive(false);
+		collider2D.enabled = true;
+		menuToDisable.SetActive(true);
+		}
+	}
 	
 	void GetUrlAndInitFB()
 	{
