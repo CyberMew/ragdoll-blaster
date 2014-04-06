@@ -28,6 +28,18 @@ public class ScoreScreen : MonoBehaviour {
 
 	void Awake()
 	{
+		if(ScoreSkin == null)
+		{
+			ScoreSkin = Resources.Load("Skins/ScoreSkin") as GUISkin;
+			if(ScoreSkin == null)
+			{
+				Debug.LogWarning("ScoreSkin.skin has been misplaced! Unable to load resource.");
+			}
+		}
+
+		areaWidth = width * Screen.width / GameManager.width;
+		areaHeight = height * Screen.height / GameManager.height;
+		
 		//enabled = false;
 		if(FBUtils.isFBInit == false)
 		{
@@ -35,8 +47,6 @@ public class ScoreScreen : MonoBehaviour {
 		}
 		//FBUtils.InitializeFacebook(GetPermissions);
 
-		areaWidth = width * Screen.width / GameManager.width;
-		areaHeight = height * Screen.height / GameManager.height;
 	}
 
 	// Use this for initialization
@@ -466,7 +476,7 @@ public class ScoreScreen : MonoBehaviour {
 #endif
 	}
 
-	public GUISkin ScoreSkin;
+	public GUISkin ScoreSkin = null;
 	Rect scrollViewRect;
 
 	void DisplayScores()
@@ -625,8 +635,17 @@ public class ScoreScreen : MonoBehaviour {
 
 		if(GUILayout.Button("X"))
 		{
-			// Close the window
-			enabled = false;
+			if(isPostScoreCapable == false)
+			{
+				// In main menu
+				// Close the window
+				enabled = false;
+			}
+			else
+			{
+				// End of the game, still in level
+				GameManager.GoToNextLevel("Credits");
+			}
 		}
 		// Adds some spacing
 		GUILayout.Space(10f);

@@ -51,8 +51,18 @@ public class TargetBoard : MonoBehaviour {
 			}
 			else
 			{
-				//GameManager.OverWriteGoToNextLevel(sceneName);
-				GameManager.GoToNextLevel(NextSceneNameToLoad);
+				if(FBUtils.isFBInit)
+				{
+					if(GetComponent<ScoreScreen>() == null)
+					{
+						gameObject.AddComponent<ScoreScreen>();
+					}
+				}
+				else
+				{
+					//GameManager.OverWriteGoToNextLevel(sceneName);
+					GameManager.GoToNextLevel(NextSceneNameToLoad);
+				}
 			}
 
 			#if UNITY_IPHONE || UNITY_ANDROID
