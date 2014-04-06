@@ -123,7 +123,7 @@ public class MainMenuManager : MonoBehaviour {
 
 	private void StartAction()
 	{
-		GameManager.GoToNextLevel("Level0" );// + PlayerPrefs.GetInt("LastPlayedLevel").ToString());
+		GameManager.GoToNextLevel();// + PlayerPrefs.GetInt("LastPlayedLevel").ToString());
 		GameManager.isInGame = true;
 	}
 
