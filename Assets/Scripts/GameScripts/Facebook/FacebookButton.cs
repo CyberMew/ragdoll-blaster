@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Facebook.MiniJSON;
 
 class FacebookButton : Button {
-
-	public Sprite LogOutSprite = null;
-	public Sprite LogInSprite = null;
+	
+	public Sprite LogOutSpriteDefault = null;
+	public Sprite LogOutSpriteHover = null;
+	public Sprite LogInSpriteDefault = null;
+	public Sprite LogInSpriteHover = null;
 
 	private SpriteRenderer sr;
 
@@ -17,7 +19,7 @@ class FacebookButton : Button {
 		// The button starts out as we are not logged in
 		// so if we are logged in, 
 		sr = GetComponent<SpriteRenderer>();
-		LogInSprite = sr.sprite;
+		LogInSpriteDefault = sr.sprite;
 
 		if(FBUtils.IsLoggedIn)
 		{
@@ -269,17 +271,17 @@ class FacebookButton : Button {
 	{
 		if(FBUtils.IsLoggedIn)
 		{
-			sr.sprite = LogOutSprite;
-			HoverSprite = LogOutSprite;
-			PushedSprite = LogOutSprite;
-			DefaultSprite = LogOutSprite;
+			sr.sprite = LogOutSpriteDefault;
+			HoverSprite = LogOutSpriteHover;
+			PushedSprite = LogOutSpriteHover;
+			DefaultSprite = LogOutSpriteDefault;
 		}
 		else
 		{
-			sr.sprite = LogInSprite;
-			HoverSprite = LogInSprite;
-			PushedSprite = LogInSprite;
-			DefaultSprite = LogInSprite;
+			sr.sprite = LogInSpriteDefault;
+			HoverSprite = LogInSpriteHover;
+			PushedSprite = LogInSpriteHover;
+			DefaultSprite = LogInSpriteDefault;
 		}
 	}
 }
