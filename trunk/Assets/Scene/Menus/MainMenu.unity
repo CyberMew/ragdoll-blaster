@@ -512,7 +512,7 @@ MonoBehaviour:
   hover: {fileID: 0}
   click: {fileID: 0}
   release: {fileID: 0}
-  LevelToLoad: winscores
+  LevelToLoad: Level0
 --- !u!1 &899400645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2580,7 +2580,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 2147333249}
   - 132: {fileID: 2147333247}
-  - 114: {fileID: 2147333248}
   m_Layer: 0
   m_Name: Version
   m_TagString: Untagged
@@ -2611,17 +2610,6 @@ GUIText:
     rgba: 4294967295
   m_PixelCorrect: 1
   m_RichText: 1
---- !u!114 &2147333248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2147333246}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83ce464e7a82b11478f4e40841d99448, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2147333249
 Transform:
   m_ObjectHideFlags: 0
