@@ -28,8 +28,12 @@ public class ScoreScreen : MonoBehaviour {
 
 	void Awake()
 	{
+		//enabled = false;
+		if(FBUtils.isFBInit == false)
+		{
+			enabled = false;
+		}
 		//FBUtils.InitializeFacebook(GetPermissions);
-		enabled = false;
 
 		areaWidth = width * Screen.width / GameManager.width;
 		areaHeight = height * Screen.height / GameManager.height;
@@ -37,6 +41,8 @@ public class ScoreScreen : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+
 		if(isPostScoreCapable == false)
 		{
 			// Fake it to be true, don't really submit scores, but retrieve them only
@@ -604,8 +610,17 @@ public class ScoreScreen : MonoBehaviour {
 
 		// Text for leaderboard
 		GUILayout.BeginHorizontal();
+		
+		GUILayout.BeginArea(new Rect(0,10f,areaWidth,areaHeight));
+		GUILayout.BeginHorizontal();
 		GUILayout.FlexibleSpace();
 		GUILayout.Label("Leaderboards - Top 50 (Friends)");
+		GUILayout.FlexibleSpace();
+		GUILayout.EndHorizontal();
+		GUILayout.EndArea();
+		
+		//GUILayout.FlexibleSpace();
+		//GUILayout.Label("Leaderboards - Top 50 (Friends)");
 		GUILayout.FlexibleSpace();
 
 		if(GUILayout.Button("X"))
@@ -686,9 +701,12 @@ public class ScoreScreen : MonoBehaviour {
 		else
 		{
 			GUILayout.BeginHorizontal();
-			GUILayout.Label("Ranking");		
+			GUILayout.Label("Rank", GUILayout.Width(105f));
 			GUILayout.Label("Name");
-			GUILayout.Label("Shots");
+			
+			//GUILayout.FlexibleSpace();
+			//GUILayout.Label("Shots", GUILayout.Width(50f));
+			GUILayout.Label("Shots", GUILayout.ExpandWidth(false));
 			GUILayout.EndHorizontal();
 			
 			// Adds some spacing
