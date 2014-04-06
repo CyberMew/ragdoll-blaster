@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ec599c5da168fc241abcc63b86a6f3c6
+guid: 1813cf194479b18489f78fd4625361a7
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
   maxTextureSize: 512
   textureSettings:
     filterMode: 0
-    aniso: 1
+    aniso: -1
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -46,4 +46,4 @@ TextureImporter:
   spriteSheet:
     sprites: []
   spritePackingTag: 
-  userData: loadedBefore|prefabPrompted|
+  userData: loadedBefore|

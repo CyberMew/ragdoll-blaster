@@ -22,7 +22,7 @@ class OptionBack : Button {
 		{
 			if(opWindow)
 			{
-				LeanTween.moveLocalY(opWindow, 10f, 0.5f)
+				LeanTween.moveY(opWindow, 8f, 0.5f)
 					.setEase( LeanTweenType.easeInOutExpo);
 			}
 			
