@@ -38,10 +38,17 @@ public class PauseButton : MonoBehaviour {
 
 	}
 
-	void OnApplicationPause()
+	void OnApplicationPause(bool pause)
 	{
 #if !UNITY_EDITOR
-		OnMouseUpAsButton();
+		if(pause)
+		{
+			OnMouseUpAsButton();
+		}
+		else
+		{			
+			GameManager.isUIBusy = false;
+		}
 #endif
 	}
 

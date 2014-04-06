@@ -19,11 +19,15 @@ public class ScoreScreen : MonoBehaviour {
 	void OnEnable()
 	{
 		Time.timeScale = 0f;
+		GameManager.isPaused = true;
+		Debug.Log("pausing");
 	}
 
 	void OnDisable()
 	{
 		Time.timeScale = 1f;
+		GameManager.isPaused = false;
+		Debug.Log("unpausing");
 	}
 
 	void Awake()
@@ -46,7 +50,9 @@ public class ScoreScreen : MonoBehaviour {
 			enabled = false;
 		}
 		//FBUtils.InitializeFacebook(GetPermissions);
-
+		
+		playerServerHighScore = 0;
+		hasPostedScore = false;
 	}
 
 	// Use this for initialization
@@ -74,12 +80,9 @@ public class ScoreScreen : MonoBehaviour {
 		offset = 0f;
 	}
 
-	void VerifyPermissionsAndGetScores()
+	void VerifyPermissionsGetScoresAndPostScores()
 	{
 		isFBLoading = true;
-		
-		// Get scores since we are able to do it no matter what
-		GetLatestScores();
 
 		// Checking for permissions
 		FB.API("me/permissions", Facebook.HttpMethod.GET, /*PermissionsCallback*/ delegate (FBResult response) {
@@ -93,7 +96,6 @@ public class ScoreScreen : MonoBehaviour {
 			}
 			else
 			{
-
 				// if all 3 permissions are present
 				// Check if we have the publish_actions permissions
 				var responseObject = Json.Deserialize(response.Text) as Dictionary<string, object>;
@@ -116,8 +118,18 @@ public class ScoreScreen : MonoBehaviour {
 								hasVerifiedPublishPermissions = true;
 								Debug.Log("Permissions 'publish_actions' is validated!");
 								
-								// Post Scores
-								//PostScore(); // do not post scores until we confirm user score is the BETTER ONE!!
+								// We are logged in with permissions, so we get scores and at the same time post them
+								GetLatestScores();
+
+								// Post Scores (permission previously wasn't granted, so we post scores here, if it is better
+								/*if(hasPostedScore == false)
+								{
+									// It is possible that the server code has not been retrieved yet. todo: rework system such that post scores WILL be done AFTER scores are retrieved
+									if(GameManager.totalShots <= 0 || (playerServerHighScore != 0 ))
+									{
+										PostScore(); // do not post scores until we confirm user score is the BETTER ONE!!
+									}
+								}*/
 							}
 						}
 					}
@@ -127,8 +139,10 @@ public class ScoreScreen : MonoBehaviour {
 				{
 					if(isPostScoreCapable == true)
 					{
-						GetPermissions();
+						//GetPermissions();
 					}
+					// We don't have the permissions, but we get scores anyway, there is a check inside score to prevent us from posting score if we don't have permission!
+					GetLatestScores();
 				}
 			}
 		});
@@ -138,10 +152,20 @@ public class ScoreScreen : MonoBehaviour {
 	{
 		isFBLoading = true;
 		//FB.API("me/scores?score=" + GameManager.totalShots, Facebook.HttpMethod.POST);
-		FB.API("me/scores?score=" + GameManager.totalShots, Facebook.HttpMethod.POST);
+		FB.API("me/scores?score=" + GameManager.totalShots, Facebook.HttpMethod.POST, response => {
+								if(!string.IsNullOrEmpty(response.Error))
+								{
+									FbDebug.Error(response.Error);
+								}
+								else
+								{
+									hasPostedScore = true;
+								}
+							}
+						);
 		Debug.Log("Submitting player \"better\" scores to Facebook!");
 	}
-
+	
 	/*void PermissionsCallback(FBResult result)
 	{
 		isFBLoading = false;
@@ -195,7 +219,7 @@ public class ScoreScreen : MonoBehaviour {
 
 	Vector2 scrollPosition = Vector2.zero;
 
-	void GetPermissions()
+	void GetLoginPermissions()
 	{
 		isFBLoading = true;
 		//todo: permissions might not be required if its our own app, might be able to skip friends_games_activity step!!
@@ -213,7 +237,7 @@ public class ScoreScreen : MonoBehaviour {
 		}
 
 		// Has to re-verify permissions since we don't know if user cancelled login dialogue
-		VerifyPermissionsAndGetScores();
+		VerifyPermissionsGetScoresAndPostScores();
 	}
 
 	// Helper functions
@@ -221,11 +245,13 @@ public class ScoreScreen : MonoBehaviour {
 	{
 		isFBLoading = true;
 		// Get the scores for the 20 guys
-		FB.API("app/scores?fields=score,user.limit(50)", Facebook.HttpMethod.GET, ScoresCallback);
+		FB.API("app/scores?fields=score,user.limit(50)", Facebook.HttpMethod.GET, ScoresRetrievalCallback);
 	}
 	private static Dictionary<string, Texture2D>  friendImages    = new Dictionary<string, Texture2D>();
 	List<object> scoresList;
-	void ScoresCallback(FBResult result)
+	int playerServerHighScore;
+	bool hasPostedScore;
+	void ScoresRetrievalCallback(FBResult result)
 	{
 		isFBLoading = false;
 		if(!string.IsNullOrEmpty(result.Error))
@@ -278,24 +304,31 @@ public class ScoreScreen : MonoBehaviour {
 			// This entry is the current player
 			if(string.Equals(userId,FB.UserId))
 			{
-				int playerHighScore = Convert.ToInt32(entry["score"]);
-				Debug.Log("Local player's score on server is " + playerHighScore);
-				if(playerHighScore > GameManager.totalShots && GameManager.totalShots != 0)
+				playerServerHighScore = Convert.ToInt32(entry["score"]);
+				Debug.Log("Local player's score on server is " + playerServerHighScore);
+				if(GameManager.totalShots != 0)
 				{
-					Debug.Log("Locally overriding with just acquired score: " + GameManager.totalShots);
-					playerHighScore = GameManager.totalShots;
-					entry["score"] = playerHighScore.ToString();
-					
-					// Post Scores since the one on FB is lousier
-					PostScore();
-				}
-				else if(GameManager.totalShots != 0)
-				{
-					GameManager.totalShots = playerHighScore;
+					// If player's local score is better
+					if(playerServerHighScore > GameManager.totalShots)
+					{
+						Debug.Log("Locally overriding with just acquired score: " + GameManager.totalShots);
+						entry["score"] = GameManager.totalShots.ToString();
+						
+						// Everytime we get score, we also post scores, if permissions are granted.
+						if(hasVerifiedPublishPermissions/* && hasPostedScore == false*/)
+						{
+							PostScore();
+						}
+					}
+					else // Server score is better
+					{
+						// Copy server score to local side
+						GameManager.totalShots = playerServerHighScore;
+					}
 				}
 			}
 
-			// Store all the user's information
+			// Store all the user's information (todo: this should only happen once, if it happens twice, then we need to do something about it)
 			scoresList.Add(entry);
 			Debug.Log("Storing user information locally");
 
@@ -643,6 +676,8 @@ public class ScoreScreen : MonoBehaviour {
 			}
 			else
 			{
+				// Close the window
+				//enabled = false; todo: is changelevel enuff to triiger unpause of game via ondisable?
 				// End of the game, still in level
 				GameManager.GoToNextLevel("Credits");
 			}
@@ -674,21 +709,32 @@ public class ScoreScreen : MonoBehaviour {
 			// Only show the button if we come from end game
 			if(isPostScoreCapable)
 			{
+				GUILayout.BeginVertical();
+				GUILayout.FlexibleSpace();
+				GUILayout.BeginHorizontal();
+				GUILayout.FlexibleSpace();
 				if(GUILayout.Button("Post my scores and compare\nmy scores against friends!"))
 				{
 					// Check if we are logged in first
 					if(FBUtils.IsLoggedIn)
 					{
-					// Check if we have the permissions first, and if we don't, THEN we GetPermissions();
-					VerifyPermissionsAndGetScores();
-					//hasPublishPermissions = true;
+						// Check if we have the permissions first, and if we don't, THEN we GetPermissions();
+						VerifyPermissionsGetScoresAndPostScores();
+						//hasPublishPermissions = true;
+												
+						// Get scores since we are able to do it no matter what
+						//GetLatestScores();
 					}
 					else
 					{
 						// Get permissions, and if successful, get latest scores after
-						GetPermissions();
+						GetLoginPermissions();
 					}
 				}
+				GUILayout.FlexibleSpace();
+				GUILayout.EndHorizontal();
+				GUILayout.FlexibleSpace();
+				GUILayout.EndVertical();
 			}
 			else
 			{
@@ -731,7 +777,7 @@ public class ScoreScreen : MonoBehaviour {
 			// Adds some spacing
 			GUILayout.Space(10f);
 			
-			Debug.Log("looking good");
+			//Debug.Log("looking good");
 			// Display scores (inside scrollable area)
 			DisplayScores();
 			
